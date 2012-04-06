@@ -1,8 +1,9 @@
 
-gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = T, factorlevels = NULL, color = NA, label = TRUE, ...) {
-  # order = T will arrange 
-  #  levels in x in decreasing order (bottom up) and 
-  #	 levels in y in decreasing order
+gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = 1, color = NA, label = TRUE, ...) {
+  # order will arrange 
+  #  1  levels in x in decreasing order (bottom up) and 
+  #	 -1 levels in y in decreasing order
+  #  0  leave levels unchanged
   ### weight determines thickness of lines
   ### width determines width of bars
   
@@ -15,21 +16,24 @@ gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, o
   if (is.null(weight)) data$weight <- 1
   
   ## if ordering is selected, organize x and y axis by weight
-  if (order & is.null(factorlevels)) {
-    ## default ordering s/b same for both x and y 
-    newlevels <- unique(as.vector(sapply(data[,as.character(vars)], as.character)))
-    
-    for (i in vars){
-      
-      # data[,i] <- reorder(data[,i], data$weight, sum)
-      data[,i]<- factor(data[,i], levels = newlevels)
-    }
-  } else if(!is.null(factorlevels)){
-    for (i in vars){
-      data[,i] <- (factor(data[,i], levels = factorlevels))
-    }
-  } 
+  # make order a vector of length length(vars)
+  order <- rep(order, length=length(vars))
+  for (i in 1:length(vars)){
+	if (! is.factor(data[,vars[[i]]])) 
+  		data[,vars[[i]]] <- factor(data[,vars[[i]]])
+
+    if (order[i] != 0)
+      data[,vars[[i]]] <- reorder(data[,vars[[i]]], data$weight, 
+                             function(x) if (order[i] > 0) sum(x)
+                             			 else -sum(x)
+                             )
+  }
   
+#browser()  
+  for (i in 1:length(vars)) {
+  	
+  	levels(data[,vars[[i]]]) <- paste(vars[[i]], levels(data[,vars[[i]]]), sep=":")
+  }
   
   ## helper function
   getRibbons <- function(xid,yid) {    
@@ -89,12 +93,11 @@ gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, o
   gr <- list()
   for (i in 1:(length(vars)-1))
     gr[[i]] <- getRibbons(i,i+1)
-  
+
+  	
   dfm <- melt(data[,c("weight", unlist(vars))], id.var="weight")
   names(dfm)[3] <- "Nodeset"
-  if(!is.null(factorlevels)){
-    dfm$Nodeset <- factor(dfm$Nodeset, levels = factorlevels)
-  }
+
   llabels <- NULL
   if (label) {
 	  label.stats <- ddply(dfm, .(variable, Nodeset), summarize,
@@ -104,6 +107,9 @@ gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, o
 	  maxWeight <- sum(label.stats$weight)/length(unique(label.stats$variable))
 	  label.stats$ypos <- cumsum(label.stats$weight)-(as.numeric(label.stats$variable)-1)*maxWeight
 	  label.stats$ypos <- label.stats$ypos-label.stats$weight/2
+#browser()
+	  varnames <- paste(unlist(vars), sep="|", collapse="|")
+	  label.stats$Nodeset <- gsub(sprintf("(%s):(.*)",varnames),"\\2", as.character(label.stats$Nodeset))
 	llabels <- geom_text(aes(x=variable, y=ypos, label=Nodeset),
 	                      colour = "grey30", data=label.stats, angle=90, size=4)  
   }
