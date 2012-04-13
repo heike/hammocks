@@ -1,5 +1,5 @@
 
-gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = 1, color = NA, label = TRUE, ...) {
+gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = 1, color = NA, label = TRUE, angle=90, ...) {
   # order will arrange 
   #  1  levels in x in decreasing order (bottom up) and 
   #	 -1 levels in y in decreasing order
@@ -110,8 +110,10 @@ gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, o
 #browser()
 	  varnames <- paste(unlist(vars), sep="|", collapse="|")
 	  label.stats$Nodeset <- gsub(sprintf("(%s):(.*)",varnames),"\\2", as.character(label.stats$Nodeset))
-	llabels <- geom_text(aes(x=variable, y=ypos, label=Nodeset),
-	                      colour = "grey30", data=label.stats, angle=90, size=4)  
+	llabels <- list(geom_text(aes(x=variable, y=ypos, label=Nodeset),
+	                      colour = "grey30", data=label.stats, angle=angle, size=4), 
+	                geom_text(aes(x=as.numeric(variable)+0.01, y=ypos, label=Nodeset),
+	                      colour = "grey90", data=label.stats, angle=angle, size=4)) 
   }
   ggplot() + geom_bar(aes(weight=weight, x=variable, fill=Nodeset), 
                       colour = color, width=width,data=dfm) + 
