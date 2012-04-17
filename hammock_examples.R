@@ -55,3 +55,7 @@ df2m <- melt(df2, id.var="V1", variable="V2")
 circos.colors <- c() # need eight colors
 gghammock(list("V1", "V2"), data=df2m, weight="value", angle=0) + 
 coord_flip() + opts(legend.position="none")
+
+###
+newDataC <- cbind(name = sapply(newDataC$chrom, FUN = function(x){strsplit(as.character(x), "chr")[[1]][2]}), newDataC)
+gghammock(list("name", "path"), data = newDataC, angle = 0, order = c(0,0)) + coord_flip() + opts(legend.position = "none")
