@@ -1,0 +1,59 @@
+\begin{thebibliography}{10}
+
+\bibitem{aumann99}
+Y.~Aumann, R.~Feldman, Y.~B. Yehuda, D.~Landau, O.~Liphstat, and Y.~Schler.
+\newblock Circle graphs: New visualization tools for text-mining.
+\newblock {\em Principles of Data Mining and Knowledge Discovery},
+  1704:277:282, 1999.
+
+\bibitem{keggdb}
+M.~Carlson, S.~Falcon, H.~Pages, and N.~Li.
+\newblock {\em KEGG.db: A set of annotation maps for KEGG}, r package version
+  2.6.1 edition.
+
+\bibitem{titanic}
+R.~J.~M. Dawson.
+\newblock The 'unusual episode' data revisited.
+\newblock {\em Journal of Statistics Education}, 3(3), 1995.
+
+\bibitem{Ekdahl04}
+S.~Ekdahl and E.~Sonnhammer.
+\newblock Chromowheel: a new spin on eukaroytic chromosome visualization.
+\newblock {\em Bioinformatics}, 20(4):576:577, 2004.
+
+\bibitem{ucsc10}
+P.~Fujita, B.~Rhead, A.~Zweig, A.~Hinrichs, D.~Karolchik, M.~Cline, M.~Goldman,
+  G.~Barber, H.~Clawson, A.~Coelho, M.~Diekhans, T.~Dreszer, B.~Giardine,
+  R.~Harte, J.~Hillman-Jackson, F.~Hsu, V.~Kirkup, R.~Kuhn, K.~Learned, C.~Li,
+  L.~Meyer, A.~Pohl, B.~Raney, K.~Rosenboloom, K.~Smith, D.~Haussler, and
+  W.~Kent.
+\newblock The ucsc genome browser database: update 2011.
+\newblock {\em Nucleic Acids Res.}, October 2010.
+
+\bibitem{KEGG00}
+M.~Kanehisa and S.~Goto.
+\newblock Kegg: Kyoto encyclopedia of genes and genomes.
+\newblock {\em Nucleic Acids Res.}, 28:27--30, 2000.
+
+\bibitem{KEGG12}
+M.~Kanehisa, S.~Goto, Y.~Sato, M.~Furumichi, and M.~Tanabe.
+\newblock Kegg for integration and interpretation of large-scale molecular
+  datasets.
+\newblock {\em Nucleic Acids Res.}, 40:D109--D114, 2012.
+
+\bibitem{ucsc02}
+W.~Kent, C.~S.~T. Furey, K.~Roskin, T.~Pringle, A.~Zahler, and D.~Haussler.
+\newblock The human genome browser at ucsc.
+\newblock {\em Genome Research}, 12(6):996--1006, 2002.
+
+\bibitem{circosdata}
+M.~Krzywinski.
+\newblock Visualizing tables and tabular data with circos, 2011.
+
+\bibitem{krzywinski09}
+M.~Krzywinski, J.~Schein, I.~Birol, J.~Connors, R.~Gascoyne, D.~Horsman,
+  S.~Jones, and M.~Marra.
+\newblock Circos: an information aesthetic for comparative genomics.
+\newblock {\em Genome Research}, 2009.
+
+\end{thebibliography}

@@ -1,0 +1,159 @@
+% $Id: template.tex 11 2007-04-03 22:25:53Z jpeltier $
+
+\documentclass{vgtc}                          % final (conference style)
+%\documentclass[review]{vgtc}                 % review
+%\documentclass[widereview]{vgtc}             % wide-spaced review
+%\documentclass[preprint]{vgtc}               % preprint
+%\documentclass[electronic]{vgtc}             % electronic version
+
+%% Uncomment one of the lines above depending on where your paper is
+%% in the conference process. ``review'' and ``widereview'' are for review
+%% submission, ``preprint'' is for pre-publication, and the final version
+%% doesn't use a specific qualifier. Further, ``electronic'' includes
+%% hyperreferences for more convenient online viewing.
+
+%% Please use one of the ``review'' options in combination with the
+%% assigned online id (see below) ONLY if your paper uses a double blind
+%% review process. Some conferences, like IEEE Vis and InfoVis, have NOT
+%% in the past.
+
+%% Figures should be in CMYK or Grey scale format, otherwise, colour 
+%% shifting may occur during the printing process.
+
+%% These three lines bring in essential packages: ``mathptmx'' for Type 1 
+%% typefaces, ``graphicx'' for inclusion of EPS figures. and ``times''
+%% for proper handling of the times font family.
+
+\usepackage{mathptmx}
+\usepackage{graphicx}
+\usepackage{times}
+\usepackage{multirow}
+
+%% We encourage the use of mathptmx for consistent usage of times font
+%% throughout the proceedings. However, if you encounter conflicts
+%% with other math-related packages, you may want to disable it.
+
+%% If you are submitting a paper to a conference for review with a double
+%% blind reviewing process, please replace the value ``0'' below with your
+%% OnlineID. Otherwise, you may safely leave it at ``0''.
+\onlineid{0}
+
+%% declare the category of your paper, only shown in review mode
+\vgtccategory{Research}
+
+%% allow for this line if you want the electronic option to work properly
+\vgtcinsertpkg
+
+%% In preprint mode you may define your own headline.
+%\preprinttext{To appear in an IEEE VGTC sponsored conference.}
+
+%% Paper title.
+
+\title{}
+
+%% This is how authors are specified in the conference style
+
+%% Author and Affiliation (single author).
+%%\author{Roy G. Biv\thanks{e-mail: roy.g.biv@aol.com}}
+%%\affiliation{\scriptsize Allied Widgets Research}
+
+%% Author and Affiliation (multiple authors with single affiliations).
+\author{Marie Vendettuoli\thanks{e-mail: mariev@iastate.edu} %
+\and Heike Hofmann\thanks{e-mail: hofmann@iastate.edu}\\
+\scriptsize Department of Statistics }%
+%%\and Martha Stewart\thanks{e-mail:martha.stewart@marthastewart.com}}
+\affiliation{\scriptsize Human Computer Interaction Program \\ Bioinformatics and Computational Biology Program \\ Iowa State University}
+
+%% Author and Affiliation (multiple authors with multiple affiliations)
+%\author{Marie Vendettuoli\thanks{e-mail: mariev@iastate.edu}\\ %
+%        \scriptsize Bioinformatics %
+%\and Ed Grimley\thanks{e-mail:ed.grimley@aol.com}\\ %
+%     \scriptsize Grimley Widgets, Inc. %
+%\and Martha Stewart\thanks{e-mail:martha.stewart@marthastewart.com}\\ %
+%     \parbox{1.4in}{\scriptsize \centering Martha Stewart Enterprises \\ Microsoft Research}}
+
+%% A teaser figure can be included as follows, but is not recommended since
+%% the space is now taken up by a full width abstract.
+%\teaser{
+%  \includegraphics[width=1.5in]{sample.eps}
+%  \caption{Lookit! Lookit!}
+%}
+
+%% Abstract section.
+% And this is what references look like~\cite{ware:2004:IVP}.
+\abstract{Circle graphs are gaining popularity for the visualisation of gene relationships. This presentation is problemmatic
+because it requires readers to make comparisons using polar coordinates and does not provide information
+regarding conditional probabilities without introduction of additional complexity. Additionally the graphic is of low datato-
+ink ratio, a violation of Tufte's principles. In this paper we assess the information a participant is able to
+elucidate from traditional circle graphs compared to a new implementation of the hammock plot.} % end of abstract
+
+%% ACM Computing Classification System (CCS). 
+%% See <http://www.acm.org/class/1998/> for details.
+%% The ``\CCScat'' command takes four arguments.
+
+\CCScatlist{ 
+  \CCScat{H.5.2}{User Interfaces}{Screen Design}%
+%{Project and People Management}{Life Cycle};
+%  \CCScat{K.7.m}{The Computing Profession}{Miscellaneous}{Ethics}
+}
+
+%% Copyright space is enabled by default as required by guidelines.
+%% It is disabled by the 'review' option or via the following command:
+% \nocopyrightspace
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%% START OF THE PAPER %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%% The ``\maketitle'' command must be the first command after the
+%% ``\begin{document}'' command. It prepares and prints the title block.
+
+%% the only exception to this rule is the \firstsection command
+\firstsection{Introduction}
+
+\maketitle
+
+Circle graphs have become an increasingly popular visualization tool to depict genomic data and other concept relationships derived from large datasets both in academic and mainstream publications (\cite{aumann99}, \cite{krzywinski09}). In its most basic form, each category is arranged on the circle’s perimeter. Lines drawn through the center connect categories that share a relationship.  A circle graph may be extended to include additional information by weighing connectors via color or line thickness to map the strength of a relationship. Other plots summarizing information regarding a specific category may be displayed on a concentric axis just outside the circle’s perimeter.
+
+A major challenge when visualizing large datasets is the need to balance disparate scales. The existence of relationship trends between categories can only be seen when displaying entire data set while the nature of individual relationships and any supplementary information regarding a single category is better suited for a much smaller scale. These two perspectives provide a strong argument for distinct visualizations when presented as static graphics, while separate images places the burden of cognitive load of comparison and relatedness on the reader. 
+
+In the case of many relationships across the circle, overplotting occurs and the order in which the lines are drawn affects the message to reader. Key relationships may be completely obfuscated due to an abundance of non-informative connections. While it is possible to select a color scheme to highlight relationships of interest, this technique may only be applied with a priori knowledge of a connection’s importance, information which is not available during exploratory analysis.
+\section{Methods}
+\paragraph{Data Preprocessing}
+We first identified three datasets: set A is the fate of passengers on the Titanic, summarized by travelling class, gender, age and survival \cite{titanic}. Set B is the 8 x 8 table found on the Circos website \cite{circosdata}. Set C is the gene pathway information compiled via KEGG \cite{KEGG12} \cite{KEGG00} and UCSC genome browser \cite{ucsc02} \cite{ucsc10}. Genes involved in human metabolism were identified using the KEGG database and the Bioconductor package KEGG.db \cite{keggdb} was used to map
+
+\paragraph{Generating figures}
+\paragraph{User Study} To compare the effectiveness of hammock plots versus circle graphs, we performed a user study of XX participants, X female and Y male ranging in age from a to b.  Participants first shown the same short tutorial explaining the features of each plot type (circle graph, hammock plot). The plots were then shown using data set ordering A, B, C, and random assignment of plot type (circular graph, horizontal hammock plot and vertical hammock plot). Each participant viewed a total of three graphs viewing each data set and each plot type exactly once . For data set A, participants were asked: ????? ... No time limit restriction was placed on the tester, but time spent on each question was collected.
+
+\section{Results}
+\begin{table}[h]
+\begin{tabular}{p{.5cm}p{2cm}lp{.6cm}p{.75cm}}
+Data set & Question & Plot type & No. Right & No. Testers\\
+\multirow{3}{*}{A} & ? & Circos & & \\
+ & ? & Hammocks, vertical & & \\
+ & ? & Hammocks, horizontal & & \\ 
+\hline
+\multirow{3}{*}{B} & ? & Circos & & \\
+ & ? & Hammocks, vertical & & \\
+ & ? & Hammocks, horizontal & & \\ 
+\hline
+\multirow{3}{*}{C} & ? & Circos & & \\
+ & ? & Hammocks, vertical & & \\
+ & ? & Hammocks, horizontal & & \\ 
+\end{tabular}
+
+\end{table}
+\section{Conclusion}
+
+%% if specified like this the section will be ommitted in review mode
+\acknowledgements{
+The authors wish to thank A, B, C. This work was supported in part by
+a grant from XYZ.}
+
+\bibliographystyle{abbrv}
+%%use following if all content of bibtex file should be shown
+\nocite{*}
+\bibliography{biovis_vendettuoli}
+\end{document}
