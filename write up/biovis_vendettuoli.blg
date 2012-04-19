@@ -3,46 +3,46 @@ The top-level auxiliary file: biovis_vendettuoli.aux
 The style file: abbrv.bst
 Database file #1: biovis_vendettuoli.bib
 Warning--entry type for "circosdata" isn't style-file defined
---line 59 of file biovis_vendettuoli.bib
-You've used 10 entries,
+--line 69 of file biovis_vendettuoli.bib
+You've used 11 entries,
             2118 wiz_defined-function locations,
-            556 strings with 5388 characters,
-and the built_in function-call counts, 4115 in all, are:
-= -- 352
-> -- 338
+            563 strings with 5586 characters,
+and the built_in function-call counts, 4369 in all, are:
+= -- 378
+> -- 345
 < -- 0
-+ -- 137
-- -- 124
-* -- 358
-:= -- 747
-add.period$ -- 28
-call.type$ -- 10
-change.case$ -- 92
++ -- 140
+- -- 126
+* -- 369
+:= -- 790
+add.period$ -- 32
+call.type$ -- 11
+change.case$ -- 96
 chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 101
-empty$ -- 226
-format.name$ -- 124
-if$ -- 784
+cite$ -- 11
+duplicate$ -- 115
+empty$ -- 254
+format.name$ -- 126
+if$ -- 842
 int.to.chr$ -- 0
-int.to.str$ -- 10
-missing$ -- 8
-newline$ -- 51
-num.names$ -- 20
-pop$ -- 87
+int.to.str$ -- 11
+missing$ -- 9
+newline$ -- 56
+num.names$ -- 22
+pop$ -- 94
 preamble$ -- 1
-purify$ -- 82
+purify$ -- 85
 quote$ -- 0
-skip$ -- 72
+skip$ -- 77
 stack$ -- 0
-substring$ -- 161
-swap$ -- 11
+substring$ -- 166
+swap$ -- 13
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 40
+type$ -- 44
 warning$ -- 0
-while$ -- 25
-width$ -- 12
-write$ -- 104
+while$ -- 27
+width$ -- 13
+write$ -- 116
 (There was 1 warning)
