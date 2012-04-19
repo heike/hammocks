@@ -56,4 +56,11 @@ M.~Krzywinski, J.~Schein, I.~Birol, J.~Connors, R.~Gascoyne, D.~Horsman,
 \newblock Circos: an information aesthetic for comparative genomics.
 \newblock {\em Genome Research}, 2009.
 
+\bibitem{hammock}
+M.~Schonlau.
+\newblock Visualizing categorical data arising in the health sciences using
+  hammock plots.
+\newblock In {\em Proceedings of the Section on Statistical Graphics}. RAND
+  Corporation, American Statistical Association, 2003.
+
 \end{thebibliography}
