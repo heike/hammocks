@@ -292,3 +292,41 @@ plots.stat <- ddply(da1, .(plottype), summarize,
 plots.stat
 xtabs(~plottype+factor(response), data=da1)
 
+########
+# correct response: 4_1_2_3 (high to low) or 1_4_3_2 (low to high)
+da2 <- subset(df5, (qid==2) & (dataset=="A"))
+answers <- ldply(strsplit(as.character(da2$response), "_"), function(x) {
+  if (length(x) != 4) return(c(0,0,0,0))
+  as.numeric(x)})
+da2$correct <- pmax(rowSums(t(t(answers) == c(4,1,2,3))), rowSums(t(t(answers) == c(3,2,1,4))))/4
+plots.stat <- ddply(da2, .(plottype), summarize, 
+                    n = length(plottype),
+                    time = mean(as.numeric(as.character(pagetime)), na.rm=T),
+                    sdt = sd(as.numeric(as.character(pagetime)), na.rm=T),
+                    correct=mean(correct, na.rm=T),
+                    sdc = sd(correct, na.rm=T))
+plots.stat
+xtabs(~plottype+factor(response), data=da2)
+
+########
+# correct response: 4_1_2_3 (high to low) or 1_4_3_2 (low to high)
+da3 <- subset(df5, (qid==3) & (dataset=="A"))
+answers <- ldply(strsplit(as.character(da3$response), "_"), function(x) {
+  if (length(x) != 4) return(c(0,0,0,0))
+  as.numeric(x)})
+da3$correct <- pmax(rowSums(t(t(answers) == c(1,4,3,2))), rowSums(t(t(answers) == rev(c(1,4,3,2)))))/4
+plots.stat <- ddply(da3, .(plottype), summarize, 
+                    n = length(plottype),
+                    time = mean(as.numeric(as.character(pagetime)), na.rm=T),
+                    sdt = sd(as.numeric(as.character(pagetime)), na.rm=T),
+                    correct=mean(correct, na.rm=T),
+                    sdc = sd(correct, na.rm=T))
+plots.stat
+xtabs(~plottype+factor(response), data=da3)
+
+dA <- rbind(da1, da2, da3)
+
+library(lme4)
+a.out <- lmer(as.numeric(I(correct==1))~plottype+(1|id), family=binomial(), data=dA)
+
+
