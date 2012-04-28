@@ -188,9 +188,17 @@ ddply(.data = newdata[newdata$response != "No Response",], .variables = c("datas
 # 9       C  hammock 157.32
 
 # correct response
- ddply(.data = newdata, .variables = c("dataset",  "plottype"), .fun = function(x){paste(sort(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response), "pagetime"]), collapse = ",")})
-
-
+ ddply(.data = newdata, .variables = c("dataset",  "plottype"), .fun = function(x){median(as.numeric(as.character(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response), "pagetime"])))})
+  # dataset plottype      V1
+# 1       A      bar 198.595
+# 2       A   circos 198.670
+# 3       A  hammock  85.970
+# 4       B      bar 396.165
+# 5       B   circos 388.280
+# 6       B  hammock  43.040
+# 7       C      bar 510.350
+# 8       C   circos  25.265
+# 9       C  hammock 138.355
 
 
 # no response
