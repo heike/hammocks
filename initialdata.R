@@ -277,4 +277,11 @@ df5[df5$id %in% block5,]$blockid <- 5
 df5[df5$id %in% block6,]$blockid <- 6
 
 
+######
+# reshape again for heike
 
+df6 <- cbind(df5[,c("id", "qid", "dataset", "plottype", "response")], cresponse = NA,correct = NA)
+for(i in 1:nrow(df6)){
+	df6[i,"cresponse"] <- key[key$dataset == df6[i, "dataset"] & key$qid == df6[i, "qid"],]$correct 
+	df6[i,"correct"] <- (key[key$dataset == df6[i, "dataset"] & key$qid == df6[i, "qid"],]$correct == df6[i, "response"])
+}
