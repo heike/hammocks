@@ -9,7 +9,7 @@ newdata <- df5[,-3]
 newdata <- newdata[newdata$id != "R_7ONSkE1nz3KoRFO",]
 
 # create an answer key
-key <- data.frame(dataset = rep(LETTERS[1:3], each = 3), qid = rep(1:3, 9), correct = NA)
+key <- data.frame(dataset = rep(LETTERS[1:3], each = 3), qid = rep(1:3, 3), correct = NA)
 
 ## Crew, 1st, 3rd, 2nd
 key[key$dataset == "A" & key$qid == 1,]$correct <- "1_2_4_3"
@@ -60,6 +60,7 @@ key[key$dataset == "C" & key$qid == 2,]$correct <- "4_1_2_3"
 # 7 hsa04620 0.07500000
 # 8 hsa04972 0.21071429
 key[key$dataset == "C" & key$qid == 3,]$correct <- 3
+
 #############################################
 ## question 0: what type of chart is most preferred
 test0 <- ddply(.data = newdata, .variables = "pref", .fun = function(x){length(unique(x$id))})
@@ -74,7 +75,7 @@ test0
 # equal      4  1
 
 #############################################################
-# question 1: does order of chart display affect preference
+# question 1: does order of chart display affect preference?
 #############################################################
 test1 <- ddply(.data = newdata, .variables = c("id", "pref"), .fun = function(x){as.character(unique(x[x$dataset == "A",]$plottype))})
 
@@ -100,7 +101,19 @@ nrow(test1[test1$pref == 2 & test1$V1 == "circos",])
 #[1] 50
 
 ############################################################
-# question 2: what chart type has the best accuracy
+# question 2: what dataset and question has the best accuracy?
 ############################################################
 
+ddply(.data = newdata, .variables = c("dataset", "qid"), .fun = function(x){nrow(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response),])})
+
+  # dataset qid V1
+# 1       A   1 13
+# 2       A   2 25
+# 3       A   3 27
+# 4       B   1 30
+# 5       B   2  8
+# 6       B   3  2
+# 7       C   1  0
+# 8       C   2  1
+# 9       C   3 20
 
