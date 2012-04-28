@@ -325,8 +325,14 @@ plots.stat
 xtabs(~plottype+factor(response), data=da3)
 
 dA <- rbind(da1, da2, da3)
+dA$pagetime <- as.numeric(as.character(dA$pagetime))
 
 library(lme4)
 a.out <- lmer(as.numeric(I(correct==1))~plottype+(1|id), family=binomial(), data=dA)
+summary(a.out)
+
+ta.out <- lmer(log10(pagetime)~plottype+(1|id), data=dA)
+summary(ta.out)
+
 
 
