@@ -285,8 +285,8 @@ answers <- ldply(strsplit(as.character(da1$response), "_"), function(x) x)
 da1$correct <- pmax(rowSums(t(t(answers) == c(1,2,4,3))), rowSums(t(t(answers) == c(3,4,2,1))))/4
 plots.stat <- ddply(da1, .(plottype), summarize, 
                     n = length(plottype),
-                    time = mean(as.numeric(as.character(totaltime)), na.rm=T),
-                    sdt = sd(as.numeric(as.character(totaltime)), na.rm=T),
+                    time = mean(as.numeric(as.character(pagetime)), na.rm=T),
+                    sdt = sd(as.numeric(as.character(pagetime)), na.rm=T),
                     correct=mean(correct, na.rm=T),
                     sdc = sd(correct, na.rm=T))
 plots.stat
