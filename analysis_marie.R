@@ -104,16 +104,52 @@ nrow(test1[test1$pref == 2 & test1$V1 == "circos",])
 # question 2: what dataset and question has the best accuracy?
 ############################################################
 
-ddply(.data = newdata, .variables = c("dataset", "qid"), .fun = function(x){nrow(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response),])})
+test2 <- ddply(.data = newdata, .variables = c("dataset", "qid"), .fun = function(x){c(nrow(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response),]), nrow(x))})
+cbind(test2,test2$V1/test2$V2)
 
-  # dataset qid V1
-# 1       A   1 13
-# 2       A   2 25
-# 3       A   3 27
-# 4       B   1 30
-# 5       B   2  8
-# 6       B   3  2
-# 7       C   1  0
-# 8       C   2  1
-# 9       C   3 20
+  # dataset qid V1 V2 test2$V1/test2$V2
+# 1       A   1 13 32           0.40625
+# 2       A   2 25 32           0.78125
+# 3       A   3 27 32           0.84375
+# 4       B   1 30 32           0.93750
+# 5       B   2  8 32           0.25000
+# 6       B   3  2 32           0.06250
+# 7       C   1  0 32           0.00000
+# 8       C   2  1 32           0.03125
+# 9       C   3 20 32           0.62500
 
+############################################################
+# question 3: what dataset and question has the best accuracy, by chart type
+############################################################
+test3 <- ddply(.data = newdata, .variables = c("dataset", "qid", "plottype"), .fun = function(x){c(nrow(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response),]), nrow(x))})
+
+
+cbind(test3, Fraq = round(test3$V1/test3$V2, 3))
+   # dataset qid plottype V1 V2  Fraq
+# 1        A   1      bar  7 11 0.636
+# 2        A   1   circos  6  8 0.750
+# 3        A   1  hammock  0 13 0.000
+# 4        A   2      bar  9 11 0.818
+# 5        A   2   circos  5  8 0.625
+# 6        A   2  hammock 11 13 0.846
+# 7        A   3      bar  9 11 0.818
+# 8        A   3   circos  7  8 0.875
+# 9        A   3  hammock 11 13 0.846
+# 10       B   1      bar 10 10 1.000
+# 11       B   1   circos 13 13 1.000
+# 12       B   1  hammock  7  9 0.778
+# 13       B   2      bar  5 10 0.500
+# 14       B   2   circos  3 13 0.231
+# 15       B   2  hammock  0  9 0.000
+# 16       B   3      bar  1 10 0.100
+# 17       B   3   circos  1 13 0.077
+# 18       B   3  hammock  0  9 0.000
+# 19       C   1      bar  0 11 0.000
+# 20       C   1   circos  0 11 0.000
+# 21       C   1  hammock  0 10 0.000
+# 22       C   2      bar  0 11 0.000
+# 23       C   2   circos  1 11 0.091
+# 24       C   2  hammock  0 10 0.000
+# 25       C   3      bar  7 11 0.636
+# 26       C   3   circos  7 11 0.636
+# 27       C   3  hammock  6 10 0.600
