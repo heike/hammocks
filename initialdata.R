@@ -1,5 +1,8 @@
+require(gdata)
+require(plumbr)
 setwd('hammocks/other files')
 df1 <- read.csv('Plotting.csv')
+
 
 #####################################
 # Section 1: Clean the data
@@ -68,17 +71,20 @@ vertical, horizontal, circos 7
 #  RepsonseA1: response for dataset A, question 1
 #  ResponseA2: response for dataset A, question 2
 #  ResponseA3: response for dataset A, question 3
-#  TimeA: time spent on page for dataset A
+#  TimeA: time spent on page for dataset A (ms)
+#  ClicksA: number of clicks on that page
 #  TypeB: chart type for dataset B
 #  RepsonseB1: response for dataset B, question 1
 #  ResponseB2: response for dataset B, question 2
 #  ResponseB3: response for dataset B, question 3
-#  TimeB: time spent on page for dataset B
+#  TimeB: time spent on page for dataset B (ms)
+#  ClicksB: number of clicks on that page
 #  TypeC: chart type for dataset C
 #  RepsonseC1: response for dataset C, question 1
 #  ResponseC2: response for dataset C, question 2
 #  ResponseC3: response for dataset C, question 3
 #  TimeC: time spent on page for dataset C
+#  ClicksC: number of clicks on that page
 #  Preference: which plot did respondent perfer
 #  Why: reason for preference
 #  Browser: browser type
@@ -90,10 +96,10 @@ vertical, horizontal, circos 7
 ##########################################
 
 df4 <- data.frame(ID = unique(df2[,1]), TypeA = NA, ResponseA1 = NA, ResponseA2 = NA, 
-		ResponseA3 = NA, TimeA = NA, TypeB = NA, ResponseB1 = NA, ResponseB2 = NA,
-		ResponseB3 = NA, TimeB = NA, TypeC = NA, ResponseC1 = NA, ResponseC2 = NA,
-		ResponseC3 = NA, TimeC = NA, Preference = NA, Why = NA, Browser = NA, OS = NA, datestart = NA,
-		totaltime = NA, monitorW = NA, monitorH = NA)
+		ResponseA3 = NA, TimeA = NA, ClicksA = NA, TypeB = NA, ResponseB1 = NA, ResponseB2 = NA,
+		ResponseB3 = NA, TimeB = NA, ClicksB = NA, TypeC = NA, ResponseC1 = NA, ResponseC2 = NA,
+		ResponseC3 = NA, TimeC = NA, ClicksC = NA, Preference = NA, Why = NA, Browser = NA, OS = NA, 
+		datestart = NA,	totaltime = NA, monitorW = NA, monitorH = NA)
 
 # get the structural elements for each respondant		
 for(i in df4$ID){
@@ -111,8 +117,8 @@ for(i in df4$ID){
 }
 
 # turn the block groupings into eye-readable names
-df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "horizontal", replacement = "hammock")}))
-df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "vertical", replacement = "bar")}))
+df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "horizontal", replacement = "hammock")}), stringsAsFactors = FALSE)
+df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "vertical", replacement = "bar")}), stringsAsFactors = FALSE)
 
 # convert "" strings (NA from qualtrics metadata gathering) to real NAs
 df4[df4$OS == "", "OS"] <- NA
@@ -123,9 +129,66 @@ df4$TypeA <- trim(df4$TypeA)
 df4$TypeB <- trim(df4$TypeB)
 df4$TypeC <- trim(df4$TypeC)
 
+
 for(i in df4$ID){
-	temp <- df4[df4$ID == i,]
-	if(temp$TypeA == "hammock" & temp$TypeB == "bar" & temp$TypeC == "circos"){
-		
+	temp1 <- df4[df4$ID == i,]
+	temp2 <- df2[df2[,1] == i,]
+	## block name: horizontal, vertical,circos
+	## questions: 99,3, 33, 34,35 in qualtrics 
+	## in raw csv: 
+	if(temp1$TypeA == "hammock" & temp1$TypeB == "bar" & temp1$TypeC == "circos"){
+		df4 <- getAnswers(df4 = df4,i = i, temp1 = temp1, temp2 = temp2, timing = 99, qAs = c(33,34,35),
+					qBs = c(51,52,53))
 	}
+}
+
+getAnswers <- function(df4,i, temp1, temp2,timing, qAs, qBs = NA, qCs = NA){
+	naming <- "Response"
+	
+	df4[df4$ID == i,]$TimeA <- as.numeric(as.character(subset(temp2, select = 
+		paste("Q", timing,"_3", sep = ""))[[1]]))
+	df4[df4$ID == i,]$ClicksA <- as.numeric(as.character(subset(temp2, select = paste("Q", 
+		timing, "_4", sep = ""))[[1]]))
+	## case1: respondant did not change order for A
+	## case2: all other responses
+	
+	namesA <- paste(naming, "A", 1:3, sep = "")
+	for(j in 1:3){
+		if(subset(temp2, select = paste("Q", qAs[j], "_1", sep = ""))[[1]] == 1 & subset(temp2, select = 
+			paste("Q", qAs[j], "_2", sep = ""))[[1]] == 2 & subset(temp2, select = paste("Q", qAs[j], "_3", 
+			sep = ""))[[1]] == 4 & subset(temp2, select = paste("Q", qAs[j], "_4", sep = ""))[[1]] == 4){
+			df4[df4$ID == i, namesA[j]] <- "No Response"
+		} else {
+			df4[df4$ID == i, namesA[j]] <- paste(subset(temp2, select = 
+				paste("Q", qAs[j], "_1", 
+				sep = ""))[[1]],subset(temp2, select = paste("Q", qAs[j], "_2", sep = ""))[[1]], 
+				subset(temp2, select = 	paste("Q", qAs[j], "_3", sep = ""))[[1]], sep = "_")
+		}
+	}
+	namesB <- paste(naming, "B", 1:3, sep = "")
+	for(j in 1:3){
+		if(j == 2 & subset(temp2, select = paste("Q", qBs[j], "_1", sep = ""))[[1]] == 1 & 
+			subset(temp2, select = 
+			paste("Q", qBs[j], "_2", sep = ""))[[1]] == 2 & subset(temp2, select = paste("Q", qBs[j], "_3", 
+			sep = ""))[[1]] == 4 & subset(temp2, select = paste("Q", qBs[j], "_4", sep = ""))[[1]] == 4){
+			df4[df4$ID == i, namesB[j]] <- "No Response"
+		}
+		 # else if(j == 2){
+			# df4[df4$ID == i, namesB[j]] <- paste(subset(temp2, select = 
+				# paste("Q", qBs[j], "_1", 
+				# sep = ""))[[1]],subset(temp2, select = paste("Q", qBs[j], "_2", sep = ""))[[1]], 
+				# subset(temp2, select = 	paste("Q", qBs[j], "_3", sep = ""))[[1]], sep = "_")
+		# } else {
+			# if(j == 1){
+				# df4[df4$ID == i, namesB[j]] <- subset(temp2, select = paste("Q", qBs[j], sep = ""))[[1]]
+			# } else if (j == 3){
+				# df4[df4$ID == i, namesB[j]] <- paste(subset(temp2, select = 
+				# paste("Q", qBs[j], "_1", 
+				# sep = ""))[[1]],subset(temp2, select = paste("Q", qBs[j], "_2", sep = ""))[[1]], 
+				# subset(temp2, select = 	paste("Q", qBs[j], "_3", sep = ""))[[1]], sep = "_")
+
+			# }
+		# }
+	}
+	return(df4)
 }
