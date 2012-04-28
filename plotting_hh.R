@@ -327,6 +327,33 @@ xtabs(~plottype+factor(response), data=da3)
 dA <- rbind(da1, da2, da3)
 dA$pagetime <- as.numeric(as.character(dA$pagetime))
 
+
+########
+# correct response: 1
+db1 <- subset(df5, (qid==1) & (dataset=="B"))
+db1$correct <- as.numeric(db1$response == "1")
+plots.stat <- ddply(db1, .(plottype), summarize, 
+                    n = length(plottype),
+                    time = mean(as.numeric(as.character(pagetime)), na.rm=T),
+                    sdt = sd(as.numeric(as.character(pagetime)), na.rm=T),
+                    correct=mean(correct, na.rm=T),
+                    sdc = sd(correct, na.rm=T))
+plots.stat
+xtabs(~plottype+factor(response), data=db1)
+
+
+db2 <- subset(df5, (qid==2) & (dataset=="B"))
+db1$correct <- as.numeric(db2$response == "1")
+plots.stat <- ddply(db2, .(plottype), summarize, 
+                    n = length(plottype),
+                    time = mean(as.numeric(as.character(pagetime)), na.rm=T),
+                    sdt = sd(as.numeric(as.character(pagetime)), na.rm=T),
+                    correct=mean(correct, na.rm=T),
+                    sdc = sd(correct, na.rm=T))
+plots.stat
+xtabs(~plottype+factor(response), data=db2)
+
+
 library(lme4)
 a.out <- lmer(as.numeric(I(correct==1))~plottype+(1|id), family=binomial(), data=dA)
 summary(a.out)
