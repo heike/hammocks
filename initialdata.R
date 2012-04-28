@@ -257,4 +257,21 @@ for(i in df4$ID){
 #####################
 # reshape 
 
-df5 <- data.frame(id = rep(df4$ID, 9), pref = rep(df4$Preference, 9), why = rep(df4$Why, 9), browser = rep(df4$Browser, 9), os = rep(df4$OS, 9), datestart = rep(df4$datestart, 9), totaltime = rep(df4$totaltime, 9), mheight = rep(df4$monitorH, 9), mwidth = rep(df4$monitorW, 9), plottype = c(rep(df4$TypeA, 3), rep(df4$TypeB, 3), rep(df4$TypeC, 3)), dataset = rep(LETTERS[1:3], each = 99), response = c(df4$ResponseA1, df4$ResponseA2, df4$ResponseA3, df4$ResponseB1, df4$ResponseB2, df4$ResponseB3, df4$ResponseB4, df4$ResponseC1, df4$ResponseC2, df4$ResponseC3), pagetime = c(rep(df4$TimeA, 3), rep(df4$TimeB, 3), rep(df4$TimeC, 3)), clicks = c(rep(df4$ClicksA, 3), rep(df4$ClicksB, 3), rep(df4$ClicksC, 3))  )
+df5 <- data.frame(id = rep(df4$ID, 9), pref = rep(df4$Preference, 9), why = rep(df4$Why, 9), browser = rep(df4$Browser, 9), os = rep(df4$OS, 9), datestart = rep(df4$datestart, 9), totaltime = rep(df4$totaltime, 9), mheight = rep(df4$monitorH, 9), mwidth = rep(df4$monitorW, 9), plottype = c(rep(df4$TypeA, 3), rep(df4$TypeB, 3), rep(df4$TypeC, 3)), dataset = rep(LETTERS[1:3], each = 99), response = c(df4$ResponseA1, df4$ResponseA2, df4$ResponseA3, df4$ResponseB1, df4$ResponseB2, df4$ResponseB3, df4$ResponseB4, df4$ResponseC1, df4$ResponseC2, df4$ResponseC3), pagetime = c(rep(df4$TimeA, 3), rep(df4$TimeB, 3), rep(df4$TimeC, 3)), clicks = c(rep(df4$ClicksA, 3), rep(df4$ClicksB, 3), rep(df4$ClicksC, 3)), qid = rep(rep(1:3, each = 33), 3), blockid = NA  )
+
+block1 <- df4[df4$TypeA == "hammock" & df4$TypeB == "bar" & df4$TypeC == "circos",]$ID
+block2 <- df4[df4$TypeA == "circos" & df4$TypeB == "hammock" & df4$TypeC == "bar",]$ID
+block3 <- df4[df4$TypeA == "circos" & df4$TypeB == "bar" & df4$TypeC == "hammock",]$ID
+block4 <- df4[df4$TypeA == "hammock" & df4$TypeB == "circos" & df4$TypeC == "bar",]$ID
+block5 <- df4[df4$TypeA == "bar" & df4$TypeB == "circos" & df4$TypeC == "hammock",]$ID
+block6 <- df4[df4$TypeA == "bar" & df4$TypeB == "hammock" & df4$TypeC == "circos",]$ID
+
+df5[df5$id %in% block1,]$blockid <- 1
+df5[df5$id %in% block2,]$blockid <- 2
+df5[df5$id %in% block3,]$blockid <- 3
+df5[df5$id %in% block4,]$blockid <- 4
+df5[df5$id %in% block5,]$blockid <- 5
+df5[df5$id %in% block6,]$blockid <- 6
+
+
+
