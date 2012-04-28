@@ -64,7 +64,10 @@ vertical, circos, horizontal 5
 vertical, horizontal, circos 7
 
 ##########################################
-# restructure the data
+# Section 3 restructure the data
+############################################
+
+
 # variables:
 #  ID
 #  TypeA: chart type for dataset A
@@ -250,3 +253,8 @@ for(i in df4$ID){
 				qBs = c(57:59), qCs = c(75:77))
 	}
 }
+
+#####################
+# reshape 
+
+df5 <- data.frame(id = rep(df4$ID, 9), pref = rep(df4$Preference, 9), why = rep(df4$Why, 9), browser = rep(df4$Browser, 9), os = rep(df4$OS, 9), datestart = rep(df4$datestart, 9), totaltime = rep(df4$totaltime, 9), mheight = rep(df4$monitorH, 9), mwidth = rep(df4$monitorW, 9), plottype = c(rep(df4$TypeA, 3), rep(df4$TypeB, 3), rep(df4$TypeC, 3)), dataset = rep(LETTERS[1:3], each = 99), response = c(df4$ResponseA1, df4$ResponseA2, df4$ResponseA3, df4$ResponseB1, df4$ResponseB2, df4$ResponseB3, df4$ResponseB4, df4$ResponseC1, df4$ResponseC2, df4$ResponseC3), pagetime = c(rep(df4$TimeA, 3), rep(df4$TimeB, 3), rep(df4$TimeC, 3)), clicks = c(rep(df4$ClicksA, 3), rep(df4$ClicksB, 3), rep(df4$ClicksC, 3))  )
