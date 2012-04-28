@@ -1,5 +1,6 @@
 setwd('hammocks/other files')
 df1 <- read.csv('Plotting.csv')
+
 #####################################
 # Section 1: Clean the data
 #####################################
@@ -82,9 +83,49 @@ vertical, horizontal, circos 7
 #  Why: reason for preference
 #  Browser: browser type
 #  OS: operating system
-#  datetaken: date/time taken
-#  totaltime: total time in survey
-#  monitor: monitor size
+#  datestart: date/time started
+#  totaltime: total time in survey (minutes)
+#  monitorW: monitor width (px)
+#  monitorH: monitor height (px)
 ##########################################
 
-df4 <- data.frame(ID = unique(df2[,1]))
+df4 <- data.frame(ID = unique(df2[,1]), TypeA = NA, ResponseA1 = NA, ResponseA2 = NA, 
+		ResponseA3 = NA, TimeA = NA, TypeB = NA, ResponseB1 = NA, ResponseB2 = NA,
+		ResponseB3 = NA, TimeB = NA, TypeC = NA, ResponseC1 = NA, ResponseC2 = NA,
+		ResponseC3 = NA, TimeC = NA, Preference = NA, Why = NA, Browser = NA, OS = NA, datestart = NA,
+		totaltime = NA, monitorW = NA, monitorH = NA)
+
+# get the structural elements for each respondant		
+for(i in df4$ID){
+	temp <- as.character(df2[df2[,1] == i, 290])
+	df4[df4$ID == i,]$TypeA <- strsplit(temp, ",")[[1]][1]
+	df4[df4$ID == i,]$TypeB <- strsplit(temp, ",")[[1]][2]
+	df4[df4$ID == i,]$TypeC <- strsplit(temp, ",")[[1]][3]
+	df4[df4$ID == i,]$OS <- as.character(df2[df2[,1] == i,]$Q2_3_TEXT)
+	df4[df4$ID == i,]$datestart <- as.character(df2[df2[,1] == i,]$V8)
+	df4[df4$ID == i,]$totaltime <- round(as.POSIXlt(as.character(df2[df2[,1] == i,]$V9)) - as.POSIXlt(as.character(df2[df2[,1] == i,]$V8)), 2)
+	temp <- as.character(df2[df2[,1] == i,]$Q2_4_TEXT)
+	df4[df4$ID == i,]$monitorW <- strsplit(temp, "x")[[1]][1]
+	df4[df4$ID == i,]$monitorH <- strsplit(temp, "x")[[1]][2]
+	df4[df4$ID == i,]$Browser <- as.character(df2[df2[,1] == i,]$Q2_1_TEXT)
+}
+
+# turn the block groupings into eye-readable names
+df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "horizontal", replacement = "hammock")}))
+df4 <- data.frame(sapply(df4, FUN = function(x){gsub(x = x, pattern = "vertical", replacement = "bar")}))
+
+# convert "" strings (NA from qualtrics metadata gathering) to real NAs
+df4[df4$OS == "", "OS"] <- NA
+df4[df4$Browser == "", "Browser"] <-NA
+
+# remove leading and trailing spaces
+df4$TypeA <- trim(df4$TypeA)
+df4$TypeB <- trim(df4$TypeB)
+df4$TypeC <- trim(df4$TypeC)
+
+for(i in df4$ID){
+	temp <- df4[df4$ID == i,]
+	if(temp$TypeA == "hammock" & temp$TypeB == "bar" & temp$TypeC == "circos"){
+		
+	}
+}
