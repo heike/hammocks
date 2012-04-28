@@ -124,7 +124,8 @@ getAnswers <- function(df4,i, temp1, temp2,timing, qAs, qBs = NA, qCs = NA){
 			df4[df4$ID == i, namesA[j]] <- paste(subset(temp2, select = 
 				paste("Q", qAs[j], "_1", 
 				sep = ""))[[1]],subset(temp2, select = paste("Q", qAs[j], "_2", sep = ""))[[1]], 
-				subset(temp2, select = 	paste("Q", qAs[j], "_3", sep = ""))[[1]], sep = "_")
+				subset(temp2, select = 	paste("Q", qAs[j], "_3", sep = ""))[[1]], subset(temp2, 
+				select = paste("Q", qAs[j], "_4", sep = ""))[[1]], sep = "_")
 		}
 	}
 	namesB <- paste(naming, "B", 1:3, sep = "")
