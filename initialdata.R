@@ -157,7 +157,8 @@ getAnswers <- function(df4,i, temp1, temp2,timing, qAs, qBs = NA, qCs = NA){
 				df4[df4$ID == i, namesB[j]] <- paste(subset(temp2, select = 
 				paste("Q", qBs[j], "_1", 
 				sep = ""))[[1]],subset(temp2, select = paste("Q", qBs[j], "_2", sep = ""))[[1]], 
-				subset(temp2, select = 	paste("Q", qBs[j], "_3", sep = ""))[[1]], sep = "_")
+				subset(temp2, select = 	paste("Q", qBs[j], "_3", sep = ""))[[1]],subset(temp2, select = 	
+				paste("Q", qBs[j], "_4", sep = ""))[[1]], sep = "_")
 
 			}
 		}
@@ -181,7 +182,7 @@ getAnswers <- function(df4,i, temp1, temp2,timing, qAs, qBs = NA, qCs = NA){
 				df4[df4$ID == i, namesC[j]] <- paste(subset(temp2, select = 
 				paste("Q", qCs[j], "_1", 
 				sep = ""))[[1]],subset(temp2, select = paste("Q", qCs[j], "_2", sep = ""))[[1]], 
-				subset(temp2, select = 	paste("Q", qCs[j], "_3", sep = ""))[[1]], sep = "_")
+				subset(temp2, select = 	paste("Q", qCs[j], "_3", sep = ""))[[1]], subset(temp2, select = 					paste("Q", qCs[j], "_4", sep = ""))[[1]], sep = "_")
 
 			}
 		}
