@@ -124,8 +124,8 @@ cbind(test2,test2$V1/test2$V2)
 test3 <- ddply(.data = newdata, .variables = c("dataset", "qid", "plottype"), .fun = function(x){c(nrow(x[which(key[key$dataset == unique(x$dataset) & key$qid == unique(x$qid), ]$correct == x$response),]), nrow(x))})
 
 
-cbind(test3, Fraq = round(test3$V1/test3$V2, 3))
-   # dataset qid plottype V1 V2  Fraq
+cbind(test3, Freq = round(test3$V1/test3$V2, 3))
+   # dataset qid plottype V1 V2  Freq
 # 1        A   1      bar  7 11 0.636
 # 2        A   1   circos  6  8 0.750
 # 3        A   1  hammock  0 13 0.000
@@ -153,3 +153,59 @@ cbind(test3, Fraq = round(test3$V1/test3$V2, 3))
 # 25       C   3      bar  7 11 0.636
 # 26       C   3   circos  7 11 0.636
 # 27       C   3  hammock  6 10 0.600
+
+############################################################
+# question 4: looking at trends of time per page, no responders
+############################################################
+
+##note: reported time per page is in seconds
+
+summary(as.numeric(df4$TimeA))
+   # Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  # 35.37  111.10  160.90  221.60  214.40 1989.00    1.00 
+  
+newdata[newdata$dataset == "A" & newdata$response == "No Response", c("id","plottype", "pagetime")]
+                  # id plottype pagetime
+# 71 R_bsx1sOloTtKtSJu  hammock    89.68
+# 97 R_9st8AEs2Cmddkiw      bar   190.42
+
+summary(as.numeric(df4$TimeB))
+   # Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  # 16.04  179.80  284.80  319.90  389.70 1914.00    1.00 
+  
+newdata[newdata$dataset == "B" & newdata$response == "No Response", c("id","plottype", "pagetime")]
+                   # id plottype pagetime
+# 140 R_6m2qpZPOKpdyD9a   circos    67.47
+# 142 R_01a6HI55lPgLUd6  hammock    43.04
+# 143 R_9QDU9nFW3MfKHoU   circos   216.31
+# 144 R_1H707scKVBKDbuY   circos   322.81
+# 148 R_3ZQvAmasceYQPQM   circos    64.55
+# 151 R_4I64gDQSHH8ojze  hammock    40.27
+# 154 R_8HaXTyDqjDiLelu      bar   203.31
+# 157 R_d0jsFdwwwPH4qm8      bar    19.63
+# 159 R_bQosMSXWXg07Ljm   circos    97.01
+# 161 R_eQgihX6yHZzRODi   circos    16.04
+
+summary(as.numeric(df4$TimeC))
+   # Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+  # 17.21  127.80  189.50  222.40  304.20  723.90    1.00   
+  
+newdata[newdata$dataset == "C" & newdata$response == "No Response", c("id","plottype", "pagetime")]
+                   # id plottype pagetime
+# 208 R_01a6HI55lPgLUd6      bar    43.23
+# 209 R_9QDU9nFW3MfKHoU      bar   395.73
+# 213 R_bP1eWMUqcLIi1rm   circos    65.17
+# 217 R_4I64gDQSHH8ojze   circos    23.35
+# 220 R_8HaXTyDqjDiLelu   circos    19.67
+# 223 R_d0jsFdwwwPH4qm8  hammock    17.21
+# 227 R_eQgihX6yHZzRODi  hammock    26.17
+# 228 R_6EF1Vcw5fLiuBAo   circos   144.01
+# 239 R_6m2qpZPOKpdyD9a      bar   178.68
+# 241 R_01a6HI55lPgLUd6      bar    43.23
+# 242 R_9QDU9nFW3MfKHoU      bar   395.73
+# 246 R_bP1eWMUqcLIi1rm   circos    65.17
+# 250 R_4I64gDQSHH8ojze   circos    23.35
+# 253 R_8HaXTyDqjDiLelu   circos    19.67
+# 256 R_d0jsFdwwwPH4qm8  hammock    17.21
+# 260 R_eQgihX6yHZzRODi  hammock    26.17
+# 261 R_6EF1Vcw5fLiuBAo   circos   144.01
