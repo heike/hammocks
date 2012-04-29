@@ -199,3 +199,25 @@ for(i in 1:nrow(df9)){
 
 write.csv(df9, file = "gradedresponses2.csv")
 
+## reproduce the plots
+frame <- read.csv("gradedresponses2.csv")
+frame$newid <- paste(frame$qid, frame$parid, sep = "")
+frame$newid <- factor(frame$newid)
+
+#frame$qid <- factor(frame$qid)
+correct.mod <- glm(as.numeric(correct)~dataset/newid/plottype-1, data=frame, family=binomial())
+summary(correct.mod)  
+
+
+res <- ddply(frame, .(dataset, newid, plottype), summarize,
+      n=length(newid),
+      mean=mean(correct),
+      sd=sd(correct))
+
+qplot(as.numeric(newid)+(as.numeric(plottype)-2)/15, mean*100, 
+      data=res, facets=.~dataset, colour=plottype) + scale_x_continuous(breaks=c(1:12)) + xlab("Question") + ylab("Percentage correct") + 
+        geom_errorbar(aes(x=as.numeric(newid)+(as.numeric(plottype)-2)/15, 
+                           ymin=pmax(100*(mean-1.96*sd/sqrt(n)), 0), 
+                           ymax=pmin(100*(mean+1.96*sd/sqrt(n)), 100)))
+ggsave(filename= "partials.png")
+
