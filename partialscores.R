@@ -109,7 +109,8 @@ df7 <- data.frame(ID = unique(df2[,1]), TypeA = NA, ResponseA1a = NA, ResponseA1
 
 # get the structural elements for each respondant		
 for(i in df7$ID){
-	temp <- as.character(df2[df2[,1] == i, 290])
+	temp <- as.character(df2[df2[,1] == i, 294])
+	print(temp)
 	df7[df7$ID == i,]$TypeA <- strsplit(temp, ",")[[1]][1]
 	df7[df7$ID == i,]$TypeB <- strsplit(temp, ",")[[1]][2]
 	df7[df7$ID == i,]$TypeC <- strsplit(temp, ",")[[1]][3]
@@ -159,7 +160,7 @@ for(i in df7$ID){
 		df7 <- getAnswers2(df4 = df7, i = i, temp1 = temp1, temp2 = temp2, timing = c(102:104), qAs = c(36:38),
 				qBs = c(54:56), qCs = c(73,68,74))
 	}else if(temp1$TypeA == "bar" & temp1$TypeB == "hammock" & temp1$TypeC == "circos"){
-		print("start")
+		
 		df7 <- getAnswers2(df4 = df7, i = i, temp1 = temp1, temp2 = temp2, timing = c(105:107), qAs =c(39:41),
 				qBs = c(57:59), qCs = c(75:77))
 	}
@@ -169,7 +170,22 @@ for(i in df7$ID){
 #####################
 # reshape 
 
-df8 <- data.frame(id = rep(df7$ID, 30), pref = rep(df7$Preference, 30), why = rep(df7$Why, 30), browser = rep(df7$Browser, 30), os = rep(df7$OS, 30), datestart = rep(df7$datestart, 30), totaltime = rep(df7$totaltime, 30), mheight = rep(df7$monitorH, 30), mwidth = rep(df7$monitorW, 30), plottype = c(rep(df7$TypeA, 12), rep(df7$TypeB, 9), rep(df7$TypeC, 9)), dataset = rep(c(rep("A", 12), rep("B", 9), rep("C", 9)), each = 33), response = c(df7$ResponseA1a, df7$ResponseA1b, df7$ResponseA1c, df7$ResponseA1d, df7$ResponseA2a, df7$ResponseA2b, df7$ResponseA2c, df7$ResponseA2d, df7$ResponseA3a, df7$ResponseA3b, df7$ResponseA3c, df7$ResponseA3d, df7$ResponseB1a, df7$ResponseB2a, df7$ResponseB2b, df7$ResponseB2c, df7$ResponseB2d, df7$ResponseB3a, df7$ResponseB3b, df7$ResponseB3c, df7$ResponseB3d, df7$ResponseC1a,  df7$ResponseC1b,  df7$ResponseC1c,  df7$ResponseC1d, df7$ResponseC2a, df7$ResponseC2b, df7$ResponseC2c, df7$ResponseC2d, df7$ResponseC3a), pagetime = c(rep(df7$TimeA, 12), rep(df7$TimeB, 9), rep(df7$TimeC, 9)), clicks = c(rep(df7$ClicksA, 12), rep(df7$ClicksB, 9), rep(df7$ClicksC, 9)), qid = c(rep(rep(1:3, each = 4), each = 33),rep(c(1, rep(2,4), rep(2,4)), each = 33), rep(c(rep(1,4), rep(2, 4), 3), each = 33)) ,parid = rep(c(rep(letters[1:4], 3), "a", rep(letters[1:4],2 ), rep(letters[1:4], 2), "a"), each = 33), blockid = NA  )
+df8 <- data.frame(	id = rep(df7$ID, 30), 
+					pref = rep(df7$Preference, 30), 
+					why = rep(df7$Why, 30), 
+					browser = rep(df7$Browser, 30), 
+					os = rep(df7$OS, 30), 
+					datestart = rep(df7$datestart, 30), 
+					totaltime = rep(df7$totaltime, 30), 
+					mheight = rep(df7$monitorH, 30), 
+					mwidth = rep(df7$monitorW, 30), 
+					plottype = c(rep(df7$TypeA, 12), rep(df7$TypeB, 9), rep(df7$TypeC, 9)), 
+					dataset = rep(c(rep("A", 12), rep("B", 9), rep("C", 9)), each = 33), 
+					response = c(df7$ResponseA1a, df7$ResponseA1b, df7$ResponseA1c, df7$ResponseA1d, df7$ResponseA2a, df7$ResponseA2b, df7$ResponseA2c, df7$ResponseA2d, df7$ResponseA3a, df7$ResponseA3b, df7$ResponseA3c, df7$ResponseA3d, df7$ResponseB1a, df7$ResponseB2a, df7$ResponseB2b, df7$ResponseB2c, df7$ResponseB2d, df7$ResponseB3a, df7$ResponseB3b, df7$ResponseB3c, df7$ResponseB3d, df7$ResponseC1a,  df7$ResponseC1b,  df7$ResponseC1c,  df7$ResponseC1d, df7$ResponseC2a, df7$ResponseC2b, df7$ResponseC2c, df7$ResponseC2d, df7$ResponseC3a), 
+					pagetime = c(rep(df7$TimeA, 12), rep(df7$TimeB, 9), rep(df7$TimeC, 9)), 
+					clicks = c(rep(df7$ClicksA, 12), rep(df7$ClicksB, 9), rep(df7$ClicksC, 9)), 
+					qid = rep(c(rep(1:3, each = 4), c(1, rep(2:3, each = 4), c(rep(1:2, each = 4), 3))), each = 33) ,
+					parid = rep(c(rep(letters[1:4], 3), "a", rep(letters[1:4],2 ), rep(letters[1:4], 2), "a"), each = 33), blockid = NA  )
 
 block1 <- df7[df7$TypeA == "hammock" & df7$TypeB == "bar" & df7$TypeC == "circos",]$ID
 block2 <- df7[df7$TypeA == "circos" & df7$TypeB == "hammock" & df7$TypeC == "bar",]$ID
@@ -188,7 +204,7 @@ df8[df8$id %in% block6,]$blockid <- 6
 ######
 # reshape again for heike
 
-key2 <- data.frame(dataset = c(rep("A", 12), rep("B", 9), rep("C", 9)), parid = c(rep(letters[1:4], 3), "a", rep(letters[1:4], 2), rep(letters[1:4], 2), "a"), qid = c(rep(1:3, each = 4), 1, rep(2:3, each = 4), rep(1:2, each = 4), 3), correct = c(1,2,4,3,4,1,2,3,1,4,3,2,1,1,4,3,2,1,1,2,1,1,2,4,3,4,1,2,3,3)
+key2 <- data.frame(dataset = c(rep("A", 12), rep("B", 9), rep("C", 9)), parid = c(rep(letters[1:4], 3), "a", rep(letters[1:4], 2), rep(letters[1:4], 2), "a"), qid = c(rep(1:3, each = 4), 1, rep(2:3, each = 4), rep(1:2, each = 4), 3), correct = c(1,2,4,3,4,1,2,3,1,4,3,2,1,1,4,3,2,1,1,2,1,1,2,4,3,4,1,2,3,3))
 
 df9 <- cbind(df8[,c("id", "qid", "parid", "dataset", "plottype", "response")], cresponse = NA,correct = NA)
 for(i in 1:nrow(df9)){
