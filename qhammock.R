@@ -63,8 +63,8 @@ qhammock <- function(xlim, ylim, xat, yat, limits,x,  width, heights){
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
 								   x = c(1.1,1.9, NA),
-								   y = c(745, 101.5, NA),
-								   stroke = "black")
+								   y = c(745, 61, NA),
+								   stroke = "grey60")
 						 qdrawRect(painter, 
 								   xleft = x_left ,
 								   xright = x_right,
