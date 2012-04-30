@@ -18,9 +18,9 @@ qplot(as.numeric(qid)+(as.numeric(plottype)-2)/15, mean*100,
                            ymax=pmin(100*(mean+1.96*sd/sqrt(n)), 100)))
 
 ######################
-frame2 <- read.csv("gradedresponses2.csv")
+frame2 <- read.csv("gradedresponses2_corrected.csv")
 
-frame <- ddply(frame2, .(id, qid, dataset, plottype), summarize,
+frame <- ddply(df7, .(id, qid, dataset, plottype), summarize,
                n=length(response),
                correct=sum(correct))
 frame$qid <- factor(frame$qid)

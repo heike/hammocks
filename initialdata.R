@@ -285,3 +285,14 @@ for(i in 1:nrow(df6)){
 	df6[i,"cresponse"] <- key[key$dataset == df6[i, "dataset"] & key$qid == df6[i, "qid"],]$correct 
 	df6[i,"correct"] <- (key[key$dataset == df6[i, "dataset"] & key$qid == df6[i, "qid"],]$correct == df6[i, "response"])
 }
+
+df7 <- data.frame()
+for (i in 1:nrow(df6)) {
+  x <- df6[i,]
+  cresponsen <- as.numeric(unlist(strsplit(as.character(x$cresponse),"_")))
+  qsubid <- 1:length(cresponsen)
+  responsen <- as.numeric(unlist(strsplit(as.character(x$response),"_")))
+  if (length(responsen) != length(cresponsen)) responsen <- rep(NA, length=length(cresponsen))
+  res <- cbind(x, responsen, cresponsen, qsubid)
+  df7 <- rbind(df7, res)
+}
