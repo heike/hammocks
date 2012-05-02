@@ -1,0 +1,121 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{amssymb}
+\usepackage{amstext}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Brief Article}
+\author{The Author}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+%\maketitle
+\section{Strength of Linewidth Illusion}
+
+<<setup, results=hide, echo=FALSE>>=
+setwd("~/papers/2012 BioVis/hammocks/write up/linewidth/")
+suppressMessages(library(gghammock))
+titanic <- as.data.frame(Titanic)
+p <- gghammock(vars=c("Survived", "Class"), order=c(1,0), weight="Freq", text.angle=0, data=titanic) +
+coord_flip() + scale_fill_brewer(palette=6) + opts(legend.position="none") + ylab("Number of People on Board")
+ggsave("images/hammock-titanic.pdf", width=8, height=4.5, plot=p)
+
+library(RColorBrewer)
+colors <- brewer.pal(n=6, "Set1")
+p1 <- qplot(Class, weight=Freq, geom="bar", data=titanic, fill=Survived) +
+coord_flip() + scale_fill_manual(values=colors[2:1]) + ylab("Number of People on Board")
+ggsave("images/bar1-titanic.pdf", width=8, height=3, plot=p1)
+
+p2 <- qplot(Survived, weight=Freq, geom="bar", data=titanic, fill=Class) +
+coord_flip() + scale_fill_manual(values=colors[-(1:2)]) + ylab("Number of People on Board")
+ggsave("images/bar2-titanic.pdf", width=8, height=2, plot=p2)
+@
+
+\begin{figure}[hbtp]
+\subfloat[Hammock plot.] {
+\begin{minipage}[t]{0.5\textwidth}
+\includegraphics[width=\textwidth]{images/hammock-titanic}
+\end{minipage}
+}
+\subfloat[Barcharts.]{
+\begin{minipage}[t]{0.5\textwidth}
+\phantom{text}
+\vspace{-1.5in}
+\includegraphics[width=\textwidth]{images/bar1-titanic}\\
+\includegraphics[width=\textwidth]{images/bar2-titanic}
+\end{minipage}
+}
+\caption{\label{question1} Two different plot types showing Survival by Class for the Titanic Data (Dawson).}
+\end{figure}
+
+Participants are asked to rank class levels according to the number of survivors based on one of the two plots in figure \ref{question1}. The actual number of survivors by class are
+%
+\begin{center}
+\begin{tabular}{rrrr}
+Crew & 1st & 2nd & 3rd \\ \hline
+212 & 203 & 118 & 178
+\end{tabular}
+\end{center}
+
+
+
+<<survey, echo=FALSE, results=asis>>=
+df5 <- read.csv("df5.csv")
+qu1 <- subset(df5, dataset=="A" & qid==1 & plottype != "circos")
+qu1$response <- factor(qu1$response)
+qu1$response <- gsub("_",", ", as.character(qu1$response))
+qu1$response <- gsub("1","Crew", qu1$response)
+qu1$response <- gsub("2","1st", qu1$response)
+qu1$response <- gsub("3","2nd", qu1$response)
+qu1$response <- gsub("4","3rd", qu1$response)
+
+qu1$plottype <- factor(qu1$plottype)
+levels(qu1$plottype) <- c("barcharts", "hammock")
+library(reshape)
+df <- cast(qu1, response~plottype, fun=length, margins="grand_row", value="blockid")
+row.names(df) <- df[,1]
+df <- df[,-1]
+df$Correct <- ""
+df$Correct[row.names(df)=="Crew, 1st, 3rd, 2nd"] <- "*"
+
+library(xtable)
+print(xtable(df, digits=0, 
+label="tab:results", caption="Overview of survey results: 7 out of 12 participants facing the barchart picked the correct order of `Crew, 1st, 3rd, 2nd'. None of the 13 participants evaluating the hammock chart picked the correct result."), hline.after=c(-1,0,nrow(df)-1, nrow(df)))
+@
+
+Table \ref{tab:results} shows an overview of the results from the survey: 7 out of 12 participants evaluating the barcharts identify the correct order, whereas none of the 13 participants evaluating the hammock plot do. This is due to a strong preference of evaluating the width of lines orthogonal to their slopes as opposed to horizontally (see sketch \ref{fig:linewidth}), as would be needed for a correct assessment of the hammock plot.
+Orthogonal $w_o$ and horizontal $w_h$ linewidths are related -- the orthogonal linewidth depends on the angle (or slope) of the line:
+\[
+w_o = w_h \text{cos } \theta,
+\]
+where $\theta$ is the angle of the line with respect to the horizontal line.
+While the intuitive assessment of line widths by their width orthogonal to slope is well known (need literature reference here), it is surprising to see its strength: in this particular setting, it is strong enough to `shrink' the horizontally widest line by more than 16\%, from 212 to below 178. 
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.4\linewidth]{images/linewidth}
+\end{center}
+\caption{\label{fig:linewidth}Sketch of linewidth assessments: (a) is showing the horizontal width, (b) is  width orthogonal to the slope. Participants preferred method (b) over (a).}
+\end{figure}
+
+<<aspect, echo=FALSE, results=hide>>=
+ggsave("images/aspect31-titanic.pdf", width=9, height=3, plot=p)
+ggsave("images/aspect33-titanic.pdf", width=3, height=3, plot=p)
+@
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[height=1.25in]{images/aspect31-titanic.pdf}
+\includegraphics[height=1.25in]{images/aspect33-titanic.pdf}
+\end{center}
+\caption{\label{fig:aspect}Hammock plots of survival on the Titanic by class. Different aspect ratios  seemingly change the (orthogonal) line width, compare e.g. number of survivors in 3rd class and in the crew. }
+\end{figure}
+
+The slope very much depends on the aspect ratio of a plot - changing the aspect ratio will change the assessment of the order. Figure \ref{fig:aspect} shows the same hammock plot of survival on the Titanic by class: in the left plot the number of surviving 3rd class passengers seems to be about twice as big as the number of survivors among crew members, whereas on the right the lines have about equal (orthogonal) width.
+\end{document}
