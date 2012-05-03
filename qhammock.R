@@ -2,19 +2,28 @@ require(cranvas)
 require(qtpaint)
 require(qtbase)
 require(plyr)
+require(objectProperties)
 
 ## todo add correction factor if freq is not specified
 
-qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10)){
+
+
+Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta)))
+
+
+qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10), main = ""){
+	
+	variables <- var_names(vars = variables, data = x)
 	
 ################# error handling
 	if(length(variables) != 2){
-		stop("qhammock can only handle 2 variables at this time!")
+		stop("qhammock can only handle 2 variables at this time! Please enter variables in form c(X, Y)")
 	}
 	
 	if(is.null(freq)){
 		print("Using number of records to determine frequency")
-		x <- getFreq(x)
+		x <- getFreq(x, variables)
+		freq <- "V1"
 	}
 
 ##################
@@ -60,6 +69,11 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 		return(list(V1 = ddply(.data = x, .variables = variables[1], .fun = function(x){sum(x[freq])})$V1,
 						  V2 = ddply(.data = x, .variables = variables[2], .fun = function(x){sum(x[freq])})$V1))
 	}
+	
+	getFreq <- function(x, variables){
+		return(ddply(.data = x, .variables = variables, .fun = nrows))
+	}
+			
 ################ end helper functions
 
 	
@@ -101,6 +115,10 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	ylines_V2 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
 	ylines <- as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
 	
+	df1 <- check_data(x)
+	b <- brush(df1)
+	meta <- Hammocks.meta$new(xat = xticks, yat = getyat(), limits = l, minor = "", main = main)
+	
 
 ############## draw the cranvas elements
 	scene <- qscene()
@@ -109,10 +127,9 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
-x = xlines,
+								   x = xlines,
 								   y = ylines, 
-#								   x = c(1.1,1.9,NA),
-#								   y = c(745, 61, NA),
+
 								   stroke = "grey60")
 						 qdrawRect(painter, 
 								   xleft = x_left ,
@@ -121,19 +138,17 @@ x = xlines,
 								   ytop = y_top,
 								   fill = pal)
 						 } ,  
-								   limits = l)
+								   limits = meta$limits)
 	
 	layer.brush <- qlayer(paintFun = function(layer, painter){
 						  }, limits = l)
-	layer.root[1, 1] <- qgrid(xat = xticks, yat = getyat(), xlim = xlim, ylim = getylim(), limits = l, minor = "")	
+	layer.root[1, 1] <- qgrid(meta = meta, xlim = xlim, ylim = ylim)	
     layer.root[1, 1] <- layer.main
 #layer.root[1, 1] <- layer.brush
     view <- qplotView(scene = scene)
     print(view)
 
 }
-
-Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta)))
 
 #Survived   V1
 #1       No 1490
