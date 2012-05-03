@@ -1,15 +1,20 @@
 require(cranvas)
 require(qtpaint)
 require(qtbase)
-require(ddply)
+require(plyr)
 
-## todo correct the lines for connections.
+## todo add correction factor if freq is not specified
 
-qhammock <- function(x, variables, freq, xat = NULL, yat = NULL, width, pal = rainbow(n = 10)){
+qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10)){
 	
 ################# error handling
 	if(length(variables) != 2){
 		stop("qhammock can only handle 2 variables at this time!")
+	}
+	
+	if(is.null(freq)){
+		print("Using number of records to determine frequency")
+		x <- getFreq(x)
 	}
 
 ##################
@@ -84,13 +89,19 @@ qhammock <- function(x, variables, freq, xat = NULL, yat = NULL, width, pal = ra
 	xlines <- rep(c(rectx[2,1], rectx[1,2], NA), length(h$V1) * length(h$V2))
 	
 	## for the y position of lines
-	ylines_V1 <- rep(mapply(y = 1:length(h$V1), FUN = function(y){max(0, cumsum(h$V1)[y - 1]) + (h$V1[y] / 2)}),  length(h$V2))
 	temp <- ddply(.data = x, .variables = variables, .fun = function(x){sum(x[freq])})
+	
+
+	ylines_V1 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
+	ylines_V1 <- cbind(temp, y = ylines_V1)
+	ylines_V1 <- ylines_V1[order(ylines_V1$Class),]$y
+	
+	
 	temp <- temp[order(temp[variables[2]]),]
 	ylines_V2 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
 	ylines <- as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
 	
-print(ylines)
+
 ############## draw the cranvas elements
 	scene <- qscene()
     layer.root <- qlayer(scene)
@@ -122,6 +133,7 @@ x = xlines,
 
 }
 
+Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta)))
 
 #Survived   V1
 #1       No 1490
