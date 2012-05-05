@@ -1,0 +1,991 @@
+"id","qid","dataset","plottype","response","cresponse","correct","responsen","cresponsen","qsubid"
+"R_7ONSkE1nz3KoRFO",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_7ONSkE1nz3KoRFO",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_7ONSkE1nz3KoRFO",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_7ONSkE1nz3KoRFO",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_dha3yxnSNHMTiza",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_dha3yxnSNHMTiza",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_dha3yxnSNHMTiza",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_dha3yxnSNHMTiza",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_9zbF9pVnDgKLogc",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_9zbF9pVnDgKLogc",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_9zbF9pVnDgKLogc",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_9zbF9pVnDgKLogc",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_1Umw95YI8cv3DRG",1,"A","bar","1_3_4_2","1_2_4_3",FALSE,1,1,1
+"R_1Umw95YI8cv3DRG",1,"A","bar","1_3_4_2","1_2_4_3",FALSE,3,2,2
+"R_1Umw95YI8cv3DRG",1,"A","bar","1_3_4_2","1_2_4_3",FALSE,4,4,3
+"R_1Umw95YI8cv3DRG",1,"A","bar","1_3_4_2","1_2_4_3",FALSE,2,3,4
+"R_bsx1sOloTtKtSJu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_bsx1sOloTtKtSJu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_bsx1sOloTtKtSJu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_bsx1sOloTtKtSJu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_6FmRiHnhkQsTeMk",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_6FmRiHnhkQsTeMk",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_6FmRiHnhkQsTeMk",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_6FmRiHnhkQsTeMk",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_42C16OPPjnYm8CM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_42C16OPPjnYm8CM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_42C16OPPjnYm8CM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_42C16OPPjnYm8CM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_6m2qpZPOKpdyD9a",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_6m2qpZPOKpdyD9a",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_6m2qpZPOKpdyD9a",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_6m2qpZPOKpdyD9a",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_5sYZSfjLDJir2kI",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_5sYZSfjLDJir2kI",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_5sYZSfjLDJir2kI",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_5sYZSfjLDJir2kI",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_01a6HI55lPgLUd6",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_01a6HI55lPgLUd6",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_01a6HI55lPgLUd6",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_01a6HI55lPgLUd6",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_9QDU9nFW3MfKHoU",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_9QDU9nFW3MfKHoU",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_9QDU9nFW3MfKHoU",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_9QDU9nFW3MfKHoU",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_1H707scKVBKDbuY",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_1H707scKVBKDbuY",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_1H707scKVBKDbuY",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_1H707scKVBKDbuY",1,"A","bar","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_3qItOVB1m3rRIHO",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_3qItOVB1m3rRIHO",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_3qItOVB1m3rRIHO",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_3qItOVB1m3rRIHO",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_a5XRod8QdXHdgiM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_a5XRod8QdXHdgiM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_a5XRod8QdXHdgiM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_a5XRod8QdXHdgiM",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_bP1eWMUqcLIi1rm",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_bP1eWMUqcLIi1rm",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_bP1eWMUqcLIi1rm",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_bP1eWMUqcLIi1rm",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_3ZQvAmasceYQPQM",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_3ZQvAmasceYQPQM",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_3ZQvAmasceYQPQM",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_3ZQvAmasceYQPQM",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_bvGXdKWl3ICupP6",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_bvGXdKWl3ICupP6",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_bvGXdKWl3ICupP6",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_bvGXdKWl3ICupP6",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_6Sw1XuYKHVRsEWU",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_6Sw1XuYKHVRsEWU",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_6Sw1XuYKHVRsEWU",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_6Sw1XuYKHVRsEWU",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_4I64gDQSHH8ojze",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_4I64gDQSHH8ojze",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_4I64gDQSHH8ojze",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_4I64gDQSHH8ojze",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_6Gnw4mQ6x4AVWII",1,"A","hammock","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_6Gnw4mQ6x4AVWII",1,"A","hammock","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_6Gnw4mQ6x4AVWII",1,"A","hammock","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_6Gnw4mQ6x4AVWII",1,"A","hammock","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_3Kmgffq9P84Hqi8",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_3Kmgffq9P84Hqi8",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_3Kmgffq9P84Hqi8",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_3Kmgffq9P84Hqi8",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_8HaXTyDqjDiLelu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_8HaXTyDqjDiLelu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_8HaXTyDqjDiLelu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_8HaXTyDqjDiLelu",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_ekPM1Syz0w3SC9K",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_ekPM1Syz0w3SC9K",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_ekPM1Syz0w3SC9K",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_ekPM1Syz0w3SC9K",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_bQRG1H7frzNaEQs",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_bQRG1H7frzNaEQs",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_bQRG1H7frzNaEQs",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_bQRG1H7frzNaEQs",1,"A","circos","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_d0jsFdwwwPH4qm8",1,"A","circos","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_d0jsFdwwwPH4qm8",1,"A","circos","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_d0jsFdwwwPH4qm8",1,"A","circos","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_d0jsFdwwwPH4qm8",1,"A","circos","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_bIrefWwgM8eoCOw",1,"A","bar","1_4_3_2","1_2_4_3",FALSE,1,1,1
+"R_bIrefWwgM8eoCOw",1,"A","bar","1_4_3_2","1_2_4_3",FALSE,4,2,2
+"R_bIrefWwgM8eoCOw",1,"A","bar","1_4_3_2","1_2_4_3",FALSE,3,4,3
+"R_bIrefWwgM8eoCOw",1,"A","bar","1_4_3_2","1_2_4_3",FALSE,2,3,4
+"R_bQosMSXWXg07Ljm",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_bQosMSXWXg07Ljm",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_bQosMSXWXg07Ljm",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_bQosMSXWXg07Ljm",1,"A","hammock","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_0O0VLA2fLGC5SAI",1,"A","circos","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_0O0VLA2fLGC5SAI",1,"A","circos","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_0O0VLA2fLGC5SAI",1,"A","circos","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_0O0VLA2fLGC5SAI",1,"A","circos","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_eQgihX6yHZzRODi",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_eQgihX6yHZzRODi",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_eQgihX6yHZzRODi",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_eQgihX6yHZzRODi",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_6EF1Vcw5fLiuBAo",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_6EF1Vcw5fLiuBAo",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_6EF1Vcw5fLiuBAo",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_6EF1Vcw5fLiuBAo",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_9st8AEs2Cmddkiw",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,1,1,1
+"R_9st8AEs2Cmddkiw",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,2,2,2
+"R_9st8AEs2Cmddkiw",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,4,4,3
+"R_9st8AEs2Cmddkiw",1,"A","bar","1_2_4_3","1_2_4_3",TRUE,3,3,4
+"R_eWm6JNzYLa6yOP2",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_eWm6JNzYLa6yOP2",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_eWm6JNzYLa6yOP2",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_eWm6JNzYLa6yOP2",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_6tm0XdCBcbPY71G",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_6tm0XdCBcbPY71G",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_6tm0XdCBcbPY71G",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_6tm0XdCBcbPY71G",1,"A","hammock","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_7ONSkE1nz3KoRFO",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_7ONSkE1nz3KoRFO",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_7ONSkE1nz3KoRFO",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_7ONSkE1nz3KoRFO",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_dha3yxnSNHMTiza",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_dha3yxnSNHMTiza",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_dha3yxnSNHMTiza",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_dha3yxnSNHMTiza",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_9zbF9pVnDgKLogc",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_9zbF9pVnDgKLogc",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_9zbF9pVnDgKLogc",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_9zbF9pVnDgKLogc",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_1Umw95YI8cv3DRG",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_1Umw95YI8cv3DRG",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_1Umw95YI8cv3DRG",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_1Umw95YI8cv3DRG",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_bsx1sOloTtKtSJu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bsx1sOloTtKtSJu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bsx1sOloTtKtSJu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bsx1sOloTtKtSJu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_6FmRiHnhkQsTeMk",2,"A","hammock","2_1_3_4","4_1_2_3",FALSE,2,4,1
+"R_6FmRiHnhkQsTeMk",2,"A","hammock","2_1_3_4","4_1_2_3",FALSE,1,1,2
+"R_6FmRiHnhkQsTeMk",2,"A","hammock","2_1_3_4","4_1_2_3",FALSE,3,2,3
+"R_6FmRiHnhkQsTeMk",2,"A","hammock","2_1_3_4","4_1_2_3",FALSE,4,3,4
+"R_42C16OPPjnYm8CM",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_42C16OPPjnYm8CM",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_42C16OPPjnYm8CM",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_42C16OPPjnYm8CM",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_6m2qpZPOKpdyD9a",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_6m2qpZPOKpdyD9a",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_6m2qpZPOKpdyD9a",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_6m2qpZPOKpdyD9a",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_5sYZSfjLDJir2kI",2,"A","bar","3_1_2_4","4_1_2_3",FALSE,3,4,1
+"R_5sYZSfjLDJir2kI",2,"A","bar","3_1_2_4","4_1_2_3",FALSE,1,1,2
+"R_5sYZSfjLDJir2kI",2,"A","bar","3_1_2_4","4_1_2_3",FALSE,2,2,3
+"R_5sYZSfjLDJir2kI",2,"A","bar","3_1_2_4","4_1_2_3",FALSE,4,3,4
+"R_01a6HI55lPgLUd6",2,"A","circos","___","4_1_2_3",FALSE,NA,4,1
+"R_01a6HI55lPgLUd6",2,"A","circos","___","4_1_2_3",FALSE,NA,1,2
+"R_01a6HI55lPgLUd6",2,"A","circos","___","4_1_2_3",FALSE,NA,2,3
+"R_01a6HI55lPgLUd6",2,"A","circos","___","4_1_2_3",FALSE,NA,3,4
+"R_9QDU9nFW3MfKHoU",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_9QDU9nFW3MfKHoU",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_9QDU9nFW3MfKHoU",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_9QDU9nFW3MfKHoU",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_1H707scKVBKDbuY",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_1H707scKVBKDbuY",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_1H707scKVBKDbuY",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_1H707scKVBKDbuY",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_3qItOVB1m3rRIHO",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_3qItOVB1m3rRIHO",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_3qItOVB1m3rRIHO",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_3qItOVB1m3rRIHO",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_a5XRod8QdXHdgiM",2,"A","circos","1_3_4_2","4_1_2_3",FALSE,1,4,1
+"R_a5XRod8QdXHdgiM",2,"A","circos","1_3_4_2","4_1_2_3",FALSE,3,1,2
+"R_a5XRod8QdXHdgiM",2,"A","circos","1_3_4_2","4_1_2_3",FALSE,4,2,3
+"R_a5XRod8QdXHdgiM",2,"A","circos","1_3_4_2","4_1_2_3",FALSE,2,3,4
+"R_bP1eWMUqcLIi1rm",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bP1eWMUqcLIi1rm",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bP1eWMUqcLIi1rm",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bP1eWMUqcLIi1rm",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_3ZQvAmasceYQPQM",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_3ZQvAmasceYQPQM",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_3ZQvAmasceYQPQM",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_3ZQvAmasceYQPQM",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_bvGXdKWl3ICupP6",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bvGXdKWl3ICupP6",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bvGXdKWl3ICupP6",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bvGXdKWl3ICupP6",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_6Sw1XuYKHVRsEWU",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_6Sw1XuYKHVRsEWU",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_6Sw1XuYKHVRsEWU",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_6Sw1XuYKHVRsEWU",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_4I64gDQSHH8ojze",2,"A","bar","1_2_4_3","4_1_2_3",FALSE,1,4,1
+"R_4I64gDQSHH8ojze",2,"A","bar","1_2_4_3","4_1_2_3",FALSE,2,1,2
+"R_4I64gDQSHH8ojze",2,"A","bar","1_2_4_3","4_1_2_3",FALSE,4,2,3
+"R_4I64gDQSHH8ojze",2,"A","bar","1_2_4_3","4_1_2_3",FALSE,3,3,4
+"R_6Gnw4mQ6x4AVWII",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_6Gnw4mQ6x4AVWII",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_6Gnw4mQ6x4AVWII",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_6Gnw4mQ6x4AVWII",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_3Kmgffq9P84Hqi8",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_3Kmgffq9P84Hqi8",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_3Kmgffq9P84Hqi8",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_3Kmgffq9P84Hqi8",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_8HaXTyDqjDiLelu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_8HaXTyDqjDiLelu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_8HaXTyDqjDiLelu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_8HaXTyDqjDiLelu",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_ekPM1Syz0w3SC9K",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_ekPM1Syz0w3SC9K",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_ekPM1Syz0w3SC9K",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_ekPM1Syz0w3SC9K",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_bQRG1H7frzNaEQs",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bQRG1H7frzNaEQs",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bQRG1H7frzNaEQs",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bQRG1H7frzNaEQs",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_d0jsFdwwwPH4qm8",2,"A","circos","3_2_1_4","4_1_2_3",FALSE,3,4,1
+"R_d0jsFdwwwPH4qm8",2,"A","circos","3_2_1_4","4_1_2_3",FALSE,2,1,2
+"R_d0jsFdwwwPH4qm8",2,"A","circos","3_2_1_4","4_1_2_3",FALSE,1,2,3
+"R_d0jsFdwwwPH4qm8",2,"A","circos","3_2_1_4","4_1_2_3",FALSE,4,3,4
+"R_bIrefWwgM8eoCOw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bIrefWwgM8eoCOw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bIrefWwgM8eoCOw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bIrefWwgM8eoCOw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_bQosMSXWXg07Ljm",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bQosMSXWXg07Ljm",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bQosMSXWXg07Ljm",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bQosMSXWXg07Ljm",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_0O0VLA2fLGC5SAI",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_0O0VLA2fLGC5SAI",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_0O0VLA2fLGC5SAI",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_0O0VLA2fLGC5SAI",2,"A","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_eQgihX6yHZzRODi",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_eQgihX6yHZzRODi",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_eQgihX6yHZzRODi",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_eQgihX6yHZzRODi",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_6EF1Vcw5fLiuBAo",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_6EF1Vcw5fLiuBAo",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_6EF1Vcw5fLiuBAo",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_6EF1Vcw5fLiuBAo",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_9st8AEs2Cmddkiw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_9st8AEs2Cmddkiw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_9st8AEs2Cmddkiw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_9st8AEs2Cmddkiw",2,"A","bar","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_eWm6JNzYLa6yOP2",2,"A","hammock","3_1_2_4","4_1_2_3",FALSE,3,4,1
+"R_eWm6JNzYLa6yOP2",2,"A","hammock","3_1_2_4","4_1_2_3",FALSE,1,1,2
+"R_eWm6JNzYLa6yOP2",2,"A","hammock","3_1_2_4","4_1_2_3",FALSE,2,2,3
+"R_eWm6JNzYLa6yOP2",2,"A","hammock","3_1_2_4","4_1_2_3",FALSE,4,3,4
+"R_6tm0XdCBcbPY71G",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_6tm0XdCBcbPY71G",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_6tm0XdCBcbPY71G",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_6tm0XdCBcbPY71G",2,"A","hammock","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_7ONSkE1nz3KoRFO",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_7ONSkE1nz3KoRFO",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_7ONSkE1nz3KoRFO",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_7ONSkE1nz3KoRFO",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_dha3yxnSNHMTiza",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_dha3yxnSNHMTiza",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_dha3yxnSNHMTiza",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_dha3yxnSNHMTiza",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_9zbF9pVnDgKLogc",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_9zbF9pVnDgKLogc",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_9zbF9pVnDgKLogc",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_9zbF9pVnDgKLogc",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_1Umw95YI8cv3DRG",3,"A","bar","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_1Umw95YI8cv3DRG",3,"A","bar","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_1Umw95YI8cv3DRG",3,"A","bar","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_1Umw95YI8cv3DRG",3,"A","bar","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_bsx1sOloTtKtSJu",3,"A","hammock","No Response","1_4_3_2",FALSE,NA,1,1
+"R_bsx1sOloTtKtSJu",3,"A","hammock","No Response","1_4_3_2",FALSE,NA,4,2
+"R_bsx1sOloTtKtSJu",3,"A","hammock","No Response","1_4_3_2",FALSE,NA,3,3
+"R_bsx1sOloTtKtSJu",3,"A","hammock","No Response","1_4_3_2",FALSE,NA,2,4
+"R_6FmRiHnhkQsTeMk",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6FmRiHnhkQsTeMk",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6FmRiHnhkQsTeMk",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6FmRiHnhkQsTeMk",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_42C16OPPjnYm8CM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_42C16OPPjnYm8CM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_42C16OPPjnYm8CM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_42C16OPPjnYm8CM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_6m2qpZPOKpdyD9a",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6m2qpZPOKpdyD9a",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6m2qpZPOKpdyD9a",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6m2qpZPOKpdyD9a",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_5sYZSfjLDJir2kI",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_5sYZSfjLDJir2kI",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_5sYZSfjLDJir2kI",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_5sYZSfjLDJir2kI",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_01a6HI55lPgLUd6",3,"A","circos","___","1_4_3_2",FALSE,NA,1,1
+"R_01a6HI55lPgLUd6",3,"A","circos","___","1_4_3_2",FALSE,NA,4,2
+"R_01a6HI55lPgLUd6",3,"A","circos","___","1_4_3_2",FALSE,NA,3,3
+"R_01a6HI55lPgLUd6",3,"A","circos","___","1_4_3_2",FALSE,NA,2,4
+"R_9QDU9nFW3MfKHoU",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_9QDU9nFW3MfKHoU",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_9QDU9nFW3MfKHoU",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_9QDU9nFW3MfKHoU",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_1H707scKVBKDbuY",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_1H707scKVBKDbuY",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_1H707scKVBKDbuY",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_1H707scKVBKDbuY",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_3qItOVB1m3rRIHO",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_3qItOVB1m3rRIHO",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_3qItOVB1m3rRIHO",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_3qItOVB1m3rRIHO",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_a5XRod8QdXHdgiM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_a5XRod8QdXHdgiM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_a5XRod8QdXHdgiM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_a5XRod8QdXHdgiM",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bP1eWMUqcLIi1rm",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bP1eWMUqcLIi1rm",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bP1eWMUqcLIi1rm",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bP1eWMUqcLIi1rm",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_3ZQvAmasceYQPQM",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_3ZQvAmasceYQPQM",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_3ZQvAmasceYQPQM",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_3ZQvAmasceYQPQM",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bvGXdKWl3ICupP6",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bvGXdKWl3ICupP6",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bvGXdKWl3ICupP6",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bvGXdKWl3ICupP6",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_6Sw1XuYKHVRsEWU",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6Sw1XuYKHVRsEWU",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6Sw1XuYKHVRsEWU",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6Sw1XuYKHVRsEWU",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_4I64gDQSHH8ojze",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_4I64gDQSHH8ojze",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_4I64gDQSHH8ojze",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_4I64gDQSHH8ojze",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_6Gnw4mQ6x4AVWII",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6Gnw4mQ6x4AVWII",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6Gnw4mQ6x4AVWII",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6Gnw4mQ6x4AVWII",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_3Kmgffq9P84Hqi8",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_3Kmgffq9P84Hqi8",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_3Kmgffq9P84Hqi8",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_3Kmgffq9P84Hqi8",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_8HaXTyDqjDiLelu",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_8HaXTyDqjDiLelu",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_8HaXTyDqjDiLelu",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_8HaXTyDqjDiLelu",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_ekPM1Syz0w3SC9K",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_ekPM1Syz0w3SC9K",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_ekPM1Syz0w3SC9K",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_ekPM1Syz0w3SC9K",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bQRG1H7frzNaEQs",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bQRG1H7frzNaEQs",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bQRG1H7frzNaEQs",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bQRG1H7frzNaEQs",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_d0jsFdwwwPH4qm8",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_d0jsFdwwwPH4qm8",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_d0jsFdwwwPH4qm8",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_d0jsFdwwwPH4qm8",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bIrefWwgM8eoCOw",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bIrefWwgM8eoCOw",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bIrefWwgM8eoCOw",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bIrefWwgM8eoCOw",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bQosMSXWXg07Ljm",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bQosMSXWXg07Ljm",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bQosMSXWXg07Ljm",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bQosMSXWXg07Ljm",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_0O0VLA2fLGC5SAI",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_0O0VLA2fLGC5SAI",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_0O0VLA2fLGC5SAI",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_0O0VLA2fLGC5SAI",3,"A","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_eQgihX6yHZzRODi",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_eQgihX6yHZzRODi",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_eQgihX6yHZzRODi",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_eQgihX6yHZzRODi",3,"A","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_6EF1Vcw5fLiuBAo",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6EF1Vcw5fLiuBAo",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6EF1Vcw5fLiuBAo",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6EF1Vcw5fLiuBAo",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_9st8AEs2Cmddkiw",3,"A","bar","No Response","1_4_3_2",FALSE,NA,1,1
+"R_9st8AEs2Cmddkiw",3,"A","bar","No Response","1_4_3_2",FALSE,NA,4,2
+"R_9st8AEs2Cmddkiw",3,"A","bar","No Response","1_4_3_2",FALSE,NA,3,3
+"R_9st8AEs2Cmddkiw",3,"A","bar","No Response","1_4_3_2",FALSE,NA,2,4
+"R_eWm6JNzYLa6yOP2",3,"A","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_eWm6JNzYLa6yOP2",3,"A","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_eWm6JNzYLa6yOP2",3,"A","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_eWm6JNzYLa6yOP2",3,"A","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_6tm0XdCBcbPY71G",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6tm0XdCBcbPY71G",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6tm0XdCBcbPY71G",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6tm0XdCBcbPY71G",3,"A","hammock","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_7ONSkE1nz3KoRFO",1,"B","hammock","1","1",TRUE,1,1,1
+"R_dha3yxnSNHMTiza",1,"B","bar","1","1",TRUE,1,1,1
+"R_9zbF9pVnDgKLogc",1,"B","bar","1","1",TRUE,1,1,1
+"R_1Umw95YI8cv3DRG",1,"B","hammock","1","1",TRUE,1,1,1
+"R_bsx1sOloTtKtSJu",1,"B","circos","1","1",TRUE,1,1,1
+"R_6FmRiHnhkQsTeMk",1,"B","bar","1","1",TRUE,1,1,1
+"R_42C16OPPjnYm8CM",1,"B","hammock","2","1",FALSE,2,1,1
+"R_6m2qpZPOKpdyD9a",1,"B","circos","1","1",TRUE,1,1,1
+"R_5sYZSfjLDJir2kI",1,"B","hammock","1","1",TRUE,1,1,1
+"R_01a6HI55lPgLUd6",1,"B","hammock","1","1",TRUE,1,1,1
+"R_9QDU9nFW3MfKHoU",1,"B","circos","1","1",TRUE,1,1,1
+"R_1H707scKVBKDbuY",1,"B","circos","1","1",TRUE,1,1,1
+"R_3qItOVB1m3rRIHO",1,"B","bar","1","1",TRUE,1,1,1
+"R_a5XRod8QdXHdgiM",1,"B","bar","1","1",TRUE,1,1,1
+"R_bP1eWMUqcLIi1rm",1,"B","hammock","1","1",TRUE,1,1,1
+"R_3ZQvAmasceYQPQM",1,"B","circos","1","1",TRUE,1,1,1
+"R_bvGXdKWl3ICupP6",1,"B","hammock","1","1",TRUE,1,1,1
+"R_6Sw1XuYKHVRsEWU",1,"B","circos","1","1",TRUE,1,1,1
+"R_4I64gDQSHH8ojze",1,"B","hammock","1","1",TRUE,1,1,1
+"R_6Gnw4mQ6x4AVWII",1,"B","circos","1","1",TRUE,1,1,1
+"R_3Kmgffq9P84Hqi8",1,"B","circos","1","1",TRUE,1,1,1
+"R_8HaXTyDqjDiLelu",1,"B","bar","1","1",TRUE,1,1,1
+"R_ekPM1Syz0w3SC9K",1,"B","bar","1","1",TRUE,1,1,1
+"R_bQRG1H7frzNaEQs",1,"B","hammock","2","1",FALSE,2,1,1
+"R_d0jsFdwwwPH4qm8",1,"B","bar","1","1",TRUE,1,1,1
+"R_bIrefWwgM8eoCOw",1,"B","circos","1","1",TRUE,1,1,1
+"R_bQosMSXWXg07Ljm",1,"B","circos","1","1",TRUE,1,1,1
+"R_0O0VLA2fLGC5SAI",1,"B","bar","1","1",TRUE,1,1,1
+"R_eQgihX6yHZzRODi",1,"B","circos","1","1",TRUE,1,1,1
+"R_6EF1Vcw5fLiuBAo",1,"B","bar","1","1",TRUE,1,1,1
+"R_9st8AEs2Cmddkiw",1,"B","hammock","1","1",TRUE,1,1,1
+"R_eWm6JNzYLa6yOP2",1,"B","circos","1","1",TRUE,1,1,1
+"R_6tm0XdCBcbPY71G",1,"B","circos","1","1",TRUE,1,1,1
+"R_7ONSkE1nz3KoRFO",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_7ONSkE1nz3KoRFO",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_7ONSkE1nz3KoRFO",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_7ONSkE1nz3KoRFO",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_dha3yxnSNHMTiza",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_dha3yxnSNHMTiza",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_dha3yxnSNHMTiza",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_dha3yxnSNHMTiza",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_9zbF9pVnDgKLogc",2,"B","bar","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_9zbF9pVnDgKLogc",2,"B","bar","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_9zbF9pVnDgKLogc",2,"B","bar","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_9zbF9pVnDgKLogc",2,"B","bar","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_1Umw95YI8cv3DRG",2,"B","hammock","4_1_3_2","1_4_3_2",FALSE,4,1,1
+"R_1Umw95YI8cv3DRG",2,"B","hammock","4_1_3_2","1_4_3_2",FALSE,1,4,2
+"R_1Umw95YI8cv3DRG",2,"B","hammock","4_1_3_2","1_4_3_2",FALSE,3,3,3
+"R_1Umw95YI8cv3DRG",2,"B","hammock","4_1_3_2","1_4_3_2",FALSE,2,2,4
+"R_bsx1sOloTtKtSJu",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_bsx1sOloTtKtSJu",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_bsx1sOloTtKtSJu",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_bsx1sOloTtKtSJu",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_6FmRiHnhkQsTeMk",2,"B","bar","1_4_2_3","1_4_3_2",FALSE,1,1,1
+"R_6FmRiHnhkQsTeMk",2,"B","bar","1_4_2_3","1_4_3_2",FALSE,4,4,2
+"R_6FmRiHnhkQsTeMk",2,"B","bar","1_4_2_3","1_4_3_2",FALSE,2,3,3
+"R_6FmRiHnhkQsTeMk",2,"B","bar","1_4_2_3","1_4_3_2",FALSE,3,2,4
+"R_42C16OPPjnYm8CM",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_42C16OPPjnYm8CM",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_42C16OPPjnYm8CM",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_42C16OPPjnYm8CM",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_6m2qpZPOKpdyD9a",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_6m2qpZPOKpdyD9a",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_6m2qpZPOKpdyD9a",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_6m2qpZPOKpdyD9a",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_5sYZSfjLDJir2kI",2,"B","hammock","2_3_4_1","1_4_3_2",FALSE,2,1,1
+"R_5sYZSfjLDJir2kI",2,"B","hammock","2_3_4_1","1_4_3_2",FALSE,3,4,2
+"R_5sYZSfjLDJir2kI",2,"B","hammock","2_3_4_1","1_4_3_2",FALSE,4,3,3
+"R_5sYZSfjLDJir2kI",2,"B","hammock","2_3_4_1","1_4_3_2",FALSE,1,2,4
+"R_01a6HI55lPgLUd6",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,1,1
+"R_01a6HI55lPgLUd6",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,4,2
+"R_01a6HI55lPgLUd6",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,3,3
+"R_01a6HI55lPgLUd6",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,2,4
+"R_9QDU9nFW3MfKHoU",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_9QDU9nFW3MfKHoU",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_9QDU9nFW3MfKHoU",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_9QDU9nFW3MfKHoU",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_1H707scKVBKDbuY",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_1H707scKVBKDbuY",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_1H707scKVBKDbuY",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_1H707scKVBKDbuY",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_3qItOVB1m3rRIHO",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_3qItOVB1m3rRIHO",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_3qItOVB1m3rRIHO",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_3qItOVB1m3rRIHO",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_a5XRod8QdXHdgiM",2,"B","bar","4_3_1_2","1_4_3_2",FALSE,4,1,1
+"R_a5XRod8QdXHdgiM",2,"B","bar","4_3_1_2","1_4_3_2",FALSE,3,4,2
+"R_a5XRod8QdXHdgiM",2,"B","bar","4_3_1_2","1_4_3_2",FALSE,1,3,3
+"R_a5XRod8QdXHdgiM",2,"B","bar","4_3_1_2","1_4_3_2",FALSE,2,2,4
+"R_bP1eWMUqcLIi1rm",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_bP1eWMUqcLIi1rm",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_bP1eWMUqcLIi1rm",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_bP1eWMUqcLIi1rm",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_3ZQvAmasceYQPQM",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_3ZQvAmasceYQPQM",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_3ZQvAmasceYQPQM",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_3ZQvAmasceYQPQM",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_bvGXdKWl3ICupP6",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_bvGXdKWl3ICupP6",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_bvGXdKWl3ICupP6",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_bvGXdKWl3ICupP6",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_6Sw1XuYKHVRsEWU",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6Sw1XuYKHVRsEWU",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6Sw1XuYKHVRsEWU",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6Sw1XuYKHVRsEWU",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_4I64gDQSHH8ojze",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,1,1
+"R_4I64gDQSHH8ojze",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,4,2
+"R_4I64gDQSHH8ojze",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,3,3
+"R_4I64gDQSHH8ojze",2,"B","hammock","No Response","1_4_3_2",FALSE,NA,2,4
+"R_6Gnw4mQ6x4AVWII",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6Gnw4mQ6x4AVWII",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6Gnw4mQ6x4AVWII",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6Gnw4mQ6x4AVWII",2,"B","circos","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_3Kmgffq9P84Hqi8",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,1,1,1
+"R_3Kmgffq9P84Hqi8",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,2,4,2
+"R_3Kmgffq9P84Hqi8",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,4,3,3
+"R_3Kmgffq9P84Hqi8",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,3,2,4
+"R_8HaXTyDqjDiLelu",2,"B","bar","No Response","1_4_3_2",FALSE,NA,1,1
+"R_8HaXTyDqjDiLelu",2,"B","bar","No Response","1_4_3_2",FALSE,NA,4,2
+"R_8HaXTyDqjDiLelu",2,"B","bar","No Response","1_4_3_2",FALSE,NA,3,3
+"R_8HaXTyDqjDiLelu",2,"B","bar","No Response","1_4_3_2",FALSE,NA,2,4
+"R_ekPM1Syz0w3SC9K",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_ekPM1Syz0w3SC9K",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_ekPM1Syz0w3SC9K",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_ekPM1Syz0w3SC9K",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_bQRG1H7frzNaEQs",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_bQRG1H7frzNaEQs",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_bQRG1H7frzNaEQs",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_bQRG1H7frzNaEQs",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_d0jsFdwwwPH4qm8",2,"B","bar","No Response","1_4_3_2",FALSE,NA,1,1
+"R_d0jsFdwwwPH4qm8",2,"B","bar","No Response","1_4_3_2",FALSE,NA,4,2
+"R_d0jsFdwwwPH4qm8",2,"B","bar","No Response","1_4_3_2",FALSE,NA,3,3
+"R_d0jsFdwwwPH4qm8",2,"B","bar","No Response","1_4_3_2",FALSE,NA,2,4
+"R_bIrefWwgM8eoCOw",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_bIrefWwgM8eoCOw",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_bIrefWwgM8eoCOw",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_bIrefWwgM8eoCOw",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_bQosMSXWXg07Ljm",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_bQosMSXWXg07Ljm",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_bQosMSXWXg07Ljm",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_bQosMSXWXg07Ljm",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_0O0VLA2fLGC5SAI",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_0O0VLA2fLGC5SAI",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_0O0VLA2fLGC5SAI",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_0O0VLA2fLGC5SAI",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_eQgihX6yHZzRODi",2,"B","circos","No Response","1_4_3_2",FALSE,NA,1,1
+"R_eQgihX6yHZzRODi",2,"B","circos","No Response","1_4_3_2",FALSE,NA,4,2
+"R_eQgihX6yHZzRODi",2,"B","circos","No Response","1_4_3_2",FALSE,NA,3,3
+"R_eQgihX6yHZzRODi",2,"B","circos","No Response","1_4_3_2",FALSE,NA,2,4
+"R_6EF1Vcw5fLiuBAo",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,1,1,1
+"R_6EF1Vcw5fLiuBAo",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,4,4,2
+"R_6EF1Vcw5fLiuBAo",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,3,3,3
+"R_6EF1Vcw5fLiuBAo",2,"B","bar","1_4_3_2","1_4_3_2",TRUE,2,2,4
+"R_9st8AEs2Cmddkiw",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_9st8AEs2Cmddkiw",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_9st8AEs2Cmddkiw",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_9st8AEs2Cmddkiw",2,"B","hammock","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_eWm6JNzYLa6yOP2",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,1,1,1
+"R_eWm6JNzYLa6yOP2",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,2,4,2
+"R_eWm6JNzYLa6yOP2",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,4,3,3
+"R_eWm6JNzYLa6yOP2",2,"B","circos","1_2_4_3","1_4_3_2",FALSE,3,2,4
+"R_6tm0XdCBcbPY71G",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,1,1,1
+"R_6tm0XdCBcbPY71G",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,3,4,2
+"R_6tm0XdCBcbPY71G",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,4,3,3
+"R_6tm0XdCBcbPY71G",2,"B","circos","1_3_4_2","1_4_3_2",FALSE,2,2,4
+"R_7ONSkE1nz3KoRFO",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,1,1,1
+"R_7ONSkE1nz3KoRFO",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,4,1,2
+"R_7ONSkE1nz3KoRFO",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,2,3
+"R_7ONSkE1nz3KoRFO",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,1,4
+"R_dha3yxnSNHMTiza",3,"B","bar","4_1_2_1","1_1_2_1",FALSE,4,1,1
+"R_dha3yxnSNHMTiza",3,"B","bar","4_1_2_1","1_1_2_1",FALSE,1,1,2
+"R_dha3yxnSNHMTiza",3,"B","bar","4_1_2_1","1_1_2_1",FALSE,2,2,3
+"R_dha3yxnSNHMTiza",3,"B","bar","4_1_2_1","1_1_2_1",FALSE,1,1,4
+"R_9zbF9pVnDgKLogc",3,"B","bar","1_1_2_1","1_1_2_1",TRUE,1,1,1
+"R_9zbF9pVnDgKLogc",3,"B","bar","1_1_2_1","1_1_2_1",TRUE,1,1,2
+"R_9zbF9pVnDgKLogc",3,"B","bar","1_1_2_1","1_1_2_1",TRUE,2,2,3
+"R_9zbF9pVnDgKLogc",3,"B","bar","1_1_2_1","1_1_2_1",TRUE,1,1,4
+"R_1Umw95YI8cv3DRG",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_1Umw95YI8cv3DRG",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_1Umw95YI8cv3DRG",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_1Umw95YI8cv3DRG",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_bsx1sOloTtKtSJu",3,"B","circos","1_2_2_1","1_1_2_1",FALSE,1,1,1
+"R_bsx1sOloTtKtSJu",3,"B","circos","1_2_2_1","1_1_2_1",FALSE,2,1,2
+"R_bsx1sOloTtKtSJu",3,"B","circos","1_2_2_1","1_1_2_1",FALSE,2,2,3
+"R_bsx1sOloTtKtSJu",3,"B","circos","1_2_2_1","1_1_2_1",FALSE,1,1,4
+"R_6FmRiHnhkQsTeMk",3,"B","bar","1_2_1_2","1_1_2_1",FALSE,1,1,1
+"R_6FmRiHnhkQsTeMk",3,"B","bar","1_2_1_2","1_1_2_1",FALSE,2,1,2
+"R_6FmRiHnhkQsTeMk",3,"B","bar","1_2_1_2","1_1_2_1",FALSE,1,2,3
+"R_6FmRiHnhkQsTeMk",3,"B","bar","1_2_1_2","1_1_2_1",FALSE,2,1,4
+"R_42C16OPPjnYm8CM",3,"B","hammock","2_1_2_2","1_1_2_1",FALSE,2,1,1
+"R_42C16OPPjnYm8CM",3,"B","hammock","2_1_2_2","1_1_2_1",FALSE,1,1,2
+"R_42C16OPPjnYm8CM",3,"B","hammock","2_1_2_2","1_1_2_1",FALSE,2,2,3
+"R_42C16OPPjnYm8CM",3,"B","hammock","2_1_2_2","1_1_2_1",FALSE,2,1,4
+"R_6m2qpZPOKpdyD9a",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_6m2qpZPOKpdyD9a",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_6m2qpZPOKpdyD9a",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_6m2qpZPOKpdyD9a",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_5sYZSfjLDJir2kI",3,"B","hammock","1_4_2_4","1_1_2_1",FALSE,1,1,1
+"R_5sYZSfjLDJir2kI",3,"B","hammock","1_4_2_4","1_1_2_1",FALSE,4,1,2
+"R_5sYZSfjLDJir2kI",3,"B","hammock","1_4_2_4","1_1_2_1",FALSE,2,2,3
+"R_5sYZSfjLDJir2kI",3,"B","hammock","1_4_2_4","1_1_2_1",FALSE,4,1,4
+"R_01a6HI55lPgLUd6",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_01a6HI55lPgLUd6",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_01a6HI55lPgLUd6",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_01a6HI55lPgLUd6",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_9QDU9nFW3MfKHoU",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_9QDU9nFW3MfKHoU",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_9QDU9nFW3MfKHoU",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_9QDU9nFW3MfKHoU",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_1H707scKVBKDbuY",3,"B","circos","1_1_2_2","1_1_2_1",FALSE,1,1,1
+"R_1H707scKVBKDbuY",3,"B","circos","1_1_2_2","1_1_2_1",FALSE,1,1,2
+"R_1H707scKVBKDbuY",3,"B","circos","1_1_2_2","1_1_2_1",FALSE,2,2,3
+"R_1H707scKVBKDbuY",3,"B","circos","1_1_2_2","1_1_2_1",FALSE,2,1,4
+"R_3qItOVB1m3rRIHO",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,1,1,1
+"R_3qItOVB1m3rRIHO",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,2,1,2
+"R_3qItOVB1m3rRIHO",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,2,2,3
+"R_3qItOVB1m3rRIHO",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,1,1,4
+"R_a5XRod8QdXHdgiM",3,"B","bar","2_4_1_1","1_1_2_1",FALSE,2,1,1
+"R_a5XRod8QdXHdgiM",3,"B","bar","2_4_1_1","1_1_2_1",FALSE,4,1,2
+"R_a5XRod8QdXHdgiM",3,"B","bar","2_4_1_1","1_1_2_1",FALSE,1,2,3
+"R_a5XRod8QdXHdgiM",3,"B","bar","2_4_1_1","1_1_2_1",FALSE,1,1,4
+"R_bP1eWMUqcLIi1rm",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,1,1,1
+"R_bP1eWMUqcLIi1rm",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,4,1,2
+"R_bP1eWMUqcLIi1rm",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,2,3
+"R_bP1eWMUqcLIi1rm",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,1,4
+"R_3ZQvAmasceYQPQM",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_3ZQvAmasceYQPQM",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_3ZQvAmasceYQPQM",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_3ZQvAmasceYQPQM",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_bvGXdKWl3ICupP6",3,"B","hammock","4_1_2_2","1_1_2_1",FALSE,4,1,1
+"R_bvGXdKWl3ICupP6",3,"B","hammock","4_1_2_2","1_1_2_1",FALSE,1,1,2
+"R_bvGXdKWl3ICupP6",3,"B","hammock","4_1_2_2","1_1_2_1",FALSE,2,2,3
+"R_bvGXdKWl3ICupP6",3,"B","hammock","4_1_2_2","1_1_2_1",FALSE,2,1,4
+"R_6Sw1XuYKHVRsEWU",3,"B","circos","1_1_2_4","1_1_2_1",FALSE,1,1,1
+"R_6Sw1XuYKHVRsEWU",3,"B","circos","1_1_2_4","1_1_2_1",FALSE,1,1,2
+"R_6Sw1XuYKHVRsEWU",3,"B","circos","1_1_2_4","1_1_2_1",FALSE,2,2,3
+"R_6Sw1XuYKHVRsEWU",3,"B","circos","1_1_2_4","1_1_2_1",FALSE,4,1,4
+"R_4I64gDQSHH8ojze",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_4I64gDQSHH8ojze",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_4I64gDQSHH8ojze",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_4I64gDQSHH8ojze",3,"B","hammock","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_6Gnw4mQ6x4AVWII",3,"B","circos","1_2_4_1","1_1_2_1",FALSE,1,1,1
+"R_6Gnw4mQ6x4AVWII",3,"B","circos","1_2_4_1","1_1_2_1",FALSE,2,1,2
+"R_6Gnw4mQ6x4AVWII",3,"B","circos","1_2_4_1","1_1_2_1",FALSE,4,2,3
+"R_6Gnw4mQ6x4AVWII",3,"B","circos","1_2_4_1","1_1_2_1",FALSE,1,1,4
+"R_3Kmgffq9P84Hqi8",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_3Kmgffq9P84Hqi8",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_3Kmgffq9P84Hqi8",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_3Kmgffq9P84Hqi8",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_8HaXTyDqjDiLelu",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_8HaXTyDqjDiLelu",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_8HaXTyDqjDiLelu",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_8HaXTyDqjDiLelu",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_ekPM1Syz0w3SC9K",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_ekPM1Syz0w3SC9K",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_ekPM1Syz0w3SC9K",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_ekPM1Syz0w3SC9K",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_bQRG1H7frzNaEQs",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,1,1,1
+"R_bQRG1H7frzNaEQs",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,4,1,2
+"R_bQRG1H7frzNaEQs",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,2,3
+"R_bQRG1H7frzNaEQs",3,"B","hammock","1_4_2_2","1_1_2_1",FALSE,2,1,4
+"R_d0jsFdwwwPH4qm8",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_d0jsFdwwwPH4qm8",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_d0jsFdwwwPH4qm8",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_d0jsFdwwwPH4qm8",3,"B","bar","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_bIrefWwgM8eoCOw",3,"B","circos","1_1_2_1","1_1_2_1",TRUE,1,1,1
+"R_bIrefWwgM8eoCOw",3,"B","circos","1_1_2_1","1_1_2_1",TRUE,1,1,2
+"R_bIrefWwgM8eoCOw",3,"B","circos","1_1_2_1","1_1_2_1",TRUE,2,2,3
+"R_bIrefWwgM8eoCOw",3,"B","circos","1_1_2_1","1_1_2_1",TRUE,1,1,4
+"R_bQosMSXWXg07Ljm",3,"B","circos","1_4_1_2","1_1_2_1",FALSE,1,1,1
+"R_bQosMSXWXg07Ljm",3,"B","circos","1_4_1_2","1_1_2_1",FALSE,4,1,2
+"R_bQosMSXWXg07Ljm",3,"B","circos","1_4_1_2","1_1_2_1",FALSE,1,2,3
+"R_bQosMSXWXg07Ljm",3,"B","circos","1_4_1_2","1_1_2_1",FALSE,2,1,4
+"R_0O0VLA2fLGC5SAI",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,1,1,1
+"R_0O0VLA2fLGC5SAI",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,2,1,2
+"R_0O0VLA2fLGC5SAI",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,2,2,3
+"R_0O0VLA2fLGC5SAI",3,"B","bar","1_2_2_1","1_1_2_1",FALSE,1,1,4
+"R_eQgihX6yHZzRODi",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,1
+"R_eQgihX6yHZzRODi",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,2
+"R_eQgihX6yHZzRODi",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,2,3
+"R_eQgihX6yHZzRODi",3,"B","circos","3_3_3_3","1_1_2_1",FALSE,3,1,4
+"R_6EF1Vcw5fLiuBAo",3,"B","bar","2_2_2_2","1_1_2_1",FALSE,2,1,1
+"R_6EF1Vcw5fLiuBAo",3,"B","bar","2_2_2_2","1_1_2_1",FALSE,2,1,2
+"R_6EF1Vcw5fLiuBAo",3,"B","bar","2_2_2_2","1_1_2_1",FALSE,2,2,3
+"R_6EF1Vcw5fLiuBAo",3,"B","bar","2_2_2_2","1_1_2_1",FALSE,2,1,4
+"R_9st8AEs2Cmddkiw",3,"B","hammock","2_4_2_2","1_1_2_1",FALSE,2,1,1
+"R_9st8AEs2Cmddkiw",3,"B","hammock","2_4_2_2","1_1_2_1",FALSE,4,1,2
+"R_9st8AEs2Cmddkiw",3,"B","hammock","2_4_2_2","1_1_2_1",FALSE,2,2,3
+"R_9st8AEs2Cmddkiw",3,"B","hammock","2_4_2_2","1_1_2_1",FALSE,2,1,4
+"R_eWm6JNzYLa6yOP2",3,"B","circos","1_3_2_1","1_1_2_1",FALSE,1,1,1
+"R_eWm6JNzYLa6yOP2",3,"B","circos","1_3_2_1","1_1_2_1",FALSE,3,1,2
+"R_eWm6JNzYLa6yOP2",3,"B","circos","1_3_2_1","1_1_2_1",FALSE,2,2,3
+"R_eWm6JNzYLa6yOP2",3,"B","circos","1_3_2_1","1_1_2_1",FALSE,1,1,4
+"R_6tm0XdCBcbPY71G",3,"B","circos","4_4_1_1","1_1_2_1",FALSE,4,1,1
+"R_6tm0XdCBcbPY71G",3,"B","circos","4_4_1_1","1_1_2_1",FALSE,4,1,2
+"R_6tm0XdCBcbPY71G",3,"B","circos","4_4_1_1","1_1_2_1",FALSE,1,2,3
+"R_6tm0XdCBcbPY71G",3,"B","circos","4_4_1_1","1_1_2_1",FALSE,1,1,4
+"R_7ONSkE1nz3KoRFO",1,"C","circos","No Response","1_2_4_3",FALSE,NA,1,1
+"R_7ONSkE1nz3KoRFO",1,"C","circos","No Response","1_2_4_3",FALSE,NA,2,2
+"R_7ONSkE1nz3KoRFO",1,"C","circos","No Response","1_2_4_3",FALSE,NA,4,3
+"R_7ONSkE1nz3KoRFO",1,"C","circos","No Response","1_2_4_3",FALSE,NA,3,4
+"R_dha3yxnSNHMTiza",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,4,1,1
+"R_dha3yxnSNHMTiza",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,1,2,2
+"R_dha3yxnSNHMTiza",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,2,4,3
+"R_dha3yxnSNHMTiza",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,3,3,4
+"R_9zbF9pVnDgKLogc",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_9zbF9pVnDgKLogc",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_9zbF9pVnDgKLogc",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_9zbF9pVnDgKLogc",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_1Umw95YI8cv3DRG",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_1Umw95YI8cv3DRG",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_1Umw95YI8cv3DRG",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_1Umw95YI8cv3DRG",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_bsx1sOloTtKtSJu",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_bsx1sOloTtKtSJu",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_bsx1sOloTtKtSJu",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_bsx1sOloTtKtSJu",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_6FmRiHnhkQsTeMk",1,"C","circos","4_1_2_3","1_2_4_3",FALSE,4,1,1
+"R_6FmRiHnhkQsTeMk",1,"C","circos","4_1_2_3","1_2_4_3",FALSE,1,2,2
+"R_6FmRiHnhkQsTeMk",1,"C","circos","4_1_2_3","1_2_4_3",FALSE,2,4,3
+"R_6FmRiHnhkQsTeMk",1,"C","circos","4_1_2_3","1_2_4_3",FALSE,3,3,4
+"R_42C16OPPjnYm8CM",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_42C16OPPjnYm8CM",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_42C16OPPjnYm8CM",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_42C16OPPjnYm8CM",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_6m2qpZPOKpdyD9a",1,"C","bar","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_6m2qpZPOKpdyD9a",1,"C","bar","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_6m2qpZPOKpdyD9a",1,"C","bar","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_6m2qpZPOKpdyD9a",1,"C","bar","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_5sYZSfjLDJir2kI",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_5sYZSfjLDJir2kI",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_5sYZSfjLDJir2kI",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_5sYZSfjLDJir2kI",1,"C","circos","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_01a6HI55lPgLUd6",1,"C","bar","No Response","1_2_4_3",FALSE,NA,1,1
+"R_01a6HI55lPgLUd6",1,"C","bar","No Response","1_2_4_3",FALSE,NA,2,2
+"R_01a6HI55lPgLUd6",1,"C","bar","No Response","1_2_4_3",FALSE,NA,4,3
+"R_01a6HI55lPgLUd6",1,"C","bar","No Response","1_2_4_3",FALSE,NA,3,4
+"R_9QDU9nFW3MfKHoU",1,"C","bar","No Response","1_2_4_3",FALSE,NA,1,1
+"R_9QDU9nFW3MfKHoU",1,"C","bar","No Response","1_2_4_3",FALSE,NA,2,2
+"R_9QDU9nFW3MfKHoU",1,"C","bar","No Response","1_2_4_3",FALSE,NA,4,3
+"R_9QDU9nFW3MfKHoU",1,"C","bar","No Response","1_2_4_3",FALSE,NA,3,4
+"R_1H707scKVBKDbuY",1,"C","hammock","2_1_4_3","1_2_4_3",FALSE,2,1,1
+"R_1H707scKVBKDbuY",1,"C","hammock","2_1_4_3","1_2_4_3",FALSE,1,2,2
+"R_1H707scKVBKDbuY",1,"C","hammock","2_1_4_3","1_2_4_3",FALSE,4,4,3
+"R_1H707scKVBKDbuY",1,"C","hammock","2_1_4_3","1_2_4_3",FALSE,3,3,4
+"R_3qItOVB1m3rRIHO",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_3qItOVB1m3rRIHO",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_3qItOVB1m3rRIHO",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_3qItOVB1m3rRIHO",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_a5XRod8QdXHdgiM",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_a5XRod8QdXHdgiM",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_a5XRod8QdXHdgiM",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_a5XRod8QdXHdgiM",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_bP1eWMUqcLIi1rm",1,"C","circos","No Response","1_2_4_3",FALSE,NA,1,1
+"R_bP1eWMUqcLIi1rm",1,"C","circos","No Response","1_2_4_3",FALSE,NA,2,2
+"R_bP1eWMUqcLIi1rm",1,"C","circos","No Response","1_2_4_3",FALSE,NA,4,3
+"R_bP1eWMUqcLIi1rm",1,"C","circos","No Response","1_2_4_3",FALSE,NA,3,4
+"R_3ZQvAmasceYQPQM",1,"C","bar","4_2_3_1","1_2_4_3",FALSE,4,1,1
+"R_3ZQvAmasceYQPQM",1,"C","bar","4_2_3_1","1_2_4_3",FALSE,2,2,2
+"R_3ZQvAmasceYQPQM",1,"C","bar","4_2_3_1","1_2_4_3",FALSE,3,4,3
+"R_3ZQvAmasceYQPQM",1,"C","bar","4_2_3_1","1_2_4_3",FALSE,1,3,4
+"R_bvGXdKWl3ICupP6",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_bvGXdKWl3ICupP6",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_bvGXdKWl3ICupP6",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_bvGXdKWl3ICupP6",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_6Sw1XuYKHVRsEWU",1,"C","hammock","3_1_2_4","1_2_4_3",FALSE,3,1,1
+"R_6Sw1XuYKHVRsEWU",1,"C","hammock","3_1_2_4","1_2_4_3",FALSE,1,2,2
+"R_6Sw1XuYKHVRsEWU",1,"C","hammock","3_1_2_4","1_2_4_3",FALSE,2,4,3
+"R_6Sw1XuYKHVRsEWU",1,"C","hammock","3_1_2_4","1_2_4_3",FALSE,4,3,4
+"R_4I64gDQSHH8ojze",1,"C","circos","No Response","1_2_4_3",FALSE,NA,1,1
+"R_4I64gDQSHH8ojze",1,"C","circos","No Response","1_2_4_3",FALSE,NA,2,2
+"R_4I64gDQSHH8ojze",1,"C","circos","No Response","1_2_4_3",FALSE,NA,4,3
+"R_4I64gDQSHH8ojze",1,"C","circos","No Response","1_2_4_3",FALSE,NA,3,4
+"R_6Gnw4mQ6x4AVWII",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_6Gnw4mQ6x4AVWII",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_6Gnw4mQ6x4AVWII",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_6Gnw4mQ6x4AVWII",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_3Kmgffq9P84Hqi8",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,4,1,1
+"R_3Kmgffq9P84Hqi8",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,1,2,2
+"R_3Kmgffq9P84Hqi8",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,2,4,3
+"R_3Kmgffq9P84Hqi8",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,3,3,4
+"R_8HaXTyDqjDiLelu",1,"C","circos","No Response","1_2_4_3",FALSE,NA,1,1
+"R_8HaXTyDqjDiLelu",1,"C","circos","No Response","1_2_4_3",FALSE,NA,2,2
+"R_8HaXTyDqjDiLelu",1,"C","circos","No Response","1_2_4_3",FALSE,NA,4,3
+"R_8HaXTyDqjDiLelu",1,"C","circos","No Response","1_2_4_3",FALSE,NA,3,4
+"R_ekPM1Syz0w3SC9K",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,4,1,1
+"R_ekPM1Syz0w3SC9K",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,1,2,2
+"R_ekPM1Syz0w3SC9K",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,2,4,3
+"R_ekPM1Syz0w3SC9K",1,"C","hammock","4_1_2_3","1_2_4_3",FALSE,3,3,4
+"R_bQRG1H7frzNaEQs",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_bQRG1H7frzNaEQs",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_bQRG1H7frzNaEQs",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_bQRG1H7frzNaEQs",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_d0jsFdwwwPH4qm8",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,1,1
+"R_d0jsFdwwwPH4qm8",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,2,2
+"R_d0jsFdwwwPH4qm8",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,4,3
+"R_d0jsFdwwwPH4qm8",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,3,4
+"R_bIrefWwgM8eoCOw",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_bIrefWwgM8eoCOw",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_bIrefWwgM8eoCOw",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_bIrefWwgM8eoCOw",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_bQosMSXWXg07Ljm",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_bQosMSXWXg07Ljm",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_bQosMSXWXg07Ljm",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_bQosMSXWXg07Ljm",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_0O0VLA2fLGC5SAI",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,4,1,1
+"R_0O0VLA2fLGC5SAI",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,2,2,2
+"R_0O0VLA2fLGC5SAI",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,1,4,3
+"R_0O0VLA2fLGC5SAI",1,"C","hammock","4_2_1_3","1_2_4_3",FALSE,3,3,4
+"R_eQgihX6yHZzRODi",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,1,1
+"R_eQgihX6yHZzRODi",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,2,2
+"R_eQgihX6yHZzRODi",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,4,3
+"R_eQgihX6yHZzRODi",1,"C","hammock","No Response","1_2_4_3",FALSE,NA,3,4
+"R_6EF1Vcw5fLiuBAo",1,"C","circos","No Response","1_2_4_3",FALSE,NA,1,1
+"R_6EF1Vcw5fLiuBAo",1,"C","circos","No Response","1_2_4_3",FALSE,NA,2,2
+"R_6EF1Vcw5fLiuBAo",1,"C","circos","No Response","1_2_4_3",FALSE,NA,4,3
+"R_6EF1Vcw5fLiuBAo",1,"C","circos","No Response","1_2_4_3",FALSE,NA,3,4
+"R_9st8AEs2Cmddkiw",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,3,1,1
+"R_9st8AEs2Cmddkiw",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,1,2,2
+"R_9st8AEs2Cmddkiw",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,4,4,3
+"R_9st8AEs2Cmddkiw",1,"C","circos","3_1_4_2","1_2_4_3",FALSE,2,3,4
+"R_eWm6JNzYLa6yOP2",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_eWm6JNzYLa6yOP2",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_eWm6JNzYLa6yOP2",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_eWm6JNzYLa6yOP2",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_6tm0XdCBcbPY71G",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,4,1,1
+"R_6tm0XdCBcbPY71G",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,1,2,2
+"R_6tm0XdCBcbPY71G",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,3,4,3
+"R_6tm0XdCBcbPY71G",1,"C","bar","4_1_3_2","1_2_4_3",FALSE,2,3,4
+"R_7ONSkE1nz3KoRFO",2,"C","circos","No Response","4_1_2_3",FALSE,NA,4,1
+"R_7ONSkE1nz3KoRFO",2,"C","circos","No Response","4_1_2_3",FALSE,NA,1,2
+"R_7ONSkE1nz3KoRFO",2,"C","circos","No Response","4_1_2_3",FALSE,NA,2,3
+"R_7ONSkE1nz3KoRFO",2,"C","circos","No Response","4_1_2_3",FALSE,NA,3,4
+"R_dha3yxnSNHMTiza",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_dha3yxnSNHMTiza",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_dha3yxnSNHMTiza",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_dha3yxnSNHMTiza",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_9zbF9pVnDgKLogc",2,"C","circos","3_2_4_1","4_1_2_3",FALSE,3,4,1
+"R_9zbF9pVnDgKLogc",2,"C","circos","3_2_4_1","4_1_2_3",FALSE,2,1,2
+"R_9zbF9pVnDgKLogc",2,"C","circos","3_2_4_1","4_1_2_3",FALSE,4,2,3
+"R_9zbF9pVnDgKLogc",2,"C","circos","3_2_4_1","4_1_2_3",FALSE,1,3,4
+"R_1Umw95YI8cv3DRG",2,"C","circos","2_3_1_4","4_1_2_3",FALSE,2,4,1
+"R_1Umw95YI8cv3DRG",2,"C","circos","2_3_1_4","4_1_2_3",FALSE,3,1,2
+"R_1Umw95YI8cv3DRG",2,"C","circos","2_3_1_4","4_1_2_3",FALSE,1,2,3
+"R_1Umw95YI8cv3DRG",2,"C","circos","2_3_1_4","4_1_2_3",FALSE,4,3,4
+"R_bsx1sOloTtKtSJu",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_bsx1sOloTtKtSJu",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_bsx1sOloTtKtSJu",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_bsx1sOloTtKtSJu",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_6FmRiHnhkQsTeMk",2,"C","circos","2_1_3_4","4_1_2_3",FALSE,2,4,1
+"R_6FmRiHnhkQsTeMk",2,"C","circos","2_1_3_4","4_1_2_3",FALSE,1,1,2
+"R_6FmRiHnhkQsTeMk",2,"C","circos","2_1_3_4","4_1_2_3",FALSE,3,2,3
+"R_6FmRiHnhkQsTeMk",2,"C","circos","2_1_3_4","4_1_2_3",FALSE,4,3,4
+"R_42C16OPPjnYm8CM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_42C16OPPjnYm8CM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_42C16OPPjnYm8CM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_42C16OPPjnYm8CM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_6m2qpZPOKpdyD9a",2,"C","bar","No Response","4_1_2_3",FALSE,NA,4,1
+"R_6m2qpZPOKpdyD9a",2,"C","bar","No Response","4_1_2_3",FALSE,NA,1,2
+"R_6m2qpZPOKpdyD9a",2,"C","bar","No Response","4_1_2_3",FALSE,NA,2,3
+"R_6m2qpZPOKpdyD9a",2,"C","bar","No Response","4_1_2_3",FALSE,NA,3,4
+"R_5sYZSfjLDJir2kI",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_5sYZSfjLDJir2kI",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_5sYZSfjLDJir2kI",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_5sYZSfjLDJir2kI",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_01a6HI55lPgLUd6",2,"C","bar","No Response","4_1_2_3",FALSE,NA,4,1
+"R_01a6HI55lPgLUd6",2,"C","bar","No Response","4_1_2_3",FALSE,NA,1,2
+"R_01a6HI55lPgLUd6",2,"C","bar","No Response","4_1_2_3",FALSE,NA,2,3
+"R_01a6HI55lPgLUd6",2,"C","bar","No Response","4_1_2_3",FALSE,NA,3,4
+"R_9QDU9nFW3MfKHoU",2,"C","bar","No Response","4_1_2_3",FALSE,NA,4,1
+"R_9QDU9nFW3MfKHoU",2,"C","bar","No Response","4_1_2_3",FALSE,NA,1,2
+"R_9QDU9nFW3MfKHoU",2,"C","bar","No Response","4_1_2_3",FALSE,NA,2,3
+"R_9QDU9nFW3MfKHoU",2,"C","bar","No Response","4_1_2_3",FALSE,NA,3,4
+"R_1H707scKVBKDbuY",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_1H707scKVBKDbuY",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_1H707scKVBKDbuY",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_1H707scKVBKDbuY",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_3qItOVB1m3rRIHO",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_3qItOVB1m3rRIHO",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_3qItOVB1m3rRIHO",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_3qItOVB1m3rRIHO",2,"C","circos","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_a5XRod8QdXHdgiM",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,2,4,1
+"R_a5XRod8QdXHdgiM",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,1,1,2
+"R_a5XRod8QdXHdgiM",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,3,2,3
+"R_a5XRod8QdXHdgiM",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,4,3,4
+"R_bP1eWMUqcLIi1rm",2,"C","circos","No Response","4_1_2_3",FALSE,NA,4,1
+"R_bP1eWMUqcLIi1rm",2,"C","circos","No Response","4_1_2_3",FALSE,NA,1,2
+"R_bP1eWMUqcLIi1rm",2,"C","circos","No Response","4_1_2_3",FALSE,NA,2,3
+"R_bP1eWMUqcLIi1rm",2,"C","circos","No Response","4_1_2_3",FALSE,NA,3,4
+"R_3ZQvAmasceYQPQM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_3ZQvAmasceYQPQM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_3ZQvAmasceYQPQM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_3ZQvAmasceYQPQM",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_bvGXdKWl3ICupP6",2,"C","circos","4_1_2_3","4_1_2_3",TRUE,4,4,1
+"R_bvGXdKWl3ICupP6",2,"C","circos","4_1_2_3","4_1_2_3",TRUE,1,1,2
+"R_bvGXdKWl3ICupP6",2,"C","circos","4_1_2_3","4_1_2_3",TRUE,2,2,3
+"R_bvGXdKWl3ICupP6",2,"C","circos","4_1_2_3","4_1_2_3",TRUE,3,3,4
+"R_6Sw1XuYKHVRsEWU",2,"C","hammock","2_3_4_1","4_1_2_3",FALSE,2,4,1
+"R_6Sw1XuYKHVRsEWU",2,"C","hammock","2_3_4_1","4_1_2_3",FALSE,3,1,2
+"R_6Sw1XuYKHVRsEWU",2,"C","hammock","2_3_4_1","4_1_2_3",FALSE,4,2,3
+"R_6Sw1XuYKHVRsEWU",2,"C","hammock","2_3_4_1","4_1_2_3",FALSE,1,3,4
+"R_4I64gDQSHH8ojze",2,"C","circos","No Response","4_1_2_3",FALSE,NA,4,1
+"R_4I64gDQSHH8ojze",2,"C","circos","No Response","4_1_2_3",FALSE,NA,1,2
+"R_4I64gDQSHH8ojze",2,"C","circos","No Response","4_1_2_3",FALSE,NA,2,3
+"R_4I64gDQSHH8ojze",2,"C","circos","No Response","4_1_2_3",FALSE,NA,3,4
+"R_6Gnw4mQ6x4AVWII",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_6Gnw4mQ6x4AVWII",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_6Gnw4mQ6x4AVWII",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_6Gnw4mQ6x4AVWII",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_3Kmgffq9P84Hqi8",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,2,4,1
+"R_3Kmgffq9P84Hqi8",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,1,1,2
+"R_3Kmgffq9P84Hqi8",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,3,2,3
+"R_3Kmgffq9P84Hqi8",2,"C","hammock","2_1_3_4","4_1_2_3",FALSE,4,3,4
+"R_8HaXTyDqjDiLelu",2,"C","circos","No Response","4_1_2_3",FALSE,NA,4,1
+"R_8HaXTyDqjDiLelu",2,"C","circos","No Response","4_1_2_3",FALSE,NA,1,2
+"R_8HaXTyDqjDiLelu",2,"C","circos","No Response","4_1_2_3",FALSE,NA,2,3
+"R_8HaXTyDqjDiLelu",2,"C","circos","No Response","4_1_2_3",FALSE,NA,3,4
+"R_ekPM1Syz0w3SC9K",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_ekPM1Syz0w3SC9K",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_ekPM1Syz0w3SC9K",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_ekPM1Syz0w3SC9K",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_bQRG1H7frzNaEQs",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_bQRG1H7frzNaEQs",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_bQRG1H7frzNaEQs",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_bQRG1H7frzNaEQs",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_d0jsFdwwwPH4qm8",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,4,1
+"R_d0jsFdwwwPH4qm8",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,1,2
+"R_d0jsFdwwwPH4qm8",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,2,3
+"R_d0jsFdwwwPH4qm8",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,3,4
+"R_bIrefWwgM8eoCOw",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_bIrefWwgM8eoCOw",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_bIrefWwgM8eoCOw",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_bIrefWwgM8eoCOw",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_bQosMSXWXg07Ljm",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_bQosMSXWXg07Ljm",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_bQosMSXWXg07Ljm",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_bQosMSXWXg07Ljm",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_0O0VLA2fLGC5SAI",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_0O0VLA2fLGC5SAI",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_0O0VLA2fLGC5SAI",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_0O0VLA2fLGC5SAI",2,"C","hammock","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_eQgihX6yHZzRODi",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,4,1
+"R_eQgihX6yHZzRODi",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,1,2
+"R_eQgihX6yHZzRODi",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,2,3
+"R_eQgihX6yHZzRODi",2,"C","hammock","No Response","4_1_2_3",FALSE,NA,3,4
+"R_6EF1Vcw5fLiuBAo",2,"C","circos","No Response","4_1_2_3",FALSE,NA,4,1
+"R_6EF1Vcw5fLiuBAo",2,"C","circos","No Response","4_1_2_3",FALSE,NA,1,2
+"R_6EF1Vcw5fLiuBAo",2,"C","circos","No Response","4_1_2_3",FALSE,NA,2,3
+"R_6EF1Vcw5fLiuBAo",2,"C","circos","No Response","4_1_2_3",FALSE,NA,3,4
+"R_9st8AEs2Cmddkiw",2,"C","circos","3_1_4_2","4_1_2_3",FALSE,3,4,1
+"R_9st8AEs2Cmddkiw",2,"C","circos","3_1_4_2","4_1_2_3",FALSE,1,1,2
+"R_9st8AEs2Cmddkiw",2,"C","circos","3_1_4_2","4_1_2_3",FALSE,4,2,3
+"R_9st8AEs2Cmddkiw",2,"C","circos","3_1_4_2","4_1_2_3",FALSE,2,3,4
+"R_eWm6JNzYLa6yOP2",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_eWm6JNzYLa6yOP2",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_eWm6JNzYLa6yOP2",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_eWm6JNzYLa6yOP2",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_6tm0XdCBcbPY71G",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,2,4,1
+"R_6tm0XdCBcbPY71G",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,1,1,2
+"R_6tm0XdCBcbPY71G",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,4,2,3
+"R_6tm0XdCBcbPY71G",2,"C","bar","2_1_4_3","4_1_2_3",FALSE,3,3,4
+"R_7ONSkE1nz3KoRFO",3,"C","circos","3","3",TRUE,3,3,1
+"R_dha3yxnSNHMTiza",3,"C","hammock","2","3",FALSE,2,3,1
+"R_9zbF9pVnDgKLogc",3,"C","circos","2","3",FALSE,2,3,1
+"R_1Umw95YI8cv3DRG",3,"C","circos","3","3",TRUE,3,3,1
+"R_bsx1sOloTtKtSJu",3,"C","bar","3","3",TRUE,3,3,1
+"R_6FmRiHnhkQsTeMk",3,"C","circos","3","3",TRUE,3,3,1
+"R_42C16OPPjnYm8CM",3,"C","bar","2","3",FALSE,2,3,1
+"R_6m2qpZPOKpdyD9a",3,"C","bar","2","3",FALSE,2,3,1
+"R_5sYZSfjLDJir2kI",3,"C","circos","2","3",FALSE,2,3,1
+"R_01a6HI55lPgLUd6",3,"C","bar","3","3",TRUE,3,3,1
+"R_9QDU9nFW3MfKHoU",3,"C","bar","4","3",FALSE,4,3,1
+"R_1H707scKVBKDbuY",3,"C","hammock","3","3",TRUE,3,3,1
+"R_3qItOVB1m3rRIHO",3,"C","circos","2","3",FALSE,2,3,1
+"R_a5XRod8QdXHdgiM",3,"C","hammock","3","3",TRUE,3,3,1
+"R_bP1eWMUqcLIi1rm",3,"C","circos","3","3",TRUE,3,3,1
+"R_3ZQvAmasceYQPQM",3,"C","bar","3","3",TRUE,3,3,1
+"R_bvGXdKWl3ICupP6",3,"C","circos","3","3",TRUE,3,3,1
+"R_6Sw1XuYKHVRsEWU",3,"C","hammock","3","3",TRUE,3,3,1
+"R_4I64gDQSHH8ojze",3,"C","circos","3","3",TRUE,3,3,1
+"R_6Gnw4mQ6x4AVWII",3,"C","bar","3","3",TRUE,3,3,1
+"R_3Kmgffq9P84Hqi8",3,"C","hammock","2","3",FALSE,2,3,1
+"R_8HaXTyDqjDiLelu",3,"C","circos","3","3",TRUE,3,3,1
+"R_ekPM1Syz0w3SC9K",3,"C","hammock","3","3",TRUE,3,3,1
+"R_bQRG1H7frzNaEQs",3,"C","bar","2","3",FALSE,2,3,1
+"R_d0jsFdwwwPH4qm8",3,"C","hammock","3","3",TRUE,3,3,1
+"R_bIrefWwgM8eoCOw",3,"C","hammock","2","3",FALSE,2,3,1
+"R_bQosMSXWXg07Ljm",3,"C","bar","3","3",TRUE,3,3,1
+"R_0O0VLA2fLGC5SAI",3,"C","hammock","2","3",FALSE,2,3,1
+"R_eQgihX6yHZzRODi",3,"C","hammock","3","3",TRUE,3,3,1
+"R_6EF1Vcw5fLiuBAo",3,"C","circos","3","3",TRUE,3,3,1
+"R_9st8AEs2Cmddkiw",3,"C","circos","2","3",FALSE,2,3,1
+"R_eWm6JNzYLa6yOP2",3,"C","bar","3","3",TRUE,3,3,1
+"R_6tm0XdCBcbPY71G",3,"C","bar","3","3",TRUE,3,3,1
