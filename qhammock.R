@@ -12,9 +12,11 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
 
 
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10), main = ""){
-	
+	x <- check_data(x)
+	print(attributes(x)$Brush)
 	variables <- var_names(vars = variables, data = x)
-	
+	x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
+
 ################# error handling
 	if(length(variables) != 2){
 		stop("qhammock can only handle 2 variables at this time! Please enter variables in form c(X, Y)")
@@ -34,7 +36,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	}
 	
 	getylim <- function(){
-		return(c(0, 1.1 * sum(x[freq])))
+		return(c(0, 1.1 * sum(x[freq][[1]])))
 	}
 	
 	getxat <- function(){
@@ -47,14 +49,14 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	
 	getyat <- function(){
 		if(is.null(yat)){
-			return(sum(x[freq]))
+			return(pretty(sum(x[freq][[1]])))
 		} else {
 			return(yat)
 		}
 	}
 	
 	getlimits <- function(varx, vary){
-		return(qrect(matrix(c(varx, vary), 2)))
+		return(matrix(c(varx, vary), 2))
 	}
 	
 	getx <- function(){
@@ -66,8 +68,8 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	}
 	
 	getrectheights <- function(){
-		return(list(V1 = ddply(.data = x, .variables = variables[1], .fun = function(x){sum(x[freq])})$V1,
-						  V2 = ddply(.data = x, .variables = variables[2], .fun = function(x){sum(x[freq])})$V1))
+		return(list(V1 = ddply(.data = x, .variables = variables[1], .fun = function(x){sum(x[freq][[1]])})$V1,
+						  V2 = ddply(.data = x, .variables = variables[2], .fun = function(x){sum(x[freq][[1]])})$V1))
 	}
 	
 	getFreq <- function(x, variables){
@@ -103,7 +105,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	xlines <- rep(c(rectx[2,1], rectx[1,2], NA), length(h$V1) * length(h$V2))
 	
 	## for the y position of lines
-	temp <- ddply(.data = x, .variables = variables, .fun = function(x){sum(x[freq])})
+	temp <- ddply(.data = x, .variables = variables, .fun = function(x){sum(x[freq][[1]])})
 	
 
 	ylines_V1 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
@@ -115,21 +117,44 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 	ylines_V2 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
 	ylines <- as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
 	
-	df1 <- check_data(x)
-	b <- brush(df1)
+	print(class(x))
+	print(head(x))
+	b <- brush(x)
 	meta <- Hammocks.meta$new(xat = xticks, yat = getyat(), limits = l, minor = "", main = main)
-	
+	## brush range: horizontal and vertical
+    meta$brush.size = c(1, -1) * apply(meta$limits, 2, diff) / 15
 
 ############## draw the cranvas elements
 	scene <- qscene()
     layer.root <- qlayer(scene)
 	
+	## record the coordinates of the mouse on click
+    brush_mouse_press = function(layer, event) {
+        common_mouse_press(layer, event, x, meta)
+    }
+	
+## identify segments being brushed when the mouse is moving
+    brush_mouse_move = function(layer, event) {
+
+		r <- qrect(update_brush_size(meta, event))
+
+        hits <- layer$locate(r) + 1
+
+		print(hits)
+		selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
+		common_mouse_move(layer, event, x, meta)
+    }
+	
+    brush_mouse_release = function(layer, event) {
+        brush_mouse_move(layer, event)
+        common_mouse_release(layer, event, x, meta)
+		print(x)
+    }
 
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
 								   x = xlines,
 								   y = ylines, 
-
 								   stroke = "grey60")
 						 qdrawRect(painter, 
 								   xleft = x_left ,
@@ -137,11 +162,13 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 								   ybottom = y_bottom,
 								   ytop = y_top,
 								   fill = pal)
-						 } ,  
-								   limits = meta$limits)
+						 } , mousePressFun = brush_mouse_press, mouseReleaseFun = brush_mouse_release,
+						 mouseMoveFun = brush_mouse_move,
+								   limits = qrect(meta$limits))
+	
 	
 	layer.brush <- qlayer(paintFun = function(layer, painter){
-						  }, limits = l)
+						  }, limits = qrect(meta$limits))
 	layer.root[1, 1] <- qgrid(meta = meta, xlim = xlim, ylim = ylim)	
     layer.root[1, 1] <- layer.main
 #layer.root[1, 1] <- layer.brush
@@ -159,5 +186,5 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 #2   2nd 285
 #3   3rd 706
 #4  Crew 885
-titanic <- data.frame(Titanic)
+titanic <- qdata(data.frame(Titanic))
 qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", width = .1, pal = rainbow(n = 6))
