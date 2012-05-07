@@ -4,7 +4,7 @@ require(qtbase)
 require(plyr)
 require(objectProperties)
 
-## todo convert values for connecting lines into a qdata object
+## todo convert values for connecting lines into a qdata object: form = x0,x1,y0,y1
 
 
 
