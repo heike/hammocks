@@ -4,7 +4,7 @@ require(qtbase)
 require(plyr)
 require(objectProperties)
 
-## todo add correction factor if freq is not specified
+## todo convert values for connecting lines into a qdata object
 
 
 
@@ -12,12 +12,12 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
 
 
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10), main = ""){
-	x <- check_data(x)
-	print(attributes(x)$Brush)
-	variables <- var_names(vars = variables, data = x)
-	x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
+  variables <- var_names(vars = variables, data = x)
 
 ################# error handling
+  if(class(x) != "data.frame"){
+    stop("qhammock only handles data.frame input")
+  }
 	if(length(variables) != 2){
 		stop("qhammock can only handle 2 variables at this time! Please enter variables in form c(X, Y)")
 	}
@@ -80,6 +80,11 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 
 	
 ############### transform input variables for cranvas
+	x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
+	x <- check_data(x)
+  b <- brush(x)
+	
+	
 	
 	h <- getrectheights()
 	xticks <- getxat()
@@ -110,17 +115,15 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 
 	ylines_V1 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
 	ylines_V1 <- cbind(temp, y = ylines_V1)
-	ylines_V1 <- ylines_V1[order(ylines_V1$Class),]$y
+	ylines_V1 <- ylines_V1[order(ylines_V1[variables[2]]),]$y
 	
 	
 	temp <- temp[order(temp[variables[2]]),]
 	ylines_V2 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
 	ylines <- as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
 	
-	print(class(x))
-	print(head(x))
-	b <- brush(x)
-	meta <- Hammocks.meta$new(xat = xticks, yat = getyat(), limits = l, minor = "", main = main)
+
+	meta <- Hammocks.meta$new(xat = xticks, yat = getyat(), limits = l, minor = "", main = main, active = TRUE)
 	## brush range: horizontal and vertical
     meta$brush.size = c(1, -1) * apply(meta$limits, 2, diff) / 15
 
@@ -129,27 +132,65 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
     layer.root <- qlayer(scene)
 	
 	## record the coordinates of the mouse on click
-    brush_mouse_press = function(layer, event) {
+    brush_mouse_press <- function(layer, event) {
         common_mouse_press(layer, event, x, meta)
     }
 	
 ## identify segments being brushed when the mouse is moving
-    brush_mouse_move = function(layer, event) {
+    brush_mouse_move <- function(layer, event) {
+      r <- qrect(update_brush_size(meta, event))
 
-		r <- qrect(update_brush_size(meta, event))
-
-        hits <- layer$locate(r) + 1
-
-		print(hits)
-		selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
-		common_mouse_move(layer, event, x, meta)
+      hits <- layer$locate(r) + 1
+print(data.frame(xlines, ylines))
+      print(head(x))
+      selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
+		  common_mouse_move(layer, event, x, meta)
     }
 	
-    brush_mouse_release = function(layer, event) {
+    brush_mouse_release <- function(layer, event) {
         brush_mouse_move(layer, event)
         common_mouse_release(layer, event, x, meta)
-		print(x)
+
     }
+  ## convert a matrix to coordinates of segments
+  mat2seg = function(x, idx = 1:nrow(x)) {
+    
+  }
+  
+  brush_draw <- function(layer, painter) {
+    print((x[x$.brushed == TRUE,]))
+    .visible = which(visible(x))
+    if (b$persistent && length(b$persistent.list)) {
+      qlineWidth(painter) = b$size
+      for (i in seq_along(b$persistent.list)) {
+        idx = intersect(b$persistent.list[[i]], .visible)
+        if (!length(idx)) next
+        qstrokeColor(painter) = b$persistent.color[i]
+        tmpx = mat2seg(x[variables[1]], idx)
+        tmpy = mat2seg(x[variables[2]], idx)
+        nn = length(tmpx)
+
+        qdrawSegment(painter, tmpx[-nn], tmpy[-nn], tmpx[-1], tmpy[-1])
+#         qdrawSegment(painter, x0 = 1, x1 = 2, y0 = 500, y1 = 500) 
+      }
+    }
+    .brushed = intersect(which(selected(x)), .visible)
+    if (length(.brushed)) {
+      qlineWidth(painter) = b$size
+      qstrokeColor(painter) = b$color
+      tmpx = mat2seg(x[variables[1]], .brushed)
+      tmpy = mat2seg(x[variables[2]], .brushed)
+      nn = length(tmpx)
+
+      qdrawSegment(painter, tmpx[-nn], tmpy[-nn], tmpx[-1], tmpy[-1])
+#       qdrawSegment(painter, x0 = 1, x1 = 2, y0 = 500, y1 = 500) 
+      
+    }
+
+    draw_brush(layer, painter, x, meta)
+   
+  }
+  
 
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
@@ -162,16 +203,15 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 								   ybottom = y_bottom,
 								   ytop = y_top,
 								   fill = pal)
-						 } , mousePressFun = brush_mouse_press, mouseReleaseFun = brush_mouse_release,
-						 mouseMoveFun = brush_mouse_move,
+ 						 } , mousePressFun = brush_mouse_press, mouseReleaseFun = brush_mouse_release,
+ 						 mouseMoveFun = brush_mouse_move,
 								   limits = qrect(meta$limits))
 	
 	
-	layer.brush <- qlayer(paintFun = function(layer, painter){
-						  }, limits = qrect(meta$limits))
-	layer.root[1, 1] <- qgrid(meta = meta, xlim = xlim, ylim = ylim)	
+	layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
+	  layer.root[1, 1] <- qgrid(meta = meta, xlim = xlim, ylim = ylim)	
     layer.root[1, 1] <- layer.main
-#layer.root[1, 1] <- layer.brush
+    layer.root[1, 1] <- layer.brush
     view <- qplotView(scene = scene)
     print(view)
 
@@ -186,5 +226,5 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 #2   2nd 285
 #3   3rd 706
 #4  Crew 885
-titanic <- qdata(data.frame(Titanic))
+titanic <- data.frame(Titanic)
 qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", width = .1, pal = rainbow(n = 6))
