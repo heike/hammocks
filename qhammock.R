@@ -19,9 +19,9 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
    for(i in hits){
      #are you selecting a line?
      if(i <= x1$nlines){
-        h <- (x1$var1 == x1$cat[hits,][x1$variables[1]][[1]] & x1$var2 == x1$cat[hits,][x1$variables[2]][[1]])
+        h <- (x1$var1 == x1$cat[i,][x1$variables[1]][[1]] & x1$var2 == x1$cat[i,][x1$variables[2]][[1]])
      # are you selecting v1?
-     } else if (hits > x1$nlines & hits <= (x1$nlines + length(x1$values[[1]]))){
+     } else if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]))){
         print("v1")
      # are you selecting v2?
      } else {
@@ -142,8 +142,20 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
     common_mouse_release(layer, event, x, meta)
   }
   
-  brush_draw <- function(layer, event){
-print(x) }
+  brush_draw <- function(layer, painter){
+    sub <- x[selected(x),][meta$variables]
+    lineid <- which((meta$cat[meta$variables[1]][[1]]%in% unique(sub[meta$variables[1]][[1]])) &
+                  (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
+    newxleft <- meta$x1[3 * lineid - 2]
+    newxright <- meta$x1[3 * lineid - 1]
+    newyleft <- meta$y1[3 * lineid - 2]
+    newyright <- meta$y1[3 * lineid - 1]
+    qdrawLine(painter,
+              x = c(newxleft, newxright),
+              y = c(newyleft, newyright),
+              stroke = "yellow")
+    draw_brush(layer, painter, x, meta)
+  }
 ############## draw the cranvas elements
 	scene <- qscene()
   layer.root <- qlayer(scene)
