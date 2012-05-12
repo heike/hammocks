@@ -56,7 +56,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 ################ end helper functions
 
 	
-############### transform input variables for cranvas
+############### transform input variables for cranvas [create meta object]
 	x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
   x <- check_data(x)
   b <- brush(x)
@@ -87,10 +87,23 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   meta$x1 <- rep(c(rectx[2,1], rectx[1,2], NA), length(h$V1) * length(h$V2))
   meta$y1 <-  as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
 
+  
+############## cranvas action functions
+  key_press <- function(layer, event) {
+    common_key_press(layer, event, x, meta)
+  }
+  
+  key_release <- function(layer, event) {
+    common_key_release(layer, event, x, meta)
+  }
+  
+  brush_mouse_press = function(layer, event) {
+    common_mouse_press(layer, event, x, meta)
+  }
 ############## draw the cranvas elements
 	scene <- qscene()
   layer.root <- qlayer(scene)
-	
+ 
 
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
@@ -103,11 +116,13 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 								   ybottom = meta$barybottom,
 								   ytop = meta$barytop,
 								   fill = pal)
- 						 } , limits = qrect(meta$limits))
+ 						 } , keyPressFun = key_press, keyReleaseFun = key_release,
+             mousePressFun = brush_mouse_press, limits = qrect(meta$limits))
 	
   
     layer.root[1, 1] <- qgrid(meta = meta, xlim = meta$limits[,1], ylim = meta$limits[,2])	
     layer.root[1, 1] <- layer.main
+  
     view <- qplotView(scene = scene)
     print(view)
 
