@@ -126,15 +126,24 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   brush_mouse_press <- function(layer, event) {
     common_mouse_press(layer, event, x, meta)
   }
+  
   brush_mouse_move <- function(layer, event) {
     rect <- qrect(update_brush_size(meta, event))
     hits <- layer$locate(rect) + 1
     if (length(hits)) {
        hits <- .findhitsdata(meta, hits)
     }
-    selected(x) = mode_selection(selected(x), hits, mode = b$mode)
+    selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
     common_mouse_move(layer, event, x, meta)
   }
+  
+  brush_mouse_release <- function(layer, event){
+    brush_mouse_move(layer, event)
+    common_mouse_release(layer, event, x, meta)
+  }
+  
+  brush_draw <- function(layer, event){
+print(x) }
 ############## draw the cranvas elements
 	scene <- qscene()
   layer.root <- qlayer(scene)
@@ -156,13 +165,20 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
              keyReleaseFun = key_release,
              mousePressFun = brush_mouse_press, 
              mouseMoveFun = brush_mouse_move,
+             mouseReleaseFun = brush_mouse_release,
              limits = qrect(meta$limits))
 	
-  
+    layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
     layer.root[1, 1] <- qgrid(meta = meta, xlim = meta$limits[,1], ylim = meta$limits[,2])	
     layer.root[1, 1] <- layer.main
+    layer.root[1, 1] <- layer.brush
   
     view <- qplotView(scene = scene)
+  
+    lis <- add_listener(x, function(i, j){
+        switch(j,
+                .brushed = qupdate(layer.brush))})
+    
     print(view)
 
 }
