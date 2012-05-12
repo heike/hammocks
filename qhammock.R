@@ -12,7 +12,7 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
                     list(x1 = "numeric", y1 = "numeric", barxleft = "numeric", 
                          barxright = "numeric", barytop = "numeric", barybottom = "numeric",
                          nlines  = "numeric", values = "list", cat = 'data.frame', var1 = "factor",
-                         var2 = "factor", variables = "character"))))
+                         var2 = "factor", variables = "character", alpha = "numeric"))))
 
 .findhitsdata <- function(x1, hits, idx){
   h <- logical(length(x1$var1))
@@ -81,7 +81,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   b <- brush(x)
 
 	meta <- Hammocks.meta$new(xat = getxat(), yat = getyat(), variables = variables, minor = "", main = main, 
-                            active = TRUE)
+                            active = TRUE, alpha = 0.5)
   ## Common.meta elements
   meta$limits <- matrix(c( c(-1, 1) * diff(meta$xat) * 2 * width + meta$xat, 
                             c(0, 1.1 * sum(x[freq][[1]]))), 2)
@@ -144,17 +144,29 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   
   brush_draw <- function(layer, painter){
     sub <- x[selected(x),][meta$variables]
+    if(nrow(sub) > 0){
     lineid <- which((meta$cat[meta$variables[1]][[1]]%in% unique(sub[meta$variables[1]][[1]])) &
                   (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
     newxleft <- meta$x1[3 * lineid - 2]
     newxright <- meta$x1[3 * lineid - 1]
     newyleft <- meta$y1[3 * lineid - 2]
     newyright <- meta$y1[3 * lineid - 1]
+    newyleft_poly <- newyleft  + c(-1, 1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
+    newyright_poly <- newyright + c(1, -1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
+    print(c(rep(newxleft, 2), rep(newxright, 2)))
+    print(c(newyleft_poly, newyright_poly))
+     qdrawPolygon(painter,
+                  x = c(rep(newxleft, 2), rep(newxright, 2)),
+                  y = c(newyleft_poly, newyright_poly),
+               fill = alpha("yellow", meta$alpha),
+               stroke = NA
+               )
     qdrawLine(painter,
               x = c(newxleft, newxright),
               y = c(newyleft, newyright),
-              stroke = "yellow")
+              stroke = "grey60")
     draw_brush(layer, painter, x, meta)
+    }
   }
 ############## draw the cranvas elements
 	scene <- qscene()
