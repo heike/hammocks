@@ -153,14 +153,26 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
     newyright <- meta$y1[3 * lineid - 1]
     newyleft_poly <- newyleft  + c(-1, 1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
     newyright_poly <- newyright + c(1, -1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
-    print(c(rep(newxleft, 2), rep(newxright, 2)))
-    print(c(newyleft_poly, newyright_poly))
+  #  print(c(rep(newxleft, 2), rep(newxright, 2)))
+  #  print(c(newyleft_poly, newyright_poly))
      qdrawPolygon(painter,
                   x = c(rep(newxleft, 2), rep(newxright, 2)),
                   y = c(newyleft_poly, newyright_poly),
                fill = alpha("yellow", meta$alpha),
                stroke = NA
                )
+    qdrawRect(painter,
+              xleft = min(meta$barxleft),
+              xright = min(meta$barxright),
+              ytop = max(newyleft_poly),
+              ybottom = min(newyleft_poly),
+              fill = alpha("black", meta$alpha))
+    qdrawRect(painter,
+              xleft = max(meta$barxleft),
+              xright = max(meta$barxright),
+              ytop = max(newyright_poly),
+              ybottom = min(newyright_poly),
+              fill = alpha("black", meta$alpha))
     qdrawLine(painter,
               x = c(newxleft, newxright),
               y = c(newyleft, newyright),
