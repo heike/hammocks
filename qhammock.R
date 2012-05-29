@@ -3,6 +3,7 @@ require(qtpaint)
 require(qtbase)
 require(plyr)
 require(objectProperties)
+require(plumbr)
 
 ## todo convert values for connecting lines into a qdata object: form = x0,x1,y0,y1
 
@@ -16,21 +17,36 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
 
 .findhitsdata <- function(x1, hits, idx){
   h <- logical(length(x1$var1))
+
    for(i in hits){
      #are you selecting a line?
      if(i <= x1$nlines){
-        h <- (x1$var1 == x1$cat[i,][x1$variables[1]][[1]] & x1$var2 == x1$cat[i,][x1$variables[2]][[1]])
+         h <- (x1$var1 == x1$cat[i,][x1$variables[1]][[1]] & x1$var2 == x1$cat[i,][x1$variables[2]][[1]])
      # are you selecting v1?
-     } else if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]))){
-        print("v1")
-     # are you selecting v2?
+     }
+     else if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]) + 1)){
+        h <- x1$var1 == levels(x1$var1)[i - x1$nlines - 1]
+        # are you selecting v2?
      } else {
-        print("v2")
+        h <- x1$var2 == levels(x1$var2)[i - x1$nlines - length(levels(x1$var1)) - 1]
      }
-     }
-  h
    }
-   
+   return(h)
+}
+
+# .findhitsbars <- function(x1, hits, idx){
+#   h <- logical(length(x1$var1))
+#   for(i in hits){
+#     if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]) + 1)){
+#       h <- x1$var1 == levels(x1$var1)[i - x1$nlines - 1]
+#       # are you selecting v2?
+#     } else {
+#       h <- x1$var2 == levels(x1$var2)[i - x1$nlines - length(factor(x1$var1)) - 1]
+#     }
+#   }
+#   return(h)
+# }
+#    
 
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10), main = ""){
   variables <- var_names(vars = variables, data = x)
@@ -115,7 +131,8 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   meta$var1 <- factor(x[meta$variables[1]][[1]])
   meta$var2 <- factor(x[meta$variables[2]][[1]])
 ############## cranvas action functions
-  key_press <- function(layer, event) {
+  key_press <- function(layer,  event) {
+
     common_key_press(layer, event, x, meta)
   }
   
@@ -141,43 +158,65 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
     brush_mouse_move(layer, event)
     common_mouse_release(layer, event, x, meta)
   }
+
   
   brush_draw <- function(layer, painter){
     sub <- x[selected(x),][meta$variables]
+
     if(nrow(sub) > 0){
-    lineid <- which((meta$cat[meta$variables[1]][[1]]%in% unique(sub[meta$variables[1]][[1]])) &
-                  (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
-    newxleft <- meta$x1[3 * lineid - 2]
-    newxright <- meta$x1[3 * lineid - 1]
-    newyleft <- meta$y1[3 * lineid - 2]
-    newyright <- meta$y1[3 * lineid - 1]
-    newyleft_poly <- newyleft  + c(-1, 1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
-    newyright_poly <- newyright + c(1, -1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
+      if(length(unique(sub[meta$variables[1]][[1]])) == 1 & length(unique(sub[meta$variables[2]][[1]])) == 1){
+        lineid <- which((meta$cat[meta$variables[1]][[1]]%in% unique(sub[meta$variables[1]][[1]])) &
+                    (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
+        newxleft <- meta$x1[3 * lineid - 2]
+        newxright <- meta$x1[3 * lineid - 1]
+        newyleft <- meta$y1[3 * lineid - 2]
+        newyright <- meta$y1[3 * lineid - 1]
+        newyleft_poly <- newyleft  + c(-1, 1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
+        newyright_poly <- newyright + c(1, -1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
   #  print(c(rep(newxleft, 2), rep(newxright, 2)))
   #  print(c(newyleft_poly, newyright_poly))
-     qdrawPolygon(painter,
+        qdrawPolygon(painter,
                   x = c(rep(newxleft, 2), rep(newxright, 2)),
                   y = c(newyleft_poly, newyright_poly),
                fill = alpha("yellow", meta$alpha),
                stroke = NA
                )
-    qdrawRect(painter,
+        qdrawRect(painter,
               xleft = min(meta$barxleft),
               xright = min(meta$barxright),
               ytop = max(newyleft_poly),
               ybottom = min(newyleft_poly),
               fill = alpha("black", meta$alpha))
-    qdrawRect(painter,
+        qdrawRect(painter,
               xleft = max(meta$barxleft),
               xright = max(meta$barxright),
               ytop = max(newyright_poly),
               ybottom = min(newyright_poly),
               fill = alpha("black", meta$alpha))
-    qdrawLine(painter,
+        qdrawLine(painter,
               x = c(newxleft, newxright),
               y = c(newyleft, newyright),
               stroke = "grey60")
-    draw_brush(layer, painter, x, meta)
+        draw_brush(layer, painter, x, meta)
+      } else if(length(unique(sub[meta$variables[1]][[1]])) == 1) {
+     
+        qdrawRect(painter,
+                  xleft = min(meta$barxleft),
+                  xright = min(meta$barxright),
+                  ytop = meta$barytop[which(levels(sub[meta$variables[1]][[1]]) == unique(sub[meta$variables[1]][[1]]))],
+                  ybottom = meta$barybottom[which(levels(sub[meta$variables[1]][[1]]) == unique(sub[meta$variables[1]][[1]]))],
+                  fill = alpha("black", meta$alpha))
+        draw_brush(layer, painter, x, meta)
+      } else if(length(unique(sub[meta$variables[2]][[1]])) == 1) {
+
+        qdrawRect(painter,
+                  xleft = max(meta$barxleft),
+                  xright = max(meta$barxright),
+                  ytop = meta$barytop[which(levels(sub[meta$variables[2]][[1]]) == unique(sub[meta$variables[2]][[1]]))  + length(unique(meta$var1))],
+                  ybottom = meta$barybottom[which(levels(sub[meta$variables[2]][[1]]) == unique(sub[meta$variables[2]][[1]])) + length(unique(meta$var1))],
+                  fill = alpha("black", meta$alpha))
+        draw_brush(layer, painter, x, meta)
+      }
     }
   }
 ############## draw the cranvas elements
@@ -202,6 +241,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
              mousePressFun = brush_mouse_press, 
              mouseMoveFun = brush_mouse_move,
              mouseReleaseFun = brush_mouse_release,
+
              limits = qrect(meta$limits))
 	
     layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
