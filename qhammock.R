@@ -34,20 +34,18 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
    return(h)
 }
 
-# .findhitsbars <- function(x1, hits, idx){
-#   h <- logical(length(x1$var1))
-#   for(i in hits){
-#     if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]) + 1)){
-#       h <- x1$var1 == levels(x1$var1)[i - x1$nlines - 1]
-#       # are you selecting v2?
-#     } else {
-#       h <- x1$var2 == levels(x1$var2)[i - x1$nlines - length(factor(x1$var1)) - 1]
-#     }
-#   }
-#   return(h)
-# }
-#    
-
+.getindex <- function(yleft, yright, meta, lineid){
+  newy_poly <- NULL
+  for(i in 1:length(yright)){
+    
+    newy_poly <- c(newy_poly, 
+                   yleft[i]  + c(-1, 1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
+                   yright[i] + c(1, -1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
+                   NA)
+    
+  }
+  return(newy_poly)
+}
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, pal = rainbow(n = 10), main = ""){
   variables <- var_names(vars = variables, data = x)
 
@@ -168,19 +166,16 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
         (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
       newyleft <- meta$y1[3 * lineid - 2]
       newyright <- meta$y1[3 * lineid - 1]
+      newxleft <- meta$x1[3 * lineid - 2]
+      newxright <- meta$x1[3 * lineid - 1]
+      lineindex <- (rep(lineid, each = 3) * 3 - 2 + (0:2))
+      newy_poly <- .getindex(yleft = newyleft, yright = newyright, meta = meta, lineid = lineid)
       if(length(unique(sub[meta$variables[1]][[1]])) == 1 & length(unique(sub[meta$variables[2]][[1]])) == 1){
 
-        newxleft <- meta$x1[3 * lineid - 2]
-        newxright <- meta$x1[3 * lineid - 1]
-
-        newyleft_poly <- newyleft  + c(-1, 1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
-        newyright_poly <- newyright + c(1, -1) * (0.5 * meta$cat[lineid,]["V1"][[1]])
-#         print(newyleft_poly)
-  #  print(c(rep(newxleft, 2), rep(newxright, 2)))
-#     print(c(newyleft_poly, newyright_poly))
         qdrawPolygon(painter,
                   x = c(rep(newxleft, 2), rep(newxright, 2)),
-                  y = c(newyleft_poly, newyright_poly),
+#                   y = c(newyleft_poly, newyright_poly),
+                  y = newy_poly,
                fill = alpha("black", meta$alpha),
                stroke = NA
                )
@@ -203,15 +198,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
               stroke = "grey60")
         draw_brush(layer, painter, x, meta)
       } else if(length(unique(sub[meta$variables[1]][[1]])) == 1) {
-        lineindex <- (rep(lineid, each = 3) * 3 - 2 + (0:2))
-        newy_poly <- NULL
-        for(i in 1:length(newyleft)){
-      
-          newy_poly <- c(newy_poly, 
-                         newyleft[i]  + c(-1, 1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                         newyright[i] + c(1, -1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                         NA)
-        }
+        
         qdrawPolygon(painter,
                   y = newy_poly,
                   x = rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), 4),
@@ -229,15 +216,8 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
                   fill = alpha("black", meta$alpha))
 #         draw_brush(layer, painter, x, meta)
       } else if(length(unique(sub[meta$variables[2]][[1]])) == 1) {
-        lineindex <- (rep(lineid, each = 3) * 3 - 2 + (0:2))
-        newy_poly <- NULL
-        for(i in 1:length(newyright)){
-  
-          newy_poly <- c(newy_poly, 
-                 newyleft[i]  + c(-1, 1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                 newyright[i] + c(1, -1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                 NA)
-        }
+        
+        
         qdrawPolygon(painter,
                      y = newy_poly,
                      x = rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), 4),
