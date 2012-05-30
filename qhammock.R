@@ -17,24 +17,47 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
 
 .findhitsdata <- function(x1, hits, idx){
   h <- logical(length(x1$var1))
+#case1: lines
+  part <- x1$cat[hits[which(hits <= x1$nlines)],]
+  if(nrow(part) > 0){
+    for(i in 1:nrow(part)){
 
-   for(i in hits){
-     #are you selecting a line?
-     if(i <= x1$nlines){
-         h <- (x1$var1 == x1$cat[i,][x1$variables[1]][[1]] & x1$var2 == x1$cat[i,][x1$variables[2]][[1]])
-     # are you selecting v1?
-     }
-     else if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]) + 1)){
-        h <- x1$var1 == levels(x1$var1)[i - x1$nlines - 1]
-        # are you selecting v2?
-     } else {
-        h <- x1$var2 == levels(x1$var2)[i - x1$nlines - length(levels(x1$var1)) - 1]
-     }
-   }
+      h <- h | (x1$var1 == part[i,][x1$variables[1]][[1]] & x1$var2 == part[i,][x1$variables[2]][[1]])
+
+    }
+  }
+#case2: left bar
+  part <- hits[which(hits > x1$nlines & hits <=(x1$nlines + length(x1$values[[1]]) + 1))]
+  if(length(part) > 0){
+    h <- x1$var1 %in% levels(x1$var1)[part - x1$nlines - 1]
+  }
+  
+#case3: right bar
+  part <- hits[which(hits > (x1$nlines + length(x1$values[[1]]) + 1))]
+  if(length(part) > 0){
+  print(part - x1$nlines - 1 - length(levels(x1$var1)))
+  print(levels(x1$var2))
+    h <- x1$var2 %in% levels(x1$var2)[part - x1$nlines - 1 - length(levels(x1$var1))]
+  }
+#    for(i in hits){
+#      #are you selecting a line?
+#      if(i <= x1$nlines){
+#          h <- (x1$var1 == x1$cat[i,][x1$variables[1]][[1]] & x1$var2 == x1$cat[i,][x1$variables[2]][[1]]) | h
+#      # are you selecting v1?
+#      }
+#      else if (i > x1$nlines & i <= (x1$nlines + length(x1$values[[1]]) + 1)){
+#         h <- x1$var1 == levels(x1$var1)[i - x1$nlines - 1] |h
+#         # are you selecting v2?
+#      } else {
+#         h <- x1$var2 == levels(x1$var2)[i - x1$nlines - length(levels(x1$var1)) - 1] | h
+#      }
+#    }
+
    return(h)
 }
 
 .getindex <- function(yleft, yright, meta, lineid){
+
   newy_poly <- NULL
   for(i in 1:length(yright)){
     
@@ -162,82 +185,46 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
     sub <- x[selected(x),][meta$variables]
 
     if(nrow(sub) > 0){
-      lineid <- which((meta$cat[meta$variables[1]][[1]]%in% unique(sub[meta$variables[1]][[1]])) &
-        (meta$cat[meta$variables[2]][[1]]%in% unique(sub[meta$variables[2]][[1]])))
+      lineid <- NULL
+      for(i in 1:nrow(sub)){
+        lineid <- c(lineid, which((meta$cat[meta$variables[1]][[1]] == unique(sub[meta$variables[1]][[1]][i])) &
+          (meta$cat[meta$variables[2]][[1]] ==  unique(sub[meta$variables[2]][[1]][i]))))
+      }
+      lineid <- unique(lineid)
       newyleft <- meta$y1[3 * lineid - 2]
       newyright <- meta$y1[3 * lineid - 1]
       newxleft <- meta$x1[3 * lineid - 2]
       newxright <- meta$x1[3 * lineid - 1]
       lineindex <- (rep(lineid, each = 3) * 3 - 2 + (0:2))
       newy_poly <- .getindex(yleft = newyleft, yright = newyright, meta = meta, lineid = lineid)
-      if(length(unique(sub[meta$variables[1]][[1]])) == 1 & length(unique(sub[meta$variables[2]][[1]])) == 1){
-
-        qdrawPolygon(painter,
-                  x = c(rep(newxleft, 2), rep(newxright, 2)),
-#                   y = c(newyleft_poly, newyright_poly),
-                  y = newy_poly,
-               fill = alpha("black", meta$alpha),
-               stroke = NA
-               )
-        qdrawRect(painter,
-              xleft = min(meta$barxleft),
-              xright = min(meta$barxright),
-              ytop = max(newyleft_poly),
-              ybottom = min(newyleft_poly),
-              fill = alpha("black", meta$alpha))
-        qdrawRect(painter,
-              xleft = max(meta$barxleft),
-              xright = max(meta$barxright),
-              ytop = max(newyright_poly),
-              ybottom = min(newyright_poly),
-              fill = alpha("black", meta$alpha))
-        
-        qdrawLine(painter,
-              x = c(newxleft, newxright),
-              y = c(newyleft, newyright),
-              stroke = "grey60")
-        draw_brush(layer, painter, x, meta)
-      } else if(length(unique(sub[meta$variables[1]][[1]])) == 1) {
-        
-        qdrawPolygon(painter,
-                  y = newy_poly,
-                  x = rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), 4),
-                  fill = alpha("black", meta$alpha),
-                     stroke = NA)
-        qdrawLine(painter,
-                     x = meta$x1[lineindex],
-                     y = meta$y1[lineindex],
-                     stroke = 'grey60')
-        qdrawRect(painter,
-                  xleft = min(meta$barxleft),
-                  xright = min(meta$barxright),
-                  ytop = meta$barytop[which(levels(sub[meta$variables[1]][[1]]) == unique(sub[meta$variables[1]][[1]]))],
-                  ybottom = meta$barybottom[which(levels(sub[meta$variables[1]][[1]]) == unique(sub[meta$variables[1]][[1]]))],
-                  fill = alpha("black", meta$alpha))
-#         draw_brush(layer, painter, x, meta)
-      } else if(length(unique(sub[meta$variables[2]][[1]])) == 1) {
-        
-        
         qdrawPolygon(painter,
                      y = newy_poly,
-                     x = rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), 4),
-                     fill = alpha("black",.3),
+                     x = rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), length(lineid)),
+                     fill = alpha("black",meta$alpha),
                      stroke = NA)
         
         qdrawLine(painter,
                   x = meta$x1[lineindex],
                   y = meta$y1[lineindex],
                   stroke = 'grey60')
+
+        qdrawRect(painter,
+                  xleft = min(meta$barxleft),
+                  xright = min(meta$barxright),
+                  ytop = newy_poly[c(1:length(lineid) * 5 - 3)],
+                  ybottom = newy_poly[c(1:length(lineid) * 5 - 4)],
+                  fill = alpha("black", meta$alpha),
+                  stroke = NA)
         qdrawRect(painter,
                   xleft = max(meta$barxleft),
                   xright = max(meta$barxright),
-                  ytop = meta$barytop[which(levels(sub[meta$variables[2]][[1]]) == unique(sub[meta$variables[2]][[1]]))  + length(unique(meta$var1))],
-                  ybottom = meta$barybottom[which(levels(sub[meta$variables[2]][[1]]) == unique(sub[meta$variables[2]][[1]])) + length(unique(meta$var1))],
-                  fill = alpha("black", meta$alpha))
+                  ytop = newy_poly[c(1:length(lineid) * 5 - 2)],
+                  ybottom = newy_poly[c(1:length(lineid) * 5 - 1)],
+                  fill = alpha("black", meta$alpha),
+                  stroke = NA)
 
+         draw_brush(layer, painter, x, meta)
 
-#         draw_brush(layer, painter, x, meta)
-      }
     }
   }
 ############## draw the cranvas elements
