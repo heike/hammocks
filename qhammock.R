@@ -35,8 +35,7 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
 #case3: right bar
   part <- hits[which(hits > (x1$nlines + length(x1$values[[1]]) + 1))]
   if(length(part) > 0){
-  print(part - x1$nlines - 1 - length(levels(x1$var1)))
-  print(levels(x1$var2))
+
     h <- x1$var2 %in% levels(x1$var2)[part - x1$nlines - 1 - length(levels(x1$var1))]
   }
 #    for(i in hits){
@@ -73,9 +72,11 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
   variables <- var_names(vars = variables, data = x)
 
 ################# error handling
-  if(class(x) != "data.frame"){
-    stop("qhammock only handles data.frame input")
-  }
+  if(class(x)[1] == "data.frame"){
+    x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
+    
+  } 
+  
 	if(length(variables) != 2){
 		stop("qhammock can only handle 2 variables at this time! Please enter variables in form c(X, Y)")
 	}
@@ -113,7 +114,6 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 
 	
 ############### transform input variables for cranvas [create meta object]
-	x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
   x <- check_data(x)
   b <- brush(x)
 
@@ -276,5 +276,6 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 #2   2nd 285
 #3   3rd 706
 #4  Crew 885
-titanic <- data.frame(Titanic)
+titanic <- qdata(data.frame(Titanic))
+qbar(data = titanic, x = 'Class')
 qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", width = .1, pal = rainbow(n = 6))
