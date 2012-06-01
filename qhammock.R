@@ -5,7 +5,7 @@ require(plyr)
 require(objectProperties)
 require(plumbr)
 
-## todo convert values for connecting lines into a qdata object: form = x0,x1,y0,y1
+## todo use b$ .brushed colors for highlighting
 
 
 
@@ -278,4 +278,5 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width, p
 #4  Crew 885
 titanic <- qdata(data.frame(Titanic))
 qbar(data = titanic, x = 'Class')
+qmosaic(data = titanic, Freq~Class)
 qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", width = .1, pal = rainbow(n = 6))
