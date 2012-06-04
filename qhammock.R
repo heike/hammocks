@@ -60,6 +60,29 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
   }
   return(newy_poly)
 }
+
+.get_identify <- function(meta, hits){
+  h <- numeric(0)
+  part <- meta$cat[hits[which(hits <= meta$nlines)],]
+  if(nrow(part) > 0){
+    for(i in 1:nrow(part)){
+      h <- c(h, which(meta$var1 == part[i,][meta$variables[1]][[1]] & meta$var2 == part[i,][meta$variables[2]][[1]]))
+    }  
+  }
+  
+  part <- hits[which(hits > meta$nlines & hits <= (meta$nlines + length(meta$values[[1]]) + 1))]
+  if(length(part) > 0){
+    
+    
+    h <- which(meta$var1 %in% levels(meta$var1)[part - meta$nlines - 1])
+  }
+  part <- hits[which(hits > (meta$nlines + length(meta$values[[1]]) + 1))]
+  if(length(part) > 0){
+    
+    h <- which(meta$var2 %in% unique(meta$cat[meta$variables[2]])[[1]][part - meta$nlines - 1 - length(unique(meta$cat[meta$variables[1]])[[1]])])
+  }
+  return(unique(h))
+}
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 0.2, pal = rainbow(n = 10), 
                      main = "", identify = FALSE, 
                     labels = TRUE, horizontal = FALSE){
@@ -111,7 +134,13 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
   x <- check_data(x)
   b <- brush(x)
   b$identify <- identify
-print(b$identify)
+  b$label.gen <- function(x){
+    sumfreq <- ddply(.data = x, .variables = names(x)[1:2], .fun = function(x){sum(x[names(x)[3]][[1]])})
+    names(sumfreq)[3] <- 'nrecords'
+#     sumfreq <- t(as.data.frame(sumfreq))
+    return(paste(capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), collapse = "\n"))
+  }
+
 	meta <- Hammocks.meta$new(xat = getxat(), yat = getyat(), variables = variables, minor = "", main = main, 
                             active = TRUE, alpha = 0.5, color = x$.color)
   ## Common.meta elements
@@ -178,15 +207,25 @@ print(b$identify)
 
 ############## cranvas action functions
   key_press <- function(layer,  event) {
-
+    if(match_key('B', event)){
+      b$identify <- !b$identify
+      qupdate(layer.identify)
+      qupdate(layer.brush)
+    }
     common_key_press(layer, event, x, meta)
   }
   
   key_release <- function(layer, event) {
+    if(match_key('B', event)){
+
+      qupdate(layer.identify)
+      qupdate(layer.brush)
+    }
     common_key_release(layer, event, x, meta)
   }
   
   brush_mouse_press <- function(layer, event) {
+    
     common_mouse_press(layer, event, x, meta)
   }
   
@@ -293,7 +332,24 @@ print(b$identify)
                 row = list(id = c(0,2), value = c(prefer_height(meta$main),
                                                   prefer_height(meta$xlabels))),
                 column = list(id = c(0,2), value = c(prefer_width(meta$ylabels), 10)))
-print((meta$ylabels))
+  identify_hover <- function(layer, event){
+    if(!b$identify){
+      return()
+    }
+    b$cursor <- 2L
+    meta$pos <- as.numeric(event$pos())
+    hits <- layer$locate(identify_rect(meta)) + 1
+    meta$identified <- .get_identify(meta, hits)
+    qupdate(layer.identify)
+  }
+  
+  identify_draw <- function(layer, painter){
+    if(b$identify && length(meta$identified)){
+      meta$identify.labels <- b$label.gen(x[meta$identified, c(meta$variables, freq)])
+      draw_identify(layer, painter, x, meta)
+    }
+    
+  }
 	layer.main <- qlayer(paintFun = function(layer, painter){
 						 qdrawLine(painter,
 								   x = meta$x1,
@@ -324,13 +380,13 @@ print((meta$ylabels))
              mousePressFun = brush_mouse_press, 
              mouseMoveFun = brush_mouse_move,
              mouseReleaseFun = brush_mouse_release,
-
+             hoverMoveFun = identify_hover,  
              limits = qrect(meta$limits))
-    identify_draw <- function(layer, painter){
-      print(b$identify)
-    }
+  
+
 	
     layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
+    layer.identify <- qlayer(paintFun = identify_draw, limits = qrect(meta$limits))
     layer.title <- qmtext(meta = meta, side = 3)
     layer.root[0, 1] <- layer.title
 
@@ -339,7 +395,7 @@ print((meta$ylabels))
     layer.root[1, 1] <- qgrid(meta = meta, xlim = meta$limits[,1], ylim = meta$limits[,2])	
     layer.root[1, 1] <- layer.main
     layer.root[1, 1] <- layer.brush
-    layer.root[1, 1] <- qlayer(paintFun = identify_draw, limits = qrect(meta$limits))
+    layer.root[1, 1] <- layer.identify
   
     view <- qplotView(scene = scene)
     view$setWindowTitle(paste('Hammock plot: ', paste(meta$variables, collapse = ', ')))
@@ -381,4 +437,4 @@ attr(titanic, 'Brush')$color <- alpha('black', .5)
 # qbar(data = titanic, x = 'Class')
 
 qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", 
-         pal = new_pal()(6)[5:6], horizontal = TRUE, identify = TRUE)
+         pal = new_pal()(6)[5:6], horizontal = TRUE)
