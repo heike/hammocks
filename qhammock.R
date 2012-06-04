@@ -13,7 +13,8 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
                     list(x1 = "numeric", y1 = "numeric", barxleft = "numeric", 
                          barxright = "numeric", barytop = "numeric", barybottom = "numeric",
                          nlines  = "numeric", values = "list", cat = 'data.frame', var1 = "factor",
-                         var2 = "factor", variables = "character", alpha = "numeric"))))
+                         var2 = "factor", variables = "character", alpha = "numeric", reorder = 'logical',
+                         drag = 'numeric', dragcoords = 'list'))))
 
 .findhitsdata <- function(x1, hits, horizontal){
 
@@ -84,7 +85,7 @@ Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta
   return(unique(h))
 }
 qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 0.2, pal = rainbow(n = 10), 
-                     main = "", identify = FALSE, 
+                     main = "", identify = FALSE, reorder = FALSE,
                     labels = TRUE, horizontal = FALSE){
   variables <- var_names(vars = variables, data = x)
 
@@ -142,7 +143,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
   }
 
 	meta <- Hammocks.meta$new(xat = getxat(), yat = getyat(), variables = variables, minor = "", main = main, 
-                            active = TRUE, alpha = 0.5, color = x$.color)
+                            active = TRUE, alpha = 0.5, color = x$.color, reorder = reorder, drag = NULL)
   ## Common.meta elements
   meta$limits <- matrix(c( c(-1, 1) * diff(meta$xat) * 2 * width + meta$xat, 
                             c(-.1, 1.1) * sum(x[freq][[1]])), 2)
@@ -211,6 +212,8 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
       b$identify <- !b$identify
       qupdate(layer.identify)
       qupdate(layer.brush)
+    } else if(match_key('R', event)){
+      meta$reorder <- !meta$reorder
     }
     common_key_press(layer, event, x, meta)
   }
@@ -225,27 +228,81 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
   }
   
   brush_mouse_press <- function(layer, event) {
-    
+    if(meta$reorder){
+      rect <- qrect(update_brush_size(meta, event))
+      meta$drag <- layer$locate(rect) + 1
+      meta$dragcoords$offsetx <- as.numeric(event$pos())[1]
+      if(meta$drag <= meta$nlines){
+        print("can't drag connections")
+        meta$reorder <- FALSE
+      } else if(meta$drag <= (meta$nlines + length(meta$values[[1]]) + 1) ){
+        # print("bottom")
+        ## figure out the dragged dimensions - horizontal
+        meta$dragcoords$originalposition <- meta$drag - meta$nlines - 1
+        meta$dragcoords$dragwidth <- meta$barxright[meta$dragcoords$originalposition] - 
+          meta$barxleft[meta$dragcoords$originalposition]
+        meta$dragcoords$dragheight <- meta$barytop[meta$dragcoords$originalposition] - 
+          meta$barybottom[meta$dragcoords$originalposition]
+
+        
+      } else if(meta$drag > (meta$nlines + length(meta$values[[1]]) + 1)) {
+        print('top')
+      }
+    }
     common_mouse_press(layer, event, x, meta)
   }
   
   brush_mouse_move <- function(layer, event) {
-    rect <- qrect(update_brush_size(meta, event))
-    hits <- layer$locate(rect) + 1
-    if (length(hits)) {
-       hits <- .findhitsdata(meta, hits)
+    if(meta$reorder & length(meta$drag)){
+      meta$dragcoords$curx <- as.numeric(event$pos())[1]
+      if((meta$dragcoords$curx - 0.5 * meta$dragcoords$dragwidth) < (meta$barxleft[meta$dragcoords$originalposition] - (0.5 * meta$dragcoords$dragwidth))){
+        print('move')
+        print(  meta$dragcoords$dragwidth)
+      }
+
+      qupdate(layer.brush)
+    } else {
+      rect <- qrect(update_brush_size(meta, event))
+      hits <- layer$locate(rect) + 1
+      if (length(hits)) {
+         hits <- .findhitsdata(meta, hits)
+      }
+      selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
+      common_mouse_move(layer, event, x, meta)
     }
-    selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
-    common_mouse_move(layer, event, x, meta)
-  }
+}
   
   brush_mouse_release <- function(layer, event){
-    brush_mouse_move(layer, event)
+    if(meta$reorder){
+      print('reorder')
+
+      meta$reorder <- FALSE
+      qupdate(layer.main)
+      qupdate(layer.brush)
+    } else {
+      brush_mouse_move(layer, event)
+    }
     common_mouse_release(layer, event, x, meta)
   }
 
   
   brush_draw <- function(layer, painter){
+    if(length(meta$dragcoords)){
+      qdrawLine(painter,
+                x = c(rep(meta$barxleft[meta$dragcoords$originalposition] - (0.5 * meta$dragcoords$dragwidth), 2), NA, 
+                      rep(meta$barxleft[meta$dragcoords$originalposition - 1] - (0.5 * meta$dragcoords$dragwidth) ,2), NA),
+                y = rep(c(.75,1.5, NA), 2),
+                stroke = 'black')
+     
+      qdrawRect(painter,
+                xleft = meta$dragcoords$curx -   (0.5 * meta$dragcoords$dragwidth),
+                xright = meta$dragcoords$curx + (0.5 * meta$dragcoords$dragwidth) ,
+                ytop = 1.5,
+                ybottom = .75,
+                fill = alpha('red', .5),
+                stroke = NA
+                )
+    } else {
     sub <- x[selected(x),][meta$variables]
 
     if(nrow(sub) > 0){
@@ -324,8 +381,10 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
 
     }
     draw_brush(layer, painter, x, meta)
+    }
   }
 ############## draw the cranvas elements
+
 	scene <- qscene()
   layer.root <- qlayer(scene)
   fix_dimension(layer.root,
@@ -351,6 +410,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
     
   }
 	layer.main <- qlayer(paintFun = function(layer, painter){
+
 						 qdrawLine(painter,
 								   x = meta$x1,
 								   y = meta$y1, 
@@ -373,7 +433,8 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
                            cex = 1)
                  
             }
-            
+
+	             
  						 } , 
              keyPressFun = key_press, 
              keyReleaseFun = key_release,
@@ -396,6 +457,7 @@ qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 
     layer.root[1, 1] <- layer.main
     layer.root[1, 1] <- layer.brush
     layer.root[1, 1] <- layer.identify
+
   
     view <- qplotView(scene = scene)
     view$setWindowTitle(paste('Hammock plot: ', paste(meta$variables, collapse = ', ')))
