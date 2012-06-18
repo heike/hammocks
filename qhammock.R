@@ -4,499 +4,544 @@ require(qtbase)
 require(plyr)
 require(objectProperties)
 require(plumbr)
+require(stringr)
 
-## todo use b$ .brushed colors for highlighting
+## definition for hammocks class @param y frequency table of data
 
+Hammocks.meta <- 
+  setRefClass("Hammocks_meta", 
+              fields = properties(c(Common.meta, 
+                                    list(y = "data.frame", 
+                                         freq = "character", 
+                                         horizontal = "logical", 
+                                         variables = "character", 
+                                         width = "numeric", 
+                                         pal = "character", 
+                                         nlines = "numeric"))))
 
+## --------------------------------------------------------
+## --------------------------------------------------------
+## 
+## helpers
+## 
+## --------------------------------------------------------
+## --------------------------------------------------------
+draw_identify<- function (layer, painter, data, meta) 
+{
+  if (!length(meta$identify.labels)) 
+    return()
+  b = brush(data)
+  qfont(painter) = Qt$QFont("Monospace")
+  bgwidth = qstrWidth(painter, meta$identify.labels)
+  bgheight = qstrHeight(painter, meta$identify.labels)
+  hflag = meta$limits[2] - meta$pos[1] > bgwidth
+  vflag = meta$pos[2] - meta$limits[3] > bgheight
+  qdrawRect(painter, 
+            meta$pos[1], 
+            meta$pos[2], 
+            meta$pos[1] + ifelse(hflag, 1.25, -1.25) * bgwidth, 
+            meta$pos[2] + ifelse(vflag,-1.25, 1.25) * bgheight, 
+            stroke = rgb(1, 1, 1, 0.8), 
+            fill = rgb(1, 1, 1, 0.8))
+  qstrokeColor(painter) = b$label.color
+  qdrawText(painter, meta$identify.labels, meta$pos[1] + ifelse(hflag, .1, -.1) * bgwidth, meta$pos[2] + ifelse(vflag,-.1, .1) * bgheight, 
+            halign = ifelse(hflag, "left", "right"), 
+            valign = ifelse(vflag, "top", "bottom"))
+}
 
-Hammocks.meta <- setRefClass("Hammocks_meta", fields  = properties(c(Common.meta,
-                    list(x1 = "numeric", y1 = "numeric", barxleft = "numeric", 
-                         barxright = "numeric", barytop = "numeric", barybottom = "numeric",
-                         nlines  = "numeric", values = "list", cat = 'data.frame', var1 = "factor",
-                         var2 = "factor", variables = "character", alpha = "numeric", reorder = 'logical',
-                         drag = 'numeric', dragcoords = 'list'))))
-
-.findhitsdata <- function(x1, hits, horizontal){
-
-  h <- logical(length(x1$var1))
-#case1: lines
-  part <- x1$cat[hits[which(hits <= x1$nlines)],]
-  if(nrow(part) > 0){
-
-    for(i in 1:nrow(part)){
-
-        h <- h | (x1$var1 == part[i,][x1$variables[1]][[1]] & x1$var2 == part[i,][x1$variables[2]][[1]])
-
+identify_rect <- function (meta) 
+{
+  r = apply(meta$limits, 2, diff)/100
+  
+  p = meta$pos
+  qrect(rbind(p - r, p + r))
+}
+.new_pal <- function(h = c(0, 360) + 15, 
+                     c = 100, 
+                     l = 65, 
+                     h.start = 0, 
+                     direction = 1) {
+  function(n) {
+    
+    if ((diff(h)%%360) < 1) {
+      h[2] <- h[2] - 360/(n)
     }
+    rotate <- function(x) (x + h.start)%%360 * direction
+    hues <- rotate(seq(h[1], h[2], length = n))
+    hcl(hues, c, l)
   }
-#case2: left or top bar
-  part <- hits[which(hits > x1$nlines & hits <= (x1$nlines + length(x1$values[[1]]) + 1))]
-  if(length(part) > 0){
-
-
-    h <- x1$var1 %in% levels(x1$var1)[part - x1$nlines - 1]
-  }
-  
-#case3: right bar
-  part <- hits[which(hits > (x1$nlines + length(x1$values[[1]]) + 1))]
-  if(length(part) > 0){
-
-    h <- x1$var2 %in% unique(x1$cat[x1$variables[2]])[[1]][part - x1$nlines - 1 - length(unique(x1$cat[x1$variables[1]])[[1]])]
-  }
-
-   return(h)
 }
 
-.getindex <- function(yleft, yright, meta, lineid){
-
-  newy_poly <- NULL
-
-  for(i in 1:length(yright)){
-    
-    newy_poly <- c(newy_poly, 
-                   yleft[i]  + c(-1, 1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                   yright[i] + c(1, -1) * (0.5 * meta$cat[lineid[i],]["V1"][[1]]),
-                   NA)
+.instantiateHammocks <- function(param) {
+  ## get the plotting data
+  if (is.null(param$freq)) {
+    print("Calculating frequencies using nrow")
+    y <- ddply(.data = param$x[param$variables], 
+               .variables = param$variables, 
+               .fun = nrow)
+    param$freq <- "V1"
+  } else {
+    y <- data.frame(param$x[, c(param$variables, param$freq)])
     
   }
-  return(newy_poly)
+  
+  if (is.null(param$xat)) {
+    xat <- 1:length(param$variables)
+  } else {
+    xat <- param$xat
+  }
+  
+  if (is.null(param$yat)) {
+    yat <- pretty(1:sum(y[, param$freq, ]))
+  } else {
+    yat <- param$yat
+  }
+  limits <- matrix(c(c(-1, 1) * diff(xat) * 2 * param$width + xat, 
+                     c(-0.1, 1.1) * sum(y[, param$freq])), 2)
+  if (param$horizontal) {
+    temp <- yat
+    yat <- xat
+    xat <- temp
+    xlabels <- format(xat)
+    ylabels <- format(param$variables)
+    limits <- limits[, 2:1]
+  } else {
+    ylabels <- format(yat)
+    xlabels <- format(param$variables)
+    
+  }
+  if (is.null(param$minor)) {
+    param$minor <- ""
+  }
+  if (is.null(param$main)) {
+    param$main <- ""
+  }
+  
+  if (is.null(param$pal)) {
+    param$pal <- 
+      .new_pal()(length(unique(unlist(data.frame(param$x[, 
+                                                         param$variables])))))
+  }
+  return(Hammocks.meta$new(y = y, 
+                           freq = param$freq, xat = xat, yat = yat, 
+                           horizontal = param$horizontal, limits = limits, 
+                           xlabels = xlabels, 
+                           ylabels = ylabels, minor = param$minor, main = param$main, 
+                           variables = param$variables, width = param$width, 
+                           pal = param$pal, 
+                           brush.size = c(1, -1) * apply(limits, 2, diff)/15, 
+                           nlines = length(unique(param$x[, 
+                                                          param$variables[1]])) * length(unique(param$x[, 
+                                                                                                        param$variables[2]])), 
+                           active = TRUE))
 }
 
-.get_identify <- function(meta, hits){
-  h <- numeric(0)
-  part <- meta$cat[hits[which(hits <= meta$nlines)],]
-  if(nrow(part) > 0){
-    for(i in 1:nrow(part)){
-      h <- c(h, which(meta$var1 == part[i,][meta$variables[1]][[1]] & meta$var2 == part[i,][meta$variables[2]][[1]]))
-    }  
-  }
-  
-  part <- hits[which(hits > meta$nlines & hits <= (meta$nlines + length(meta$values[[1]]) + 1))]
-  if(length(part) > 0){
+.getmainplotting <- function(meta) {
+  if (meta$horizontal) {
+    rectright1 <- 
+      cumsum(ddply(meta$y, 
+                   .variables = names(meta$ylabels)[1], 
+                   .fun = function(x) {
+                     sum(x[meta$freq])})$V1)
+    rectleft1 <- c(0, rectright1[-length(rectright1)])
     
+    rectright2 <- cumsum(ddply(meta$y, 
+                               .variables = names(meta$ylabels)[2],
+                               .fun = function(x) {sum(x[meta$freq])})$V1)
+    rectleft2 <- c(0, rectright2[-length(rectright2)])
     
-    h <- which(meta$var1 %in% levels(meta$var1)[part - meta$nlines - 1])
-  }
-  part <- hits[which(hits > (meta$nlines + length(meta$values[[1]]) + 1))]
-  if(length(part) > 0){
+    rectleft <- c(rectleft1, rectleft2)
+    rectright <- c(rectright1, rectright2)
+    rectbottom <- c(rep(meta$yat[1] - 0.5 * meta$width, 
+                        length(unique(meta$y[,meta$variables[1]]))),    
+                    rep(meta$yat[2] - 0.5 * meta$width, 
+                        length(unique(meta$y[, meta$variables[2]]))))
+    recttop <- c(rep(meta$yat[1] + 0.5 * meta$width, 
+                     length(unique(meta$y[, meta$variables[1]]))),   
+                 rep(meta$yat[2] + 0.5 * meta$width, 
+                     length(unique(meta$y[, meta$variables[2]]))))
     
-    h <- which(meta$var2 %in% unique(meta$cat[meta$variables[2]])[[1]][part - meta$nlines - 1 - length(unique(meta$cat[meta$variables[1]])[[1]])])
-  }
-  return(unique(h))
-}
-qhammock <- function(x, variables, freq = NULL, xat = NULL, yat = NULL, width = 0.2, pal = rainbow(n = 10), 
-                     main = "", identify = FALSE, reorder = FALSE,
-                    labels = TRUE, horizontal = FALSE){
-  variables <- var_names(vars = variables, data = x)
-
-################# error handling
-  if(class(x)[1] == "data.frame"){
-    x <- x[order(x[variables[1]][[1]], x[variables[2]][[1]]),]
+    liney <- rep(c(min(recttop), max(rectbottom), NA), 
+                 nrow(meta$y))
+    linex1 <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[2]]), 
+                            meta$freq])
+    linex1 <- (linex1 - c(0, linex1[-length(linex1)])) * 0.5 + 
+      c(0, linex1[-length(linex1)])
     
-  } 
-  
-	if(length(variables) != 2){
-		stop("qhammock can only handle 2 variables at this time! Please enter variables in form c(X, Y)")
-	}
-	
-	if(is.null(freq)){
-		print("Using number of records to determine frequency")
-		x <- getFreq(x, variables)
-		freq <- "V1"
-	}
-
-##################
-################## helper functions
-##################
-	getxat <- function(){
-		if(is.null(xat)){
-			return(1:length(variables))
-		} else {
-			return(xat)
-		}
-	}
-	
-	getyat <- function(){
-		if(is.null(yat)){
-			return(pretty(sum(x[freq][[1]])))
-		} else {
-			return(yat)
-		}
-	}
-	
-	getFreq <- function(x, variables){
-		return(ddply(.data = x, .variables = variables, .fun = nrows))
-	}
-			
-################ end helper functions
-
-	
-############### transform input variables for cranvas [create meta object]
-  x <- check_data(x)
-  b <- brush(x)
-  b$identify <- identify
-  b$label.gen <- function(x){
-    sumfreq <- ddply(.data = x, .variables = names(x)[1:2], .fun = function(x){sum(x[names(x)[3]][[1]])})
-    names(sumfreq)[3] <- 'nrecords'
-#     sumfreq <- t(as.data.frame(sumfreq))
-    return(paste(capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), collapse = "\n"))
-  }
-
-	meta <- Hammocks.meta$new(xat = getxat(), yat = getyat(), variables = variables, minor = "", main = main, 
-                            active = TRUE, alpha = 0.5, color = x$.color, reorder = reorder, drag = NULL)
-  ## Common.meta elements
-  meta$limits <- matrix(c( c(-1, 1) * diff(meta$xat) * 2 * width + meta$xat, 
-                            c(-.1, 1.1) * sum(x[freq][[1]])), 2)
-  meta$brush.size <- c(1, -1) * apply(meta$limits, 2, diff) / 15
-  meta$main = main
-  
-
-  ## for drawing the bars
-  rectx <- sapply(1:length(variables), FUN = function(x){x + c(-1, 1) * width * 0.5 })
-
-  meta$values <- list(V1 = ddply(.data = x, .variables = variables[1], .fun = function(x){sum(x[freq][[1]])})$V1,
-            V2 = ddply(.data = x, .variables = variables[2], .fun = function(x){sum(x[freq][[1]])})$V1)
-
-  meta$barxleft <- c(rep(rectx[1,1], length(meta$values[[1]]))  ,rep(rectx[1,2], length(meta$values[[2]])) )
-  meta$barxright <- c(rep(rectx[2,1], length(meta$values[[1]])),  rep(rectx[2,2], length(meta$values[[2]])))
-  meta$barytop <-  c(cumsum(meta$values$V1), cumsum(meta$values$V2))
-  meta$barybottom <- c(0,cumsum(meta$values$V1)[-length(meta$values$V1)], 0, cumsum(meta$values$V2)[-length(meta$values$V2)])
-  
-  ## for drawing the connecting lines
-  temp <- ddply(.data = x, .variables = variables, .fun = function(x){sum(x[freq][[1]])})
-  ylines_V1 <- cbind(temp, y = mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)}))
-  ylines_V1 <- ylines_V1[order(ylines_V1[variables[2]]),]$y
-  temp <- temp[order(temp[variables[2]]),]
-  ylines_V2 <- mapply(y = 1:length(temp$V1), FUN = function(y){max(0, cumsum(temp$V1)[y - 1]) + (temp$V1[y] / 2)})
-  
-  meta$x1 <- rep(c(rectx[2,1], rectx[1,2], NA), length(meta$values$V1) * length(meta$values$V2))
-  meta$y1 <-  as.vector(t(data.frame(v1 = ylines_V1, v2 = ylines_V2, NA)))
-
-  ## describe the chart
-
-  meta$nlines <- length(ylines_V1)
-  meta$cat <- temp
-  meta$var1 <- factor(x[meta$variables[1]][[1]])
-  meta$var2 <- factor(x[meta$variables[2]][[1]])
-  meta$ylabels <- format(meta$yat)
-  
-  if(horizontal){
-    print('horizontal')
-
-    meta$limits <- meta$limits[,2:1]
-#     meta$limits[,2] <- rev(meta$limits[,2])
-    switch_value('x1', 'y1', meta)
-    switch_value('barxleft', 'barybottom', meta)
-    switch_value('barxright', 'barytop', meta)
-    names(meta$values) <- c('V2', 'V1')
-    meta$cat <- meta$cat[, c(2,1,3)]
-#     meta$variables <- meta$variables[2:1]
-    switch_value('xat', 'yat', meta)
-    meta$xat <- pretty(c(0, max(meta$xat)))
-    meta$brush.size <- rev(meta$brush.size)
-#      switch_value('var1', 'var2', meta)
+    linex2 <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[1]]), 
+                            meta$freq])
+    linex2 <- (linex2 - c(0, linex2[-length(linex2)])) * 0.5 + 
+      c(0, linex2[-length(linex2)])
+    linex <- c(rbind(linex2[order(meta$y[names(meta$ylabels)[2]])], 
+                     linex1, NA))
     
-    meta$ylabels <- meta$variables
-    meta$xlabels <- format(meta$xat)
     
   } else {
-    meta$yat <- pretty(c(0, max(meta$yat)))
-    meta$ylabels <- format(meta$yat)
-    meta$xlabels <- meta$variables
+    recttop1 <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[1], 
+                             .fun = function(x) {
+                               sum(x[meta$freq])
+                             })$V1)
+    rectbottom1 <- c(0, recttop1[-length(recttop1)])
+    
+    recttop2 <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[2], 
+                             .fun = function(x) {
+                               sum(x[meta$freq])
+                             })$V1)
+    rectbottom2 <- c(0, recttop2[-length(recttop2)])
+    
+    recttop <- c(recttop1, recttop2)
+    rectbottom <- c(rectbottom1, rectbottom2)
+    
+    rectright <- c(rep(meta$xat[1] + 0.5 * meta$width, length(unique(meta$y[, 
+                                                                            meta$variables[1]]))), rep(meta$xat[2] + 0.5 * meta$width, 
+                                                                                                       length(unique(meta$y[, meta$variables[2]]))))
+    rectleft <- c(rep(meta$xat[1] - 0.5 * meta$width, length(unique(meta$y[, 
+                                                                           meta$variables[1]]))), rep(meta$xat[2] - 0.5 * meta$width, 
+                                                                                                      length(unique(meta$y[, meta$variables[2]]))))
+    
+    linex <- rep(c(min(rectright), max(rectleft), NA), nrow(meta$y))
+    liney1 <- cumsum(meta$y[order(meta$y[names(meta$xlabels)[2]]), 
+                            meta$freq])
+    liney1 <- (liney1 - c(0, liney1[-length(liney1)])) * 0.5 + 
+      c(0, liney1[-length(liney1)])
+    liney2 <- cumsum(meta$y[order(meta$y[names(meta$xlabels)[1]]), 
+                            meta$freq])
+    liney2 <- (liney2 - c(0, liney2[-length(liney2)])) * 0.5 + 
+      c(0, liney2[-length(liney2)])
+    liney <- c(rbind(liney2[order(meta$y[names(meta$xlabels)[2]])], 
+                     liney1, NA))
+    
   }
   
+  
+  return(list(rectleft = rectleft, rectright = rectright, rectbottom = rectbottom, 
+              recttop = recttop, liney = liney, linex = linex))
+}
 
-############## cranvas action functions
-  key_press <- function(layer,  event) {
-    if(match_key('B', event)){
-      b$identify <- !b$identify
-      qupdate(layer.identify)
-      qupdate(layer.brush)
-    } else if(match_key('R', event)){
-      meta$reorder <- !meta$reorder
+## my version of identify_rect
+.identify_rect <- function (meta, n = 0.01) 
+{
+  r = n * apply(meta$limits, 2, diff)/2
+  p = meta$pos
+  qrect(rbind(p - r, p + r))
+}
+
+#' @param x the data in qdata or data.frame format @param
+#' variables
+qhammock <- function(variables, x = last_data(), freq = NULL, 
+                     xat = NULL, yat = NULL, width = 0.2, pal = NULL, main = "", identify = FALSE, 
+                     reorder = FALSE, labels = TRUE, horizontal = FALSE) {
+  
+  #############################################################
+  ############################################################# 
+  ###  data preprocessing
+  
+  variables <- var_names(vars = sapply(variables, as.character), 
+                         data = x)
+  
+  ################# error handling
+#   if (length(variables) != 2) {
+#     stop("qhammock can only handle 2 variables at this time! 
+#              Please enter variables in form c(X, Y)")
+#     }
+  x <- check_data(x)
+  
+  ###############################################################
+  ############################################################### 
+  ##  instantiate the hammock object and customize data attributes
+  ###############################################################
+  ###############################################################
+  #    color_pal(titanic) <- .new_pal()
+  attr(x, "Brush")$color <- alpha("black", 0.5)
+  b <- brush(x)
+  b$identify <- FALSE
+  b$label.color <- "black"
+  b$label.gen <- function(x){
+    sumfreq <- ddply(.data = x, .variables = names(x)[1:2], 
+                     .fun = function(x){sum(x[names(x)[3]][[1]])})
+    names(sumfreq)[3] <- 'nrecords'
+
+    return(paste(sapply(X = capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), FUN = str_trim), collapse = "\n"))
+  }
+  
+  meta <- .instantiateHammocks(environment())
+  
+  .findhitsdata <- function(meta, hits, horizontal) {
+    h <- logical(nrow(x))
+    
+    # case1: lines
+    part <- hits[which(hits <= meta$nlines)]
+    part <- meta$y[order(meta$y[, meta$variables[2]]), ][part,]
+    if (nrow(part) > 0) {            
+      h <- sapply(1:nrow(part), FUN = function(y){ x[, 
+                                                     variables[1]] == part[y, ][variables[1]][[1]] & 
+                                                       x[, variables[2]] == part[y, ][variables[2]][[1]]})
     }
+    # #case2: left or top bar
+    part <- hits[which(hits - meta$nlines - length(unique(meta$y[, 
+                                                                 variables[1]])) > 1)]
+    if (length(part) > 0) {
+      h <- x[, variables[2]] %in% levels(meta$y[, 
+                                                variables[2]])[part - meta$nlines - 
+                                                  length(unique(meta$y[, variables[1]])) - 1]
+    }
+    # #case3: right bar
+    part <- hits[which(hits > meta$nlines & hits < (meta$nlines + 
+      length(levels(unlist(meta$y[, variables])))))]
+    
+    if (length(part) > 0) {
+      h <- x[, variables[1]] %in% levels(meta$y[, variables[1]])[part - 
+        meta$nlines - 1]
+    }
+    
+    return(h)
+  }
+  
+  ###############################################################
+  ############################################################### 
+  ## create layer and drawing elements
+  ###############################################################
+  ###############################################################
+  
+  key_press <- function(layer, event) {
     common_key_press(layer, event, x, meta)
   }
   
   key_release <- function(layer, event) {
-    if(match_key('B', event)){
-
-      qupdate(layer.identify)
-      qupdate(layer.brush)
-    }
+    
     common_key_release(layer, event, x, meta)
   }
   
   brush_mouse_press <- function(layer, event) {
-    if(meta$reorder){
-      rect <- qrect(update_brush_size(meta, event))
-      meta$drag <- layer$locate(rect) + 1
-      meta$dragcoords$offsetx <- as.numeric(event$pos())[1]
-      if(meta$drag <= meta$nlines){
-        print("can't drag connections")
-        meta$reorder <- FALSE
-      } else if(meta$drag <= (meta$nlines + length(meta$values[[1]]) + 1) ){
-        # print("bottom")
-        ## figure out the dragged dimensions - horizontal
-        meta$dragcoords$originalposition <- meta$drag - meta$nlines - 1
-        meta$dragcoords$dragwidth <- meta$barxright[meta$dragcoords$originalposition] - 
-          meta$barxleft[meta$dragcoords$originalposition]
-        meta$dragcoords$dragheight <- meta$barytop[meta$dragcoords$originalposition] - 
-          meta$barybottom[meta$dragcoords$originalposition]
-
-        
-      } else if(meta$drag > (meta$nlines + length(meta$values[[1]]) + 1)) {
-        print('top')
-      }
-    }
     common_mouse_press(layer, event, x, meta)
   }
   
   brush_mouse_move <- function(layer, event) {
-    if(meta$reorder & length(meta$drag)){
-      meta$dragcoords$curx <- as.numeric(event$pos())[1]
-      if((meta$dragcoords$curx - 0.5 * meta$dragcoords$dragwidth) < (meta$barxleft[meta$dragcoords$originalposition] - (0.5 * meta$dragcoords$dragwidth))){
-        print('move')
-        print(  meta$dragcoords$dragwidth)
-      }
-
-      qupdate(layer.brush)
-    } else {
-      rect <- qrect(update_brush_size(meta, event))
-      hits <- layer$locate(rect) + 1
-      if (length(hits)) {
-         hits <- .findhitsdata(meta, hits)
-      }
-      selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
-      common_mouse_move(layer, event, x, meta)
+    
+    rect <- qrect(update_brush_size(meta, event))
+    hits <- layer$locate(rect) + 1
+    
+    if (length(hits)) {
+      hits <- .findhitsdata(meta, hits)
     }
-}
+    selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
+    common_mouse_move(layer, event, x, meta)
+    
+  }
   
-  brush_mouse_release <- function(layer, event){
-    if(meta$reorder){
-      print('reorder')
-
-      meta$reorder <- FALSE
-      qupdate(layer.main)
-      qupdate(layer.brush)
-    } else {
-      brush_mouse_move(layer, event)
-    }
+  brush_mouse_release <- function(layer, event) {
+    brush_mouse_move(layer, event)
     common_mouse_release(layer, event, x, meta)
   }
-
   
-  brush_draw <- function(layer, painter){
-    if(length(meta$dragcoords)){
-      qdrawLine(painter,
-                x = c(rep(meta$barxleft[meta$dragcoords$originalposition] - (0.5 * meta$dragcoords$dragwidth), 2), NA, 
-                      rep(meta$barxleft[meta$dragcoords$originalposition - 1] - (0.5 * meta$dragcoords$dragwidth) ,2), NA),
-                y = rep(c(.75,1.5, NA), 2),
-                stroke = 'black')
-     
-      qdrawRect(painter,
-                xleft = meta$dragcoords$curx -   (0.5 * meta$dragcoords$dragwidth),
-                xright = meta$dragcoords$curx + (0.5 * meta$dragcoords$dragwidth) ,
-                ytop = 1.5,
-                ybottom = .75,
-                fill = alpha('red', .5),
-                stroke = NA
-                )
-    } else {
-    sub <- x[selected(x),][meta$variables]
-
-    if(nrow(sub) > 0){
-      lineid <- NULL
-      for(i in 1:nrow(sub)){
-        lineid <- c(lineid, which((meta$cat[meta$variables[1]][[1]] == unique(sub[meta$variables[1]][[1]][i])) &
-          (meta$cat[meta$variables[2]][[1]] ==  unique(sub[meta$variables[2]][[1]][i]))))
-      }
-      lineid <- unique(lineid)
-      newyleft <- meta$y1[3 * lineid - 2]
-      newyright <- meta$y1[3 * lineid - 1]
-      newxleft <- meta$x1[3 * lineid - 2]
-      newxright <- meta$x1[3 * lineid - 1]
-      lineindex <- (rep(lineid, each = 3) * 3 - 2 + (0:2))
-      if(!horizontal){
-        newy_poly <- .getindex(yleft = newyleft, yright = newyright, meta = meta, lineid = lineid)
-        newx_poly <- rep(c(rep(min(meta$barxright), 2), rep(max(meta$barxleft), 2), NA), length(lineid))
-        rect1_ytop <- newy_poly[c(1:length(lineid) * 5 - 3)]
-        rect1_ybottom <- newy_poly[c(1:length(lineid) * 5 - 4)]
-        rect1_xleft <- min(meta$barxleft)
-        rect1_xright <- min(meta$barxright)
-        rect2_ytop <- newy_poly[c(1:length(lineid) * 5 - 1)]
-        rect2_ybottom <- newy_poly[c(1:length(lineid) * 5 - 2)]
-        rect2_xleft <- max(meta$barxleft)
-        rect2_xright <- max(meta$barxright)
-
-      } else {
-        newy_poly <- rep(c(rep(min(meta$barytop), 2), rep(max(meta$barybottom), 2), NA), length(lineid))
-        newx_poly <- .getindex(yleft = newxleft, yright = newxright, meta = meta, lineid = lineid)
-        rect1_ytop <- min(meta$barytop)
-        rect1_ybottom <- min(meta$barybottom)
-        rect1_xleft <- newx_poly[c(1:length(lineid) * 5 - 3)]
-        rect1_xright <- newx_poly[c(1:length(lineid) * 5 - 4)]
-        rect2_ytop <- max(meta$barytop)
-        rect2_ybottom <- max(meta$barybottom)
-        rect2_xleft <- newx_poly[c(1:length(lineid) * 5 - 1)]
-        rect2_xright <- newx_poly[c(1:length(lineid) * 5 - 2)]
-        
-      }
-      
-      qdrawPolygon(painter,
-                   y = newy_poly,
-                   x = newx_poly,
-                   fill = (attr(x, 'Brush')$color),
-                   stroke = NA)
-      
-      qdrawLine(painter,
-                x = meta$x1[lineindex],
-                y = meta$y1[lineindex],
-                stroke = 'grey60')
-
-      qdrawRect(painter,
-                xleft = rect1_xleft,
-                xright = rect1_xright,
-                ytop = rect1_ytop,
-                ybottom = rect1_ybottom,
-                fill = (attr(x, 'Brush')$color),
-                stroke = NA)
-     qdrawRect(painter,
-                  xleft = rect2_xleft,
-                  xright = rect2_xright,
-                  ytop = rect2_ytop,
-                  ybottom = rect2_ybottom,
-                  fill = (attr(x, 'Brush')$color),
-                  stroke = NA)
-      if(labels){
-
-        qdrawText(painter,
-                  text = c(levels(meta$var1), levels(meta$var2)),
-                  x = 0.5 * (meta$barxright - meta$barxleft) + meta$barxleft ,
-                  y = 0.5 * (meta$barytop - meta$barybottom) + meta$barybottom,
-                  color = "grey60",
-                  cex = 1)
-      }
-         
-
-    }
-    draw_brush(layer, painter, x, meta)
-    }
-  }
-############## draw the cranvas elements
-
-	scene <- qscene()
-  layer.root <- qlayer(scene)
-  fix_dimension(layer.root,
-                row = list(id = c(0,2), value = c(prefer_height(meta$main),
-                                                  prefer_height(meta$xlabels))),
-                column = list(id = c(0,2), value = c(prefer_width(meta$ylabels), 10)))
-  identify_hover <- function(layer, event){
-    if(!b$identify){
+  identify_hover <- function(layer, event) {
+    #         meta$pos <- as.numeric(event$pos())
+    if (!b$identify) {
       return()
     }
     b$cursor <- 2L
     meta$pos <- as.numeric(event$pos())
-    hits <- layer$locate(identify_rect(meta)) + 1
-    meta$identified <- .get_identify(meta, hits)
+    hits <- layer$locate(.identify_rect(meta, n = 0.02 )) + 1
+    meta$identified <- which(.findhitsdata(meta, hits))
+    #         meta$identified <- .findhitsdata(meta, hits)
     qupdate(layer.identify)
   }
   
+  brush_draw <- function(layer, painter) {
+    
+    main_plotvalues <- .getmainplotting(meta)
+    sub <- x[selected(x), ][meta$variables]
+    sub <- unique(as.data.frame(sub))
+    
+    ## draw selected lines when brushing
+    lineid <- NULL
+    if (nrow(sub) > 0) {
+      
+      
+      lineid <- sapply(1:nrow(sub), FUN = function(x){
+        which(meta$y[order(meta$y[,meta$variables[2]]), 
+                     meta$variables[1]] == sub[x, meta$variables[1]] &
+                       meta$y[order(meta$y[,meta$variables[2]]), 
+                              meta$variables[2]] == sub[x, meta$variables[2]])
+        
+      })
+    }
+    lineid <- unique(lineid)
+    if (length(lineid) > 1) {
+      thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
+                          meta$freq][lineid]
+      newy <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
+        rep(c(main_plotvalues$liney[3 * lineid[a] - 2], 
+              main_plotvalues$liney[3 * lineid[a] - 1]), each = 2) + 
+                rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness[a], 
+                                          0), 2)})[c(1, 2, 4, 3), ], NA))
+      newx <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
+        rep(c(main_plotvalues$linex[3 * lineid[a] - 2], 
+              main_plotvalues$linex[3 * lineid[a] - 1]), each = 2) + 
+                rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness[a], 
+                                          0), 2)})[c(1, 2, 4, 3), ], NA))
+      
+      qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
+                                                             "Brush")$color), stroke = NA)
+      qdrawLine(painter, y = c(rbind(main_plotvalues$liney[3 * 
+        lineid - 2], main_plotvalues$liney[3 * lineid - 1], 
+                                     NA)), x = c(rbind(main_plotvalues$linex[3 * lineid - 
+                                       2], main_plotvalues$linex[3 * lineid - 1], NA)), stroke = "grey60")
+      if (meta$horizontal) {
+        qdrawRect(painter, ytop = min(newy, na.rm = T), ybottom = min(newy, 
+                                                                      na.rm = T) - meta$width, xleft = newx[5 * (1:length(lineid)) - 
+                                                                        4], xright = newx[5 * (1:length(lineid)) - 3], fill = attr(x, 
+                                                                                                                                   "Brush")$color, stroke = NA)
+        qdrawRect(painter, ytop = max(newy, na.rm = T), ybottom = max(newy, 
+                                                                      na.rm = T) + meta$width, xleft = newx[5 * (1:length(lineid)) - 
+                                                                        1], xright = newx[5 * (1:length(lineid)) - 2], fill = attr(x, 
+                                                                                                                                   "Brush")$color, stroke = NA)
+      } else {
+        
+        qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
+          4], ybottom = newy[5 * (1:length(lineid)) - 3], xright = min(newx, 
+                                                                       na.rm = T), xleft = min(newx, na.rm = T) - meta$width, 
+                  fill = attr(x, "Brush")$color, stroke = NA)
+        qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
+          1], ybottom = newy[5 * (1:length(lineid)) - 2], xleft = max(newx, 
+                                                                      na.rm = T), xright = max(newx, na.rm = T) + meta$width, 
+                  fill = attr(x, "Brush")$color, stroke = NA)
+      }
+    } else if (length(lineid) == 1) {
+      thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
+                          meta$freq][lineid]
+      newy <- c(rep(c(main_plotvalues$liney[3 * lineid - 2], 
+                      main_plotvalues$liney[3 * lineid - 1]), each = 2) + 
+                        rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness, 
+                                                  0), 2))[c(1, 2, 4, 3)]
+      newx <- c(rep(c(main_plotvalues$linex[3 * lineid - 2], 
+                      main_plotvalues$linex[3 * lineid - 1]), each = 2) + 
+                        rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness, 
+                                                  0), 2))[c(1, 2, 4, 3)]
+      
+      qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
+                                                             "Brush")$color), stroke = NA)
+      
+      qdrawLine(painter, y = c(main_plotvalues$liney[3 * lineid - 
+        2], main_plotvalues$liney[3 * lineid - 1]), x = 
+        c(main_plotvalues$linex[3 * lineid - 2], 
+          main_plotvalues$linex[3 * lineid - 1]), stroke = "grey60")
+      if (meta$horizontal) {
+        qdrawRect(painter, ytop = min(newy), ybottom = min(newy) - 
+          meta$width, xleft = newx[1], xright = newx[2], fill = attr(x, 
+                                                                     "Brush")$color, stroke = NA)
+        qdrawRect(painter, ybottom = max(newy), ytop = max(newy) + 
+          meta$width, xleft = newx[4], xright = newx[3], fill = attr(x, 
+                                                                     "Brush")$color, stroke = NA)
+        
+      } else {
+        qdrawRect(painter, ytop = newy[1], ybottom = newy[2], 
+                  xleft = min(newx) - meta$width, xright = min(newx), 
+                  fill = attr(x, "Brush")$color, stroke = NA)
+        qdrawRect(painter, ytop = newy[4], ybottom = newy[3], 
+                  xleft = max(newx), xright = max(newx) + meta$width, 
+                  fill = attr(x, "Brush")$color, stroke = NA)
+      }
+    }
+    
+    
+    draw_brush(layer, painter, x, meta)
+  }
+  
   identify_draw <- function(layer, painter){
+    print('test')
     if(b$identify && length(meta$identified)){
-      meta$identify.labels <- b$label.gen(x[meta$identified, c(meta$variables, freq)])
+      
+      sub <- x[meta$identified, meta$variables]
+      sub <- ddply(sub, .fun = nrow, .variables = meta$variables)
+      names(sub)[3] <- 'nrecords'
+      meta$identify.labels <- b$label.gen(sub)
       draw_identify(layer, painter, x, meta)
     }
     
   }
-	layer.main <- qlayer(paintFun = function(layer, painter){
-
-						 qdrawLine(painter,
-								   x = meta$x1,
-								   y = meta$y1, 
-								   stroke = "grey60")
-						 qdrawRect(painter, 
-								   xleft = meta$barxleft ,
-								   xright = meta$barxright,
-								   ybottom = meta$barybottom,
-								   ytop = meta$barytop,
-					      	 fill = c(pal[1:length(unique(meta$cat[meta$variables[1]][[1]]))], 
-                            meta$color[1:length(unique(meta$cat[meta$variables[2]][[1]]))]))
-    
-             if(labels){
-                 qdrawText(painter,
-                           text = c(as.character(unique(meta$cat[meta$variables[1]][[1]])), 
-                                    as.character(unique(meta$cat[meta$variables[2]][[1]]))),
-                           x = 0.5 * (meta$barxright - meta$barxleft) + meta$barxleft ,
-                           y = 0.5 * (meta$barytop - meta$barybottom) + meta$barybottom,    color = "black",
-                           valign = 'center',
-                           cex = 1)
-                 
-            }
-
-	             
- 						 } , 
-             keyPressFun = key_press, 
-             keyReleaseFun = key_release,
-             mousePressFun = brush_mouse_press, 
-             mouseMoveFun = brush_mouse_move,
-             mouseReleaseFun = brush_mouse_release,
-             hoverMoveFun = identify_hover,  
-             limits = qrect(meta$limits))
   
-
-	
-    layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
-    layer.identify <- qlayer(paintFun = identify_draw, limits = qrect(meta$limits))
-    layer.title <- qmtext(meta = meta, side = 3)
-    layer.root[0, 1] <- layer.title
-
-    layer.root[2, 1] <- qaxis(meta = meta, side = 1)
-    layer.root[1, 0] <- qaxis(meta = meta, side = 2)
-    layer.root[1, 1] <- qgrid(meta = meta, xlim = meta$limits[,1], ylim = meta$limits[,2])	
-    layer.root[1, 1] <- layer.main
-    layer.root[1, 1] <- layer.brush
-    layer.root[1, 1] <- layer.identify
-
-  
-    view <- qplotView(scene = scene)
-    view$setWindowTitle(paste('Hammock plot: ', paste(meta$variables, collapse = ', ')))
-    lis <- add_listener(x, function(i, j){
-        switch(j,
-                .brushed = qupdate(layer.brush))})
+  layer.main <- qlayer(paintFun = function(layer, painter) {
+    main_plotvalues <- .getmainplotting(meta)
+    qdrawLine(painter, 
+              x = main_plotvalues$linex, 
+              y = main_plotvalues$liney, 
+              stroke = "grey60")
     
-    print(view)
-
-}
-
-#Survived   V1
-#1       No 1490
-#2      Yes  711
-
-#Class  V1
-#1   1st 325
-#2   2nd 285
-#3   3rd 706
-#4  Crew 885
-titanic <- qdata(data.frame(Titanic), color = Class )
-new_pal <- function(h = c(0, 360) + 15, c = 100, l = 65, h.start = 0, direction = 1){
-  function(n){
-
-    if ((diff(h)%%360) < 1) {
+    qdrawRect(painter, 
+              xleft = main_plotvalues$rectleft, 
+              xright = main_plotvalues$rectright, 
+              ybottom = main_plotvalues$rectbottom, 
+              ytop = main_plotvalues$recttop, 
+              stroke = "grey60", 
+              fill = meta$pal[1:6])
+    
+    if (labels) {
       
-      h[2] <- h[2] - 360/6
+      qdrawText(painter, text = c(as.character(unique(meta$y[, 
+                                                             names(meta$variables)[1]])), as.character(unique(meta$y[, 
+                                                                                                                     names(meta$variables)[2]]))), x = 0.5 * (main_plotvalues$rectright - 
+                                                                                                                       main_plotvalues$rectleft) + main_plotvalues$rectleft, 
+                y = 0.5 * (main_plotvalues$recttop - main_plotvalues$rectbottom) + 
+                  main_plotvalues$rectbottom, color = "black", valign = "center", 
+                cex = 1)
+      
     }
-    rotate <- function(x) (x + h.start)%%360 * direction
-    hues <- rotate(seq(h[1], h[2], length = 6))
-    hcl(hues, c, l)
-  }
+    
+    
+  }, 
+                       keyPressFun = key_press, 
+                       keyReleaseFun = key_release, 
+                       mousePressFun = brush_mouse_press, 
+                       mouseMoveFun = brush_mouse_move, 
+                       mouseReleaseFun = brush_mouse_release, 
+                       hoverMoveFun = identify_hover, 
+                       limits = qrect(meta$limits))
+  
+  layer.brush <- qlayer(paintFun = brush_draw, limits = qrect(meta$limits))
+  layer.identify <- qlayer(paintFun = identify_draw, limits = qrect(meta$limits))
+  ###############################################################
+  ## draw the cranvas display
+  scene <- qscene()
+  layer.root <- qlayer(scene)
+  fix_dimension(layer.root, row = list(id = c(0, 2), value = 
+    c(prefer_height(meta$main), prefer_height(meta$xlabels))), 
+                column = list(id = c(0, 2), value = c(prefer_width(meta$ylabels), 10)))
+  
+  layer.root[1, 1] <- qgrid(meta = meta, xlim = meta$limits[, 1], 
+                            ylim = meta$limits[, 2])
+  layer.root[0, 1] <- qmtext(meta = meta, side = 3)
+  layer.root[2, 1] <- qaxis(meta = meta, side = 1)
+  layer.root[1, 0] <- qaxis(meta = meta, side = 2)
+  layer.root[1, 1] <- layer.main
+  layer.root[1, 1] <- layer.brush
+  layer.root[1, 1] <- layer.identify
+  view <- qplotView(scene = scene)
+  lis <- add_listener(x, function(i, j) {
+    switch(j, .brushed = qupdate(layer.brush))
+  })
+  view$setWindowTitle(paste("Hammock plot: ", paste(meta$variables, 
+                                                    collapse = ", ")))
+  print(view)
+  
 }
-color_pal(titanic) <- new_pal()
-
-attr(titanic, 'Brush')$color <- alpha('black', .5)
 
 
-# qbar(data = titanic, x = 'Class')
+## --------------------------------------------------------
+## --------------------------------------------------------
+## 
+## examples
+## 
+## --------------------------------------------------------
+## --------------------------------------------------------
 
-qhammock(x = titanic, variables = c("Survived", "Class"), freq = "Freq", 
-         pal = new_pal()(6)[5:6], horizontal = TRUE)
+qtitanic <- qdata(titanic, color = Class)
+color_pal(qtitanic)<-.new_pal()(6)
+## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
+qhammock(x = qtitanic, variables = c("Class", "Survived"), 
+         horizontal = TRUE)
+# temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
+# = function(x){sum(x$Freq)}) names(temp)[3] <- 'Freq' qhammock(x
+# = qdata(temp), variables = c('Class', 'Survived'), freq =
+# 'Freq') qhammock(x = qdata(temp), variables = c('Class',
+# 'Survived'), freq = 'Freq', horizontal = TRUE) 
