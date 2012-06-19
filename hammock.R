@@ -1,5 +1,4 @@
-
-gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = 1, color = NA, label = TRUE, angle=90, text.offset=NULL...) {
+gghammock <- function(vars=list(), data, weight=NULL, alpha=0.5, width = 0.25, order = 1, color = NA, label = TRUE, angle=90, text.offset=NULL,...) {
   # order will arrange 
   #  1  levels in x in decreasing order (bottom up) and 
   #	 -1 levels in y in decreasing order
