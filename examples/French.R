@@ -25,9 +25,9 @@ outline_color <- NA
 ##        continuous data and reflect clinical context
 French_placeholder1 <- data.frame(baseCRP = rep(1:3, each = 3),
                                   followCRP = rep(1:3, 3),
-                                  Freq = c(49, 51, 0, 17, 46, 37, 0, 27, 73))
-French_placeholder1$baseCRP <- factor(French_placeholder1$baseCRP, labels = c('high', 'med', 'low'))
-French_placeholder1$followCRP <- factor(French_placeholder1$followCRP, labels = c('high', 'med', 'low'))
+                                  Freq = c(73, 27, 0, 37, 46, 17, 0, 51, 49))
+French_placeholder1$baseCRP <- factor(French_placeholder1$baseCRP, labels = c('low', 'med', 'high'))
+French_placeholder1$followCRP <- factor(French_placeholder1$followCRP, labels = c('low', 'med', 'high'))
 
 ### data & display variables
 variables <- list('baseCRP', 'followCRP') # variables, as named in data.frame
