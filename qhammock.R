@@ -138,31 +138,43 @@ identify_rect <- function (meta)
 
 .getmainplotting <- function(meta) {
   if (meta$horizontal) {
-    rectright1 <- 
-      cumsum(ddply(meta$y, 
-                   .variables = names(meta$ylabels)[1], 
-                   .fun = function(x) {
-                     sum(x[meta$freq])})$V1)
-    rectleft1 <- c(0, rectright1[-length(rectright1)])
+    right <- vector(mode = 'list', length = length(meta$variables))
+    left <- vector(mode = 'list', length = length(meta$variables))
+    rectbottom <- vector(mode = 'list', length = length(meta$variables))
+    recttop <- vector(mode = 'list', length = length(meta$variables))
+    linex <- vector(mode = 'list', length = length(meta$variables))
+    for(i in 1:length(meta$variables)){
+      right[[i]] <- cumsum(ddply(meta$y,
+                                 .variables = names(meta$ylabels)[i],
+                                 .fun = function(x){
+                                   sum(x[meta$freq])})$V1)
+      left[[i]] <- c(0, right[[i]][-length(right[[i]])])
+      rectbottom[[i]] <- rep(meta$yat[i] - 0.5 * meta$width, 
+                             length(unique(meta$y[,meta$variables[i]])))
+      recttop[[i]] <- rep(meta$yat[i] + 0.5 * meta$width, 
+                          length(unique(meta$y[, meta$variables[i]])))
+      linex[[i]] <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[i]]), 
+                                  meta$freq])
+      linex[[i]] <- (linex[[i]] - c(0, linex[[i]][-length(linex[[i]])])) * 0.5 + 
+        c(0, linex[[i]][-length(linex[[i]])])
+    }
     
-    rectright2 <- cumsum(ddply(meta$y, 
-                               .variables = names(meta$ylabels)[2],
-                               .fun = function(x) {sum(x[meta$freq])})$V1)
-    rectleft2 <- c(0, rectright2[-length(rectright2)])
     
-    rectleft <- c(rectleft1, rectleft2)
-    rectright <- c(rectright1, rectright2)
-    rectbottom <- c(rep(meta$yat[1] - 0.5 * meta$width, 
-                        length(unique(meta$y[,meta$variables[1]]))),    
-                    rep(meta$yat[2] - 0.5 * meta$width, 
-                        length(unique(meta$y[, meta$variables[2]]))))
-    recttop <- c(rep(meta$yat[1] + 0.5 * meta$width, 
-                     length(unique(meta$y[, meta$variables[1]]))),   
-                 rep(meta$yat[2] + 0.5 * meta$width, 
-                     length(unique(meta$y[, meta$variables[2]]))))
     
-    liney <- rep(c(min(recttop), max(rectbottom), NA), 
-                 nrow(meta$y))
+    liney <- vector(mode = 'list', length = length(meta$variables) - 1)
+    
+    for(i in 1:(length(meta$variables) - 1)){
+      
+      liney[[i]] <- rep(c(unique(recttop[[i]]), unique(rectbottom[[i + 1]]), NA),
+                        nrow(meta$y[,meta$variables[c(i, i + 1)]]))
+      
+    }
+    liney <- unlist(liney)
+    rectleft <- unlist(left)
+    rectright <- unlist(right)
+    rectbottom <- unlist(rectbottom)
+    recttop <- unlist(recttop)
+    
     linex1 <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[2]]), 
                             meta$freq])
     linex1 <- (linex1 - c(0, linex1[-length(linex1)])) * 0.5 + 
@@ -172,6 +184,7 @@ identify_rect <- function (meta)
                             meta$freq])
     linex2 <- (linex2 - c(0, linex2[-length(linex2)])) * 0.5 + 
       c(0, linex2[-length(linex2)])
+    
     linex <- c(rbind(linex2[order(meta$y[names(meta$ylabels)[2]])], 
                      linex1, NA))
     
@@ -217,7 +230,12 @@ identify_rect <- function (meta)
   return(list(rectleft = rectleft, rectright = rectright, rectbottom = rectbottom, 
               recttop = recttop, liney = liney, linex = linex))
 }
-
+.getparalines <- function(meta, main_plotvalues){
+  if(meta$horizontal){
+    
+    
+  }
+}
 ## my version of identify_rect
 .identify_rect <- function (meta, n = 0.01) 
 {
@@ -240,10 +258,10 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
                          data = x)
   
   ################# error handling
-#   if (length(variables) != 2) {
-#     stop("qhammock can only handle 2 variables at this time! 
-#              Please enter variables in form c(X, Y)")
-#     }
+  #   if (length(variables) != 2) {
+  #     stop("qhammock can only handle 2 variables at this time! 
+  #              Please enter variables in form c(X, Y)")
+  #     }
   x <- check_data(x)
   
   ###############################################################
@@ -260,7 +278,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     sumfreq <- ddply(.data = x, .variables = names(x)[1:2], 
                      .fun = function(x){sum(x[names(x)[3]][[1]])})
     names(sumfreq)[3] <- 'nrecords'
-
+    
     return(paste(sapply(X = capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), FUN = str_trim), collapse = "\n"))
   }
   
@@ -449,7 +467,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   }
   
   identify_draw <- function(layer, painter){
-    print('test')
+    
     if(b$identify && length(meta$identified)){
       
       sub <- x[meta$identified, meta$variables]
@@ -463,10 +481,13 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   
   layer.main <- qlayer(paintFun = function(layer, painter) {
     main_plotvalues <- .getmainplotting(meta)
-    qdrawLine(painter, 
-              x = main_plotvalues$linex, 
-              y = main_plotvalues$liney, 
-              stroke = "grey60")
+    paralines <- .getparalines(meta, main_plotvalues)
+    ## draw the horizontal line segs
+    
+    #     qdrawLine(painter, 
+    #               x = main_plotvalues$linex, 
+    #               y = main_plotvalues$liney, 
+    #               stroke = "grey60")
     
     qdrawRect(painter, 
               xleft = main_plotvalues$rectleft, 
@@ -478,10 +499,12 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     
     if (labels) {
       
-      qdrawText(painter, text = c(as.character(unique(meta$y[, 
-                                                             names(meta$variables)[1]])), as.character(unique(meta$y[, 
-                                                                                                                     names(meta$variables)[2]]))), x = 0.5 * (main_plotvalues$rectright - 
-                                                                                                                       main_plotvalues$rectleft) + main_plotvalues$rectleft, 
+      qdrawText(painter, 
+                text = c(as.character(unique(meta$y[, 
+                                                    names(meta$variables)[1]])), as.character(unique(meta$y[, 
+                                                                                                            names(meta$variables)[2]]))), 
+                x = 0.5 * (main_plotvalues$rectright - main_plotvalues$rectleft) + 
+                  main_plotvalues$rectleft, 
                 y = 0.5 * (main_plotvalues$recttop - main_plotvalues$rectbottom) + 
                   main_plotvalues$rectbottom, color = "black", valign = "center", 
                 cex = 1)
