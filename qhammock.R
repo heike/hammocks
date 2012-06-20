@@ -285,16 +285,19 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   meta <- .instantiateHammocks(environment())
   
   .findhitsdata <- function(meta, hits, horizontal) {
+ 
     h <- logical(nrow(x))
     
     # case1: lines
     part <- hits[which(hits <= meta$nlines)]
     part <- meta$y[order(meta$y[, meta$variables[2]]), ][part,]
-    if (nrow(part) > 0) {            
-      h <- sapply(1:nrow(part), FUN = function(y){ x[, 
-                                                     variables[1]] == part[y, ][variables[1]][[1]] & 
+
+    if (nrow(part) > 0) {     
+
+      h <- sapply(1:nrow(part), FUN = function(y){ x[,variables[1]] == part[y, ][variables[1]][[1]] & 
                                                        x[, variables[2]] == part[y, ][variables[2]][[1]]})
-    }
+
+      }
     # #case2: left or top bar
     part <- hits[which(hits - meta$nlines - length(unique(meta$y[, 
                                                                  variables[1]])) > 1)]
@@ -302,7 +305,9 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
       h <- x[, variables[2]] %in% levels(meta$y[, 
                                                 variables[2]])[part - meta$nlines - 
                                                   length(unique(meta$y[, variables[1]])) - 1]
-    }
+
+      
+      }
     # #case3: right bar
     part <- hits[which(hits > meta$nlines & hits < (meta$nlines + 
       length(levels(unlist(meta$y[, variables])))))]
@@ -310,8 +315,14 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     if (length(part) > 0) {
       h <- x[, variables[1]] %in% levels(meta$y[, variables[1]])[part - 
         meta$nlines - 1]
+
+      }
+
+    if(!is.null(ncol(h))){
+
+      h <- Reduce(`|`, as.data.frame(h))
     }
-    
+
     return(h)
   }
   
@@ -342,7 +353,9 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     if (length(hits)) {
       hits <- .findhitsdata(meta, hits)
     }
+
     selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
+     print(unique(as.data.frame(x[x$.brushed,])))
     common_mouse_move(layer, event, x, meta)
     
   }
@@ -484,10 +497,10 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     paralines <- .getparalines(meta, main_plotvalues)
     ## draw the horizontal line segs
     
-    #     qdrawLine(painter, 
-    #               x = main_plotvalues$linex, 
-    #               y = main_plotvalues$liney, 
-    #               stroke = "grey60")
+        qdrawLine(painter, 
+                  x = main_plotvalues$linex, 
+                  y = main_plotvalues$liney, 
+                  stroke = "grey60")
     
     qdrawRect(painter, 
               xleft = main_plotvalues$rectleft, 
