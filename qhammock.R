@@ -138,16 +138,16 @@ identify_rect <- function (meta)
 }
 
 .getmainplotting <- function(meta) {
+  ## allocate the variables
+  right <- vector(mode = 'list', length = length(meta$variables))
+  left <- vector(mode = 'list', length = length(meta$variables))
+  rectbottom <- vector(mode = 'list', length = length(meta$variables))
+  recttop <- vector(mode = 'list', length = length(meta$variables))
+  linex <- vector(mode = 'list', length = length(meta$variables))
+  liney <- vector(mode = 'list', length = length(meta$variables) - 1)
+  
   if (meta$horizontal) {
-    ## allocate the variables
-    right <- vector(mode = 'list', length = length(meta$variables))
-    left <- vector(mode = 'list', length = length(meta$variables))
-    rectbottom <- vector(mode = 'list', length = length(meta$variables))
-    recttop <- vector(mode = 'list', length = length(meta$variables))
-    linex <- vector(mode = 'list', length = length(meta$variables))
-    liney <- vector(mode = 'list', length = length(meta$variables) - 1)
-    
-    ## populate the variables
+     ## populate the variables
     for(i in 1:length(meta$variables)){
       right[[i]] <- cumsum(ddply(meta$y,
                                  .variables = names(meta$ylabels)[i],
@@ -195,28 +195,20 @@ identify_rect <- function (meta)
     
     
   } else {
-    recttop1 <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[1], 
+    for(i in 1:length(meta$variables)){
+      recttop[[i]] <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[i], 
                              .fun = function(x) {
                                sum(x[meta$freq])
                              })$V1)
-    rectbottom1 <- c(0, recttop1[-length(recttop1)])
-    
-    recttop2 <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[2], 
-                             .fun = function(x) {
-                               sum(x[meta$freq])
-                             })$V1)
-    rectbottom2 <- c(0, recttop2[-length(recttop2)])
-    
-    recttop <- c(recttop1, recttop2)
-    rectbottom <- c(rectbottom1, rectbottom2)
-    
-    rectright <- c(rep(meta$xat[1] + 0.5 * meta$width, length(unique(meta$y[, 
-                                                                            meta$variables[1]]))), rep(meta$xat[2] + 0.5 * meta$width, 
-                                                                                                       length(unique(meta$y[, meta$variables[2]]))))
-    rectleft <- c(rep(meta$xat[1] - 0.5 * meta$width, length(unique(meta$y[, 
-                                                                           meta$variables[1]]))), rep(meta$xat[2] - 0.5 * meta$width, 
-                                                                                                      length(unique(meta$y[, meta$variables[2]]))))
-    
+      rectbottom[[i]] <- c(0, recttop[[i]][-length(recttop[[i]])])
+      right[[i]] <- rep(meta$xat[i] + 0.5 * meta$width, length(unique(meta$y[, 
+                      meta$variables[i]])))
+      left[[i]] <- rep(meta$xat[i] - 0.5 * meta$width, length(unique(meta$y[, meta$variables[i]])))
+    }
+    rectleft <- unlist(left)
+    rectright <- unlist(right)
+    rectbottom <- unlist(rectbottom)
+    recttop <- unlist(recttop)
     linex <- rep(c(min(rectright), max(rectleft), NA), nrow(meta$y))
     liney1 <- cumsum(meta$y[order(meta$y[names(meta$xlabels)[2]]), 
                             meta$freq])
@@ -231,7 +223,7 @@ identify_rect <- function (meta)
     
   }
   
-  
+   
   return(list(rectleft = rectleft, rectright = rectright, rectbottom = rectbottom, 
               recttop = recttop, liney = liney, linex = linex))
 }
@@ -577,9 +569,11 @@ print(main_plotvalues$linex)
 qtitanic <- qdata(titanic, color = Class)
 color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", 'Sex'), 
+qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"), 
          horizontal = TRUE)
-# temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
+  
+  
+  # temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
 # = function(x){sum(x$Freq)}) names(temp)[3] <- 'Freq' qhammock(x
 # = qdata(temp), variables = c('Class', 'Survived'), freq =
 # 'Freq') qhammock(x = qdata(temp), variables = c('Class',
