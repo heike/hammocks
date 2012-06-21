@@ -90,13 +90,14 @@ identify_rect <- function (meta)
   } else {
     xat <- param$xat
   }
-  
+  print(xat)
   if (is.null(param$yat)) {
     yat <- pretty(1:sum(y[, param$freq, ]))
   } else {
     yat <- param$yat
   }
-  limits <- matrix(c(c(-1, 1) * diff(xat) * 2 * param$width + xat, 
+  print(yat)
+  limits <- matrix(c(c(-1, 1) * diff(range(xat)) * 2 * param$width + range(xat), 
                      c(-0.1, 1.1) * sum(y[, param$freq])), 2)
   if (param$horizontal) {
     temp <- yat
@@ -138,11 +139,15 @@ identify_rect <- function (meta)
 
 .getmainplotting <- function(meta) {
   if (meta$horizontal) {
+    ## allocate the variables
     right <- vector(mode = 'list', length = length(meta$variables))
     left <- vector(mode = 'list', length = length(meta$variables))
     rectbottom <- vector(mode = 'list', length = length(meta$variables))
     recttop <- vector(mode = 'list', length = length(meta$variables))
     linex <- vector(mode = 'list', length = length(meta$variables))
+    liney <- vector(mode = 'list', length = length(meta$variables) - 1)
+    
+    ## populate the variables
     for(i in 1:length(meta$variables)){
       right[[i]] <- cumsum(ddply(meta$y,
                                  .variables = names(meta$ylabels)[i],
@@ -159,9 +164,9 @@ identify_rect <- function (meta)
         c(0, linex[[i]][-length(linex[[i]])])
     }
     
+
+  
     
-    
-    liney <- vector(mode = 'list', length = length(meta$variables) - 1)
     
     for(i in 1:(length(meta$variables) - 1)){
       
@@ -511,11 +516,9 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
               fill = meta$pal[1:6])
     
     if (labels) {
-      
+   
       qdrawText(painter, 
-                text = c(as.character(unique(meta$y[, 
-                                                    names(meta$variables)[1]])), as.character(unique(meta$y[, 
-                                                                                                            names(meta$variables)[2]]))), 
+                text = unlist(sapply(names(meta$variables), FUN = function(y){unique(meta$y[,y])})), 
                 x = 0.5 * (main_plotvalues$rectright - main_plotvalues$rectleft) + 
                   main_plotvalues$rectleft, 
                 y = 0.5 * (main_plotvalues$recttop - main_plotvalues$rectbottom) + 
@@ -574,7 +577,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
 qtitanic <- qdata(titanic, color = Class)
 color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived"), 
+qhammock(x = qtitanic, variables = c("Class", "Survived", "Age"), 
          horizontal = TRUE)
 # temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
 # = function(x){sum(x$Freq)}) names(temp)[3] <- 'Freq' qhammock(x
