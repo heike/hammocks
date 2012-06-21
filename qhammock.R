@@ -123,6 +123,7 @@ identify_rect <- function (meta)
       .new_pal()(length(unique(unlist(data.frame(param$x[, 
                                                          param$variables])))))
   }
+ 
   return(Hammocks.meta$new(y = y, 
                            freq = param$freq, xat = xat, yat = yat, 
                            horizontal = param$horizontal, limits = limits, 
@@ -131,9 +132,9 @@ identify_rect <- function (meta)
                            variables = param$variables, width = param$width, 
                            pal = param$pal, 
                            brush.size = c(1, -1) * apply(limits, 2, diff)/15, 
-                           nlines = length(unique(param$x[, 
-                                                          param$variables[1]])) * length(unique(param$x[, 
-                                                                                                        param$variables[2]])), 
+                           nlines = cumsum(unlist(sapply(1:length(param$variables), FUN = function(x){if(x > 1){
+                             length(unique(y[,param$variables[x]])) * length(unique(y[,param$variables[x - 1]]))
+                           }}))), 
                            active = TRUE))
 }
 
@@ -268,39 +269,63 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   meta <- .instantiateHammocks(environment())
   
   .findhitsdata <- function(meta, hits, horizontal) {
- 
+
     h <- logical(nrow(x))
     
     # case1: lines
-    part <- hits[which(hits <= meta$nlines)]
-    part <- meta$y[order(meta$y[, meta$variables[2]]), ][part,]
+  # subset the hits values for lines only
+  part <- hits[which(hits <= max(meta$nlines))]
+  # figure out which variables the lines are between   
+  # generate a list of the no. of lines between each variable
+  # check subset values part against this list
+  if(length(part)){
 
-    if (nrow(part) > 0) {     
+    for(i in part){
+      nvar <- min(which(i <= meta$nlines))
 
-      h <- sapply(1:nrow(part), FUN = function(y){ x[,variables[1]] == part[y, ][variables[1]][[1]] & 
-                                                       x[, variables[2]] == part[y, ][variables[2]][[1]]})
-
+      newpart <- ddply(meta$y, .variables = meta$variables[c(nvar, nvar + 1)],
+                  .fun = function(x){sum(x[meta$freq])})
+      newpart <- newpart[order(newpart[,meta$variables[nvar]]),]
+ 
+      if(nvar > 1){
+        newpart <- newpart[(i - meta$nlines[nvar - 1]),]
+      } else {
+        newpart <- newpart[i,]
       }
-    # #case2: left or top bar
-    part <- hits[which(hits - meta$nlines - length(unique(meta$y[, 
-                                                                 variables[1]])) > 1)]
-    if (length(part) > 0) {
-      h <- x[, variables[2]] %in% levels(meta$y[, 
-                                                variables[2]])[part - meta$nlines - 
-                                                  length(unique(meta$y[, variables[1]])) - 1]
-
-      
+      if (nrow(newpart) > 0) {     
+         for(j in 1:nrow(newpart)){
+           
+           h <- h | x[, meta$variables[nvar]] == newpart[j, meta$variables[nvar]] &
+                         x[, meta$variables[nvar + 1]] == newpart[j, meta$variables[nvar + 1]]
+           
+           
+         }
+        
       }
-    # #case3: right bar
-    part <- hits[which(hits > meta$nlines & hits < (meta$nlines + 
-      length(levels(unlist(meta$y[, variables])))))]
+    }
     
-    if (length(part) > 0) {
-      h <- x[, variables[1]] %in% levels(meta$y[, variables[1]])[part - 
-        meta$nlines - 1]
 
+  }  
+
+  
+      
+  # case 2: category
+  # subset the hits values for bar cat
+  part <- hits[which(hits - max(meta$nlines)  > 1)]
+  if (length(part) > 0) {
+    ncat <- cumsum(sapply(1:length(meta$variables), FUN = function(x){length(unique(meta$y[,meta$variables[x]]))}))
+    for(i in part){
+      curcat <- min(which((i - 1 - max(meta$nlines)) <= ncat))  
+      if(curcat > 1){
+        newpart <- unique(meta$y[, meta$variables[curcat]])[i - 1 - max(meta$nlines) - ncat[curcat - 1]]
+      } else {
+        newpart <- unique(meta$y[, meta$variables[curcat]])[i - 1 - max(meta$nlines)]
       }
+      h <- h | x[, meta$variables[curcat]] == newpart
+    }
 
+    
+  }
     if(!is.null(ncol(h))){
 
       h <- Reduce(`|`, as.data.frame(h))
@@ -366,99 +391,100 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     main_plotvalues <- .getmainplotting(meta)
     sub <- x[selected(x), ][meta$variables]
     sub <- unique(as.data.frame(sub))
-    
-    ## draw selected lines when brushing
-    lineid <- NULL
-    if (nrow(sub) > 0) {
-      
-      
-      lineid <- sapply(1:nrow(sub), FUN = function(x){
-        which(meta$y[order(meta$y[,meta$variables[2]]), 
-                     meta$variables[1]] == sub[x, meta$variables[1]] &
-                       meta$y[order(meta$y[,meta$variables[2]]), 
-                              meta$variables[2]] == sub[x, meta$variables[2]])
-        
-      })
-    }
-    lineid <- unique(lineid)
-    if (length(lineid) > 1) {
-      thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
-                          meta$freq][lineid]
-      newy <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
-        rep(c(main_plotvalues$liney[3 * lineid[a] - 2], 
-              main_plotvalues$liney[3 * lineid[a] - 1]), each = 2) + 
-                rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness[a], 
-                                          0), 2)})[c(1, 2, 4, 3), ], NA))
-      newx <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
-        rep(c(main_plotvalues$linex[3 * lineid[a] - 2], 
-              main_plotvalues$linex[3 * lineid[a] - 1]), each = 2) + 
-                rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness[a], 
-                                          0), 2)})[c(1, 2, 4, 3), ], NA))
-      
-      qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
-                                                             "Brush")$color), stroke = NA)
-      qdrawLine(painter, y = c(rbind(main_plotvalues$liney[3 * 
-        lineid - 2], main_plotvalues$liney[3 * lineid - 1], 
-                                     NA)), x = c(rbind(main_plotvalues$linex[3 * lineid - 
-                                       2], main_plotvalues$linex[3 * lineid - 1], NA)), stroke = "grey60")
-      if (meta$horizontal) {
-        qdrawRect(painter, ytop = min(newy, na.rm = T), ybottom = min(newy, 
-                                                                      na.rm = T) - meta$width, xleft = newx[5 * (1:length(lineid)) - 
-                                                                        4], xright = newx[5 * (1:length(lineid)) - 3], fill = attr(x, 
-                                                                                                                                   "Brush")$color, stroke = NA)
-        qdrawRect(painter, ytop = max(newy, na.rm = T), ybottom = max(newy, 
-                                                                      na.rm = T) + meta$width, xleft = newx[5 * (1:length(lineid)) - 
-                                                                        1], xright = newx[5 * (1:length(lineid)) - 2], fill = attr(x, 
-                                                                                                                                   "Brush")$color, stroke = NA)
-      } else {
-        
-        qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
-          4], ybottom = newy[5 * (1:length(lineid)) - 3], xright = min(newx, 
-                                                                       na.rm = T), xleft = min(newx, na.rm = T) - meta$width, 
-                  fill = attr(x, "Brush")$color, stroke = NA)
-        qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
-          1], ybottom = newy[5 * (1:length(lineid)) - 2], xleft = max(newx, 
-                                                                      na.rm = T), xright = max(newx, na.rm = T) + meta$width, 
-                  fill = attr(x, "Brush")$color, stroke = NA)
-      }
-    } else if (length(lineid) == 1) {
-      thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
-                          meta$freq][lineid]
-      newy <- c(rep(c(main_plotvalues$liney[3 * lineid - 2], 
-                      main_plotvalues$liney[3 * lineid - 1]), each = 2) + 
-                        rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness, 
-                                                  0), 2))[c(1, 2, 4, 3)]
-      newx <- c(rep(c(main_plotvalues$linex[3 * lineid - 2], 
-                      main_plotvalues$linex[3 * lineid - 1]), each = 2) + 
-                        rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness, 
-                                                  0), 2))[c(1, 2, 4, 3)]
-      
-      qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
-                                                             "Brush")$color), stroke = NA)
-      
-      qdrawLine(painter, y = c(main_plotvalues$liney[3 * lineid - 
-        2], main_plotvalues$liney[3 * lineid - 1]), x = 
-        c(main_plotvalues$linex[3 * lineid - 2], 
-          main_plotvalues$linex[3 * lineid - 1]), stroke = "grey60")
-      if (meta$horizontal) {
-        qdrawRect(painter, ytop = min(newy), ybottom = min(newy) - 
-          meta$width, xleft = newx[1], xright = newx[2], fill = attr(x, 
-                                                                     "Brush")$color, stroke = NA)
-        qdrawRect(painter, ybottom = max(newy), ytop = max(newy) + 
-          meta$width, xleft = newx[4], xright = newx[3], fill = attr(x, 
-                                                                     "Brush")$color, stroke = NA)
-        
-      } else {
-        qdrawRect(painter, ytop = newy[1], ybottom = newy[2], 
-                  xleft = min(newx) - meta$width, xright = min(newx), 
-                  fill = attr(x, "Brush")$color, stroke = NA)
-        qdrawRect(painter, ytop = newy[4], ybottom = newy[3], 
-                  xleft = max(newx), xright = max(newx) + meta$width, 
-                  fill = attr(x, "Brush")$color, stroke = NA)
-      }
-    }
-    
-    
+    print(sub)
+#     
+#     ## draw selected lines when brushing
+#     lineid <- NULL
+#     if (nrow(sub) > 0) {
+#       
+#       
+#       lineid <- sapply(1:nrow(sub), FUN = function(x){
+#         which(meta$y[order(meta$y[,meta$variables[2]]), 
+#                      meta$variables[1]] == sub[x, meta$variables[1]] &
+#                        meta$y[order(meta$y[,meta$variables[2]]), 
+#                               meta$variables[2]] == sub[x, meta$variables[2]])
+#         
+#       })
+#     }
+#     lineid <- unique(lineid)
+#     if (length(lineid) > 1) {
+#       thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
+#                           meta$freq][lineid]
+#       newy <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
+#         rep(c(main_plotvalues$liney[3 * lineid[a] - 2], 
+#               main_plotvalues$liney[3 * lineid[a] - 1]), each = 2) + 
+#                 rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness[a], 
+#                                           0), 2)})[c(1, 2, 4, 3), ], NA))
+#       newx <- c(rbind(sapply(1:length(lineid), FUN = function(a) {
+#         rep(c(main_plotvalues$linex[3 * lineid[a] - 2], 
+#               main_plotvalues$linex[3 * lineid[a] - 1]), each = 2) + 
+#                 rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness[a], 
+#                                           0), 2)})[c(1, 2, 4, 3), ], NA))
+#       
+#       qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
+#                                                              "Brush")$color), stroke = NA)
+#       qdrawLine(painter, y = c(rbind(main_plotvalues$liney[3 * 
+#         lineid - 2], main_plotvalues$liney[3 * lineid - 1], 
+#                                      NA)), x = c(rbind(main_plotvalues$linex[3 * lineid - 
+#                                        2], main_plotvalues$linex[3 * lineid - 1], NA)), stroke = "grey60")
+#       if (meta$horizontal) {
+#         qdrawRect(painter, ytop = min(newy, na.rm = T), ybottom = min(newy, 
+#                                                                       na.rm = T) - meta$width, xleft = newx[5 * (1:length(lineid)) - 
+#                                                                         4], xright = newx[5 * (1:length(lineid)) - 3], fill = attr(x, 
+#                                                                                                                                    "Brush")$color, stroke = NA)
+#         qdrawRect(painter, ytop = max(newy, na.rm = T), ybottom = max(newy, 
+#                                                                       na.rm = T) + meta$width, xleft = newx[5 * (1:length(lineid)) - 
+#                                                                         1], xright = newx[5 * (1:length(lineid)) - 2], fill = attr(x, 
+#                                                                                                                                    "Brush")$color, stroke = NA)
+#       } else {
+#         
+#         qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
+#           4], ybottom = newy[5 * (1:length(lineid)) - 3], xright = min(newx, 
+#                                                                        na.rm = T), xleft = min(newx, na.rm = T) - meta$width, 
+#                   fill = attr(x, "Brush")$color, stroke = NA)
+#         qdrawRect(painter, ytop = newy[5 * (1:length(lineid)) - 
+#           1], ybottom = newy[5 * (1:length(lineid)) - 2], xleft = max(newx, 
+#                                                                       na.rm = T), xright = max(newx, na.rm = T) + meta$width, 
+#                   fill = attr(x, "Brush")$color, stroke = NA)
+#       }
+#     } else if (length(lineid) == 1) {
+#       thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
+#                           meta$freq][lineid]
+#       newy <- c(rep(c(main_plotvalues$liney[3 * lineid - 2], 
+#                       main_plotvalues$liney[3 * lineid - 1]), each = 2) + 
+#                         rep(c(-0.5, 0.5) * ifelse(!meta$horizontal, thickness, 
+#                                                   0), 2))[c(1, 2, 4, 3)]
+#       newx <- c(rep(c(main_plotvalues$linex[3 * lineid - 2], 
+#                       main_plotvalues$linex[3 * lineid - 1]), each = 2) + 
+#                         rep(c(-0.5, 0.5) * ifelse(meta$horizontal, thickness, 
+#                                                   0), 2))[c(1, 2, 4, 3)]
+#       
+#       qdrawPolygon(painter, y = newy, x = newx, fill = (attr(x, 
+#                                                              "Brush")$color), stroke = NA)
+#       
+#       qdrawLine(painter, y = c(main_plotvalues$liney[3 * lineid - 
+#         2], main_plotvalues$liney[3 * lineid - 1]), x = 
+#         c(main_plotvalues$linex[3 * lineid - 2], 
+#           main_plotvalues$linex[3 * lineid - 1]), stroke = "grey60")
+#       if (meta$horizontal) {
+#         qdrawRect(painter, ytop = min(newy), ybottom = min(newy) - 
+#           meta$width, xleft = newx[1], xright = newx[2], fill = attr(x, 
+#                                                                      "Brush")$color, stroke = NA)
+#         qdrawRect(painter, ybottom = max(newy), ytop = max(newy) + 
+#           meta$width, xleft = newx[4], xright = newx[3], fill = attr(x, 
+#                                                                      "Brush")$color, stroke = NA)
+#         
+#       } else {
+#         qdrawRect(painter, ytop = newy[1], ybottom = newy[2], 
+#                   xleft = min(newx) - meta$width, xright = min(newx), 
+#                   fill = attr(x, "Brush")$color, stroke = NA)
+#         qdrawRect(painter, ytop = newy[4], ybottom = newy[3], 
+#                   xleft = max(newx), xright = max(newx) + meta$width, 
+#                   fill = attr(x, "Brush")$color, stroke = NA)
+#       }
+#     }
+#     
+#     
     draw_brush(layer, painter, x, meta)
   }
   
