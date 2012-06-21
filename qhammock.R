@@ -147,85 +147,71 @@ identify_rect <- function (meta)
   liney <- vector(mode = 'list', length = length(meta$variables) - 1)
  
   if (meta$horizontal) {
+    selectlabels <- meta$ylabels
+    selectaxis <- meta$yat
+  } else {
+    selectlabels <- meta$xlabels
+    selectaxis <- meta$xat
+  }
      ## populate the variables
 
-    for(i in 1:length(meta$variables)){
-      right[[i]] <- cumsum(ddply(meta$y,
-                                 .variables = names(meta$ylabels)[i],
-                                 .fun = function(x){
-                                   sum(x[meta$freq])})$V1)
-      left[[i]] <- c(0, right[[i]][-length(right[[i]])])
-      rectbottom[[i]] <- rep(meta$yat[i] - 0.5 * meta$width, 
-                             length(unique(meta$y[,meta$variables[i]])))
-      recttop[[i]] <- rep(meta$yat[i] + 0.5 * meta$width, 
-                          length(unique(meta$y[, meta$variables[i]])))
+  for(i in 1:length(meta$variables)){
+    right[[i]] <- cumsum(ddply(meta$y,
+                               .variables = names(selectlabels)[i],
+                               .fun = function(x){
+                                 sum(x[meta$freq])})$V1)
+    left[[i]] <- c(0, right[[i]][-length(right[[i]])])
+    rectbottom[[i]] <- rep(selectaxis[i] - 0.5 * meta$width, 
+                           length(unique(meta$y[,meta$variables[i]])))
+    recttop[[i]] <- rep(selectaxis[i] + 0.5 * meta$width, 
+                        length(unique(meta$y[, meta$variables[i]])))
 
-      if(i > 1){
-        tmp1 <- cumsum(ddply(meta$y[order(meta$y[names(meta$ylabels)[i - 1]]),], 
-                           .variables = meta$variables[c(i - 1, i)], 
-                           .fun = function(a){sum(a[meta$freq])})$V1)
-        tmp1 <- c(0, tmp1[-length(tmp1)])  + 0.5 * (tmp1 - c(0, tmp1[-length(tmp1)]))
-        tmp2 <- ddply(meta$y[order(meta$y[names(meta$ylabels)[i]]),], 
-                             .variables = meta$variables[c(i, i - 1)], 
-                             .fun = function(a){sum(a[meta$freq])})
-        neworder <- order(tmp2[meta$variables[i - 1]])
-        tmp2 <- cumsum(tmp2$V1)
-        tmp2 <- c(0, tmp2[-length(tmp2)])  + 0.5 * (tmp2 - c(0, tmp2[-length(tmp2)]))
-        tmp2 <- tmp2[neworder]
-        linex[[i - 1]] <- c(rbind(tmp1, tmp2, NA))
-        liney[[i - 1]] <- rep(c(unique(recttop[[i - 1]]), unique(rectbottom[[i]]), NA),
-                              length(unique(meta$y[,meta$variables[i-1]])) * 
-                                length(unique(meta$y[,meta$variables[i]])))
+    if(i > 1){
+      tmp1 <- cumsum(ddply(meta$y[order(meta$y[names(selectlabels)[i - 1]]),], 
+                         .variables = meta$variables[c(i - 1, i)], 
+                         .fun = function(a){sum(a[meta$freq])})$V1)
+      tmp1 <- c(0, tmp1[-length(tmp1)])  + 0.5 * (tmp1 - c(0, tmp1[-length(tmp1)]))
+      tmp2 <- ddply(meta$y[order(meta$y[names(selectlabels)[i]]),], 
+                           .variables = meta$variables[c(i, i - 1)], 
+                           .fun = function(a){sum(a[meta$freq])})
+      neworder <- order(tmp2[meta$variables[i - 1]])
+      tmp2 <- cumsum(tmp2$V1)
+      tmp2 <- c(0, tmp2[-length(tmp2)])  + 0.5 * (tmp2 - c(0, tmp2[-length(tmp2)]))
+      tmp2 <- tmp2[neworder]
+      linex[[i - 1]] <- c(rbind(tmp1, tmp2, NA))
+      liney[[i - 1]] <- rep(c(unique(recttop[[i - 1]]), unique(rectbottom[[i]]), NA),
+                            length(unique(meta$y[,meta$variables[i-1]])) * 
+                              length(unique(meta$y[,meta$variables[i]])))
 
-      }
     }
-    
-
-    test <- ddply(meta$y[order(meta$y[names(meta$ylabels)[2]]),], 
-                .variables = meta$variables[c(2,1)], 
-                .fun = function(a){sum(a[meta$freq])})
-
-    
-    linex <- unlist(linex)
-    liney <- unlist(liney)
-
-    rectleft <- unlist(left)
-    rectright <- unlist(right)
-    rectbottom <- unlist(rectbottom)
-    recttop <- unlist(recttop)
-    
-  } else {
-    for(i in 1:length(meta$variables)){
-      recttop[[i]] <- cumsum(ddply(meta$y, .variables = names(meta$xlabels)[i], 
-                             .fun = function(x) {
-                               sum(x[meta$freq])
-                             })$V1)
-      rectbottom[[i]] <- c(0, recttop[[i]][-length(recttop[[i]])])
-      right[[i]] <- rep(meta$xat[i] + 0.5 * meta$width, length(unique(meta$y[, 
-                      meta$variables[i]])))
-      left[[i]] <- rep(meta$xat[i] - 0.5 * meta$width, length(unique(meta$y[, meta$variables[i]])))
-    }
-    rectleft <- unlist(left)
-    rectright <- unlist(right)
-    rectbottom <- unlist(rectbottom)
-    recttop <- unlist(recttop)
-    linex <- rep(c(min(rectright), max(rectleft), NA), nrow(meta$y))
-    liney1 <- cumsum(meta$y[order(meta$y[names(meta$xlabels)[2]]), 
-                            meta$freq])
-    liney1 <- (liney1 - c(0, liney1[-length(liney1)])) * 0.5 + 
-      c(0, liney1[-length(liney1)])
-    liney2 <- cumsum(meta$y[order(meta$y[names(meta$xlabels)[1]]), 
-                            meta$freq])
-    liney2 <- (liney2 - c(0, liney2[-length(liney2)])) * 0.5 + 
-      c(0, liney2[-length(liney2)])
-    liney <- c(rbind(liney2[order(meta$y[names(meta$xlabels)[2]])], 
-                     liney1, NA))
-    print(linex)
   }
-  
    
+  if(!meta$horizontal){
+    tmp <- recttop
+    recttop <- right
+    right <- tmp
+
+    
+    tmp <- rectbottom
+    rectbottom <- left
+    left <- tmp
+    
+    tmp <- linex
+    linex <- liney
+    liney <- tmp
+
+  }
+  linex <- unlist(linex)
+  liney <- unlist(liney)
+  
+  rectleft <- unlist(left)
+  rectright <- unlist(right)
+  rectbottom <- unlist(rectbottom)
+  recttop <- unlist(recttop)
+
   return(list(rectleft = rectleft, rectright = rectright, rectbottom = rectbottom, 
-              recttop = recttop, liney = liney, linex = linex))
+              recttop = recttop, liney = liney, linex = linex, 
+              ncat = sum(sapply(meta$variables, FUN = function(y){length(unique(meta$y[,y]))})) ))
 }
 .getparalines <- function(meta, main_plotvalues){
   if(meta$horizontal){
@@ -497,14 +483,13 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
                   x = main_plotvalues$linex, 
                   y = main_plotvalues$liney, 
                   stroke = "grey60")
-    
     qdrawRect(painter, 
               xleft = main_plotvalues$rectleft, 
               xright = main_plotvalues$rectright, 
               ybottom = main_plotvalues$rectbottom, 
               ytop = main_plotvalues$recttop, 
               stroke = "grey60", 
-              fill = meta$pal[1:6])
+              fill = meta$pal[1:main_plotvalues$ncat])
     
     if (labels) {
    
@@ -568,8 +553,8 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
 qtitanic <- qdata(titanic, color = Class)
 color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"), 
-         horizontal = TRUE)
+qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"))#, 
+#          horizontal = TRUE)
   
   
   # temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
