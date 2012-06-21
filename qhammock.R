@@ -143,11 +143,12 @@ identify_rect <- function (meta)
   left <- vector(mode = 'list', length = length(meta$variables))
   rectbottom <- vector(mode = 'list', length = length(meta$variables))
   recttop <- vector(mode = 'list', length = length(meta$variables))
-  linex <- vector(mode = 'list', length = length(meta$variables))
+  linex <- vector(mode = 'list', length = length(meta$variables) - 1)
   liney <- vector(mode = 'list', length = length(meta$variables) - 1)
-  
+ 
   if (meta$horizontal) {
      ## populate the variables
+
     for(i in 1:length(meta$variables)){
       right[[i]] <- cumsum(ddply(meta$y,
                                  .variables = names(meta$ylabels)[i],
@@ -158,41 +159,40 @@ identify_rect <- function (meta)
                              length(unique(meta$y[,meta$variables[i]])))
       recttop[[i]] <- rep(meta$yat[i] + 0.5 * meta$width, 
                           length(unique(meta$y[, meta$variables[i]])))
-      linex[[i]] <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[i]]), 
-                                  meta$freq])
-      linex[[i]] <- (linex[[i]] - c(0, linex[[i]][-length(linex[[i]])])) * 0.5 + 
-        c(0, linex[[i]][-length(linex[[i]])])
+
+      if(i > 1){
+        tmp1 <- cumsum(ddply(meta$y[order(meta$y[names(meta$ylabels)[i - 1]]),], 
+                           .variables = meta$variables[c(i - 1, i)], 
+                           .fun = function(a){sum(a[meta$freq])})$V1)
+        tmp1 <- c(0, tmp1[-length(tmp1)])  + 0.5 * (tmp1 - c(0, tmp1[-length(tmp1)]))
+        tmp2 <- ddply(meta$y[order(meta$y[names(meta$ylabels)[i]]),], 
+                             .variables = meta$variables[c(i, i - 1)], 
+                             .fun = function(a){sum(a[meta$freq])})
+        neworder <- order(tmp2[meta$variables[i - 1]])
+        tmp2 <- cumsum(tmp2$V1)
+        tmp2 <- c(0, tmp2[-length(tmp2)])  + 0.5 * (tmp2 - c(0, tmp2[-length(tmp2)]))
+        tmp2 <- tmp2[neworder]
+        linex[[i - 1]] <- c(rbind(tmp1, tmp2, NA))
+        liney[[i - 1]] <- rep(c(unique(recttop[[i - 1]]), unique(rectbottom[[i]]), NA),
+                              length(unique(meta$y[,meta$variables[i-1]])) * 
+                                length(unique(meta$y[,meta$variables[i]])))
+
+      }
     }
     
 
-  
+    test <- ddply(meta$y[order(meta$y[names(meta$ylabels)[2]]),], 
+                .variables = meta$variables[c(2,1)], 
+                .fun = function(a){sum(a[meta$freq])})
+
     
-    
-    for(i in 1:(length(meta$variables) - 1)){
-      
-      liney[[i]] <- rep(c(unique(recttop[[i]]), unique(rectbottom[[i + 1]]), NA),
-                        nrow(meta$y[,meta$variables[c(i, i + 1)]]))
-      
-    }
+    linex <- unlist(linex)
     liney <- unlist(liney)
+
     rectleft <- unlist(left)
     rectright <- unlist(right)
     rectbottom <- unlist(rectbottom)
     recttop <- unlist(recttop)
-    
-    linex1 <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[2]]), 
-                            meta$freq])
-    linex1 <- (linex1 - c(0, linex1[-length(linex1)])) * 0.5 + 
-      c(0, linex1[-length(linex1)])
-    
-    linex2 <- cumsum(meta$y[order(meta$y[names(meta$ylabels)[1]]), 
-                            meta$freq])
-    linex2 <- (linex2 - c(0, linex2[-length(linex2)])) * 0.5 + 
-      c(0, linex2[-length(linex2)])
-    
-    linex <- c(rbind(linex2[order(meta$y[names(meta$ylabels)[2]])], 
-                     linex1, NA))
-    
     
   } else {
     for(i in 1:length(meta$variables)){
@@ -220,7 +220,7 @@ identify_rect <- function (meta)
       c(0, liney2[-length(liney2)])
     liney <- c(rbind(liney2[order(meta$y[names(meta$xlabels)[2]])], 
                      liney1, NA))
-    
+    print(linex)
   }
   
    
@@ -352,7 +352,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     }
 
     selected(x) <- mode_selection(selected(x), hits, mode = b$mode)
-     print(unique(as.data.frame(x[x$.brushed,])))
+    
     common_mouse_move(layer, event, x, meta)
     
   }
@@ -492,7 +492,6 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   layer.main <- qlayer(paintFun = function(layer, painter) {
     main_plotvalues <- .getmainplotting(meta)
     paralines <- .getparalines(meta, main_plotvalues)
-print(main_plotvalues$linex)
     
         qdrawLine(painter, 
                   x = main_plotvalues$linex, 
