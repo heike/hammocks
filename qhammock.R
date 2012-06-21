@@ -90,13 +90,13 @@ identify_rect <- function (meta)
   } else {
     xat <- param$xat
   }
-  print(xat)
+
   if (is.null(param$yat)) {
     yat <- pretty(1:sum(y[, param$freq, ]))
   } else {
     yat <- param$yat
   }
-  print(yat)
+
   limits <- matrix(c(c(-1, 1) * diff(range(xat)) * 2 * param$width + range(xat), 
                      c(-0.1, 1.1) * sum(y[, param$freq])), 2)
   if (param$horizontal) {
@@ -500,7 +500,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   layer.main <- qlayer(paintFun = function(layer, painter) {
     main_plotvalues <- .getmainplotting(meta)
     paralines <- .getparalines(meta, main_plotvalues)
-    ## draw the horizontal line segs
+print(main_plotvalues$linex)
     
         qdrawLine(painter, 
                   x = main_plotvalues$linex, 
@@ -577,7 +577,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
 qtitanic <- qdata(titanic, color = Class)
 color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived", "Age"), 
+qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", 'Sex'), 
          horizontal = TRUE)
 # temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
 # = function(x){sum(x$Freq)}) names(temp)[3] <- 'Freq' qhammock(x
