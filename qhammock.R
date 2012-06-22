@@ -52,7 +52,6 @@ draw_identify<- function (layer, painter, data, meta)
 identify_rect <- function (meta) 
 {
   r = apply(meta$limits, 2, diff)/100
-  
   p = meta$pos
   qrect(rbind(p - r, p + r))
 }
@@ -214,11 +213,29 @@ identify_rect <- function (meta)
               recttop = recttop, liney = liney, linex = linex, 
               ncat = sum(sapply(meta$variables, FUN = function(y){length(unique(meta$y[,y]))})) ))
 }
-.getparalines <- function(meta, main_plotvalues){
+.getparalines <- function(meta, main_plotvalues, sub){
   if(meta$horizontal){
     
     
+  } else{
+    # create a list of the subtables
+    subtables <- vector(mode = 'list', length = length(meta$variables) - 1)
+    for(i in 1:length(subtables)){
+        subtables[[i]] <- ddply(meta$y, .variables = meta$variables[c(i, i + 1)], 
+                                .fun = function(a){sum(a[meta$freq])})
+ 
+    }
+
+    closest <- as.integer(meta$pos[1])
+    if(meta$pos[1] < (closest + 0.5 * meta$width) & meta$pos[1] > (closest - 0.5 * meta$width)){
+      seps <- cumsum(ddply(meta$y, .variables = meta$variables[closest], .fun = function(a){sum(a[meta$freq])})$V1)
+      print(seps)
+      print(which(meta$pos[2] > seps))
+    }
+
+    
   }
+
 }
 ## my version of identify_rect
 .identify_rect <- function (meta, n = 0.01) 
@@ -389,23 +406,22 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   brush_draw <- function(layer, painter) {
     
     main_plotvalues <- .getmainplotting(meta)
-    sub <- x[selected(x), ][meta$variables]
-    sub <- unique(as.data.frame(sub))
-    print(sub)
-#     
-#     ## draw selected lines when brushing
-#     lineid <- NULL
-#     if (nrow(sub) > 0) {
+    sub <- as.data.frame(x[selected(x), ][meta$variables])
+#     sub <- unique(as.data.frame(sub))
+
+    
+    ## draw selected lines when brushing
+    lineid <- NULL
+    if (nrow(sub) > 0) {
+      paralines <- .getparalines(meta, main_plotvalues, sub)
+     
+      
 #       
 #       
 #       lineid <- sapply(1:nrow(sub), FUN = function(x){
-#         which(meta$y[order(meta$y[,meta$variables[2]]), 
-#                      meta$variables[1]] == sub[x, meta$variables[1]] &
-#                        meta$y[order(meta$y[,meta$variables[2]]), 
-#                               meta$variables[2]] == sub[x, meta$variables[2]])
-#         
-#       })
-#     }
+#         which(meta$y[order(meta$y[,meta$variables[2]]), meta$variables[1]] == sub[x, meta$variables[1]] &
+#               meta$y[order(meta$y[,meta$variables[2]]), meta$variables[2]] == sub[x, meta$variables[2]])})
+    }
 #     lineid <- unique(lineid)
 #     if (length(lineid) > 1) {
 #       thickness <- meta$y[order(meta$y[, meta$variables[2]]), 
@@ -503,7 +519,7 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   
   layer.main <- qlayer(paintFun = function(layer, painter) {
     main_plotvalues <- .getmainplotting(meta)
-    paralines <- .getparalines(meta, main_plotvalues)
+ 
     
         qdrawLine(painter, 
                   x = main_plotvalues$linex, 
