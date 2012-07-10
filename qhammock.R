@@ -246,12 +246,177 @@ identify_rect <- function (meta)
   qrect(rbind(p - r, p + r))
 }
 
+.drawhorizontalribbons <- function(main_plotvalues, meta, painter){
+  
+  lineyends <- vector(mode = 'list', length(meta$variables) - 1)
+  straightlines <- vector(mode = 'list', length(meta$variables) - 1)
+  downlines <- vector(mode = 'list', length(meta$variables) - 1)
+  uplines <- vector(mode = 'list', length(meta$variables) - 1)
+  sorteddownlines <- vector(mode = 'list', length(meta$variables) - 1)
+  sorteduplines <- vector(mode = 'list', length(meta$variables) - 1)
+  mults <- vector(mode = 'list', length(meta$variables) - 1)
+  sortedlines <- vector(mode = 'list', length(meta$variables) - 1)
+  for(k in 1:length(lineyends)){
+    sub_linex <- main_plotvalues$linex[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
+    sub_liney <- main_plotvalues$liney[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
+    lineyends[[k]] <- cbind(data.frame(matrix(sub_linex,
+                                              nrow = length(sub_linex)/6,
+                                              ncol = 6, byrow = TRUE)[,c(2,4)]),
+                            data.frame(matrix(sub_liney,
+                                              nrow = length(sub_liney)/6,
+                                              ncol = 6, byrow = TRUE)[,c(2,4)]))
+    names(lineyends[[k]]) <- c('start', 'end', 'startaxis', 'endaxis')
+    ncolors <- (meta$nlines - c(0, meta$nlines[1:(length(meta$nlines) - 1)])) / 2
+    
+    lineyends[[k]] <- cbind(lineyends[[k]], thick = lineyends[[k]]$start - 
+      c(0, lineyends[[k]]$start[-nrow(lineyends[[k]])]), unique(meta$y[,c(k, k + 1)]))
+    print(as.numeric (lineyends[[k]][6][[1]]))
+    lineyends[[k]] <- cbind(lineyends[[k]], color =  meta$pal[max(0, cumsum(ncolors)[k - 1]) + 
+      as.numeric(lineyends[[k]][6][[1]])])
+    uplines[[k]] <- lineyends[[k]][lineyends[[k]]$end > lineyends[[k]]$start,]
+    downlines[[k]] <- lineyends[[k]][lineyends[[k]]$end < lineyends[[k]]$start,]
+    straightlines[[k]] <- lineyends[[k]][lineyends[[k]]$end == lineyends[[k]]$start,]
+    sorteddownlines[[k]] <- cbind(downlines[[k]], slope = downlines[[k]]$start - downlines[[k]]$end)
+    sorteddownlines[[k]] <- sorteddownlines[[k]][order(sorteddownlines[[k]]$slope, decreasing = TRUE),]
+    down_mult <- diff(as.numeric(sorteddownlines[[k]][1, c('startaxis', 
+                                                           'endaxis')]))/sorteddownlines[[k]][1, 'slope']
+    sorteduplines[[k]] <- cbind(uplines[[k]], slope = uplines[[k]]$end - uplines[[k]]$start)
+    sorteduplines[[k]] <- sorteduplines[[k]][order(sorteduplines[[k]]$slope, decreasing = TRUE),]
+    up_mult <- diff(as.numeric(sorteduplines[[k]][1, c('startaxis', 'endaxis')]))/sorteduplines[[k]][1, 'slope']
+    sortedlines[[k]] <- list(sorteddownlines[[k]], sorteduplines[[k]])
+    mults[[k]] <- list(down_mult, up_mult)
+    print(straightlines[[k]])
+    for(i in 1:nrow(straightlines[[k]])){
+      print(as.character(straightlines[[k]][i, 'color']))
+      qdrawPolygon(painter,
+                   y = c(straightlines[[k]][i, 'startaxis'] - meta$width/2, straightlines[[k]][i, 'endaxis'] + 
+                     meta$width/2, straightlines[[k]][i, 'endaxis'] + meta$width/2, 
+                         straightlines[[k]][i, 'startaxis'] - meta$width/2),
+                   x = straightlines[[k]][i, c('start', 'start', 'end', 'end')] - c(0, 0, 
+                                                                                    rep(straightlines[[k]][i, 'thick'], 2)),
+                   fill = alpha(as.character(straightlines[[k]][i, 'color']), 0.5),
+                   stroke = alpha(as.character(straightlines[[k]][i, 'color']), 0.5))
+    }
+    
+    for(j in 1:2){
+      for(i in 1:nrow(sortedlines[[k]][[j]])){
+        newwidth <- sortedlines[[k]][[j]][i, 'slope'] * mults[[k]][[j]]
+        qdrawPolygon(painter,
+                     y = c(sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2,
+                           sortedlines[[k]][[j]][i, 'startaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] - 
+                             ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
+                                    sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
+                                    0),
+                           sortedlines[[k]][[j]][i, 'endaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
+                           sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
+                           sortedlines[[k]][[j]][i, 'endaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] - 
+                             ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
+                                    sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
+                                    0),
+                           sortedlines[[k]][[j]][i, 'startaxis'],
+                           sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2),
+                     x = c(sortedlines[[k]][[j]][i, c('start', 'start', 'end', 'end', 'end')],
+                           sortedlines[[k]][[j]][i, c('end', 'end', 'end', 'start', 'start')] - 
+                             sortedlines[[k]][[j]][i, 'thick']),
+                     stroke = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5),
+                     fill = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5))
+        
+      }}
+  }
+}
+.drawverticalribbons <- function(main_plotvalues, meta, painter){
+  
+  lineyends <- vector(mode = 'list', length(meta$variables) - 1)
+  straightlines <- vector(mode = 'list', length(meta$variables) - 1)
+  downlines <- vector(mode = 'list', length(meta$variables) - 1)
+  uplines <- vector(mode = 'list', length(meta$variables) - 1)
+  sorteddownlines <- vector(mode = 'list', length(meta$variables) - 1)
+  sorteduplines <- vector(mode = 'list', length(meta$variables) - 1)
+  mults <- vector(mode = 'list', length(meta$variables) - 1)
+  sortedlines <- vector(mode = 'list', length(meta$variables) - 1)
+  
+  for(k in 1:length(lineyends)){
+    sub_liney <- main_plotvalues$liney[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
+    lineyends[[k]] <- data.frame(matrix(sub_liney, nrow = length(sub_liney)/6, 
+                                        ncol = 6, byrow = TRUE)[,c(1,4)])
+    names(lineyends[[k]]) <- c('start', 'end')
+    
+    lineyends[[k]] <- cbind(lineyends[[k]], thick = lineyends[[k]]$start - 
+      c(0, lineyends[[k]]$start[-nrow(lineyends[[k]])]),
+                            unique(meta$y[,c(k, k + 1)]))
+    sub_linex <- main_plotvalues$linex[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
+    ncolors <- (meta$nlines - c(0, meta$nlines[1:(length(meta$nlines) - 1)])) / 2
+    lineyends[[k]] <- cbind(lineyends[[k]], data.frame(matrix(sub_linex, 
+                                                              nrow = length(sub_linex)/6,
+                                                              ncol = 6, byrow = TRUE)[,c(2, 4)]), 
+                            color = meta$pal[max(0, cumsum(ncolors)[k - 1]) + as.numeric(lineyends[[k]][names(lineyends[[k]])[4]][[1]])])
+    names(lineyends[[k]])[6:7] <- c('startaxis', 'endaxis')
+    
+    uplines[[k]] <- lineyends[[k]][lineyends[[k]]$end > lineyends[[k]]$start,]
+    downlines[[k]] <- lineyends[[k]][lineyends[[k]]$end < lineyends[[k]]$start,]
+    straightlines[[k]] <- lineyends[[k]][lineyends[[k]]$end == lineyends[[k]]$start,]
+    
+    
+    ## guide lines
+    sorteddownlines[[k]] <- cbind(downlines[[k]], slope = downlines[[k]]$start - downlines[[k]]$end)
+    sorteddownlines[[k]] <- sorteddownlines[[k]][order(sorteddownlines[[k]]$slope, decreasing = TRUE),]
+    down_mult <- diff(as.numeric(sorteddownlines[[k]][1, c('startaxis', 
+                                                           'endaxis')]))/sorteddownlines[[k]][1, 'slope']
+    sorteduplines[[k]] <- cbind(uplines[[k]], slope = uplines[[k]]$end - uplines[[k]]$start)
+    sorteduplines[[k]] <- sorteduplines[[k]][order(sorteduplines[[k]]$slope, decreasing = TRUE),]
+    up_mult <- diff(as.numeric(sorteduplines[[k]][1, c('startaxis', 'endaxis')]))/sorteduplines[[k]][1, 'slope']
+    sortedlines[[k]] <- list(sorteddownlines[[k]], sorteduplines[[k]])
+    mults[[k]] <- list(down_mult, up_mult)
+    
+    for(i in 1:nrow(straightlines[[k]])){
+      qdrawPolygon(painter,
+                   x = c(straightlines[[k]][i, 'startaxis'] - meta$width/2, straightlines[[k]][i, 'endaxis'] + 
+                     meta$width/2, straightlines[[k]][i, 'endaxis'] + meta$width/2, 
+                         straightlines[[k]][i, 'startaxis'] - meta$width/2),
+                   y = straightlines[[k]][i, c('start', 'start', 'end', 'end')] - c(0, 0, 
+                                                                                    rep(straightlines[[k]][i, 'thick'], 2)),
+                   fill = alpha(as.character(straightlines[[k]][i, 'color']), 0.5),
+                   stroke = alpha(as.character(straightlines[[k]][i, 'color']), 0.5))
+    }
+    for(j in 1:2){
+      for(i in 1:nrow(sortedlines[[k]][[j]])){
+        newwidth <- sortedlines[[k]][[j]][i, 'slope'] * mults[[k]][[j]]
+        qdrawPolygon(painter,
+                     x = c(sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2,
+                           sortedlines[[k]][[j]][i, 'startaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] - 
+                             ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
+                                    sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
+                                    0),
+                           sortedlines[[k]][[j]][i, 'endaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
+                           sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
+                           sortedlines[[k]][[j]][i, 'endaxis'],
+                           sortedlines[[k]][[j]][i, 'endaxis'] - 
+                             ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
+                                    sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
+                                    0),
+                           sortedlines[[k]][[j]][i, 'startaxis'],
+                           sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2),
+                     y = c(sortedlines[[k]][[j]][i, c('start', 'start', 'end', 'end', 'end')],
+                           sortedlines[[k]][[j]][i, c('end', 'end', 'end', 'start', 'start')] - 
+                             sortedlines[[k]][[j]][i, 'thick']),
+                     stroke = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5),
+                     fill = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5))
+        
+      }}
+  }
+  
+}
 #' @param x the data in qdata or data.frame format @param
 #' variables
 qhammock <- function(variables, x = last_data(), freq = NULL, 
                      xat = NULL, yat = NULL, width = 0.2, pal = NULL, main = "", identify = FALSE, 
                      reorder = FALSE, labels = TRUE, horizontal = FALSE) {
-  
+
   #############################################################
   ############################################################# 
   ###  data preprocessing
@@ -533,86 +698,11 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     
     
     ## draw the ribbons
-    lineyends <- vector(mode = 'list', length(meta$variables) - 1)
-    straightlines <- vector(mode = 'list', length(meta$variables) - 1)
-    downlines <- vector(mode = 'list', length(meta$variables) - 1)
-    uplines <- vector(mode = 'list', length(meta$variables) - 1)
-    sorteddownlines <- vector(mode = 'list', length(meta$variables) - 1)
-    sorteduplines <- vector(mode = 'list', length(meta$variables) - 1)
-    mults <- vector(mode = 'list', length(meta$variables) - 1)
-    sortedlines <- vector(mode = 'list', length(meta$variables) - 1)
-    
-    for(k in 1:length(lineyends)){
-       sub_liney <- main_plotvalues$liney[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
-      lineyends[[k]] <- data.frame(matrix(sub_liney, nrow = length(sub_liney)/6, 
-                                   ncol = 6, byrow = TRUE)[,c(1,4)])
-      names(lineyends[[k]]) <- c('start', 'end')
-
-       lineyends[[k]] <- cbind(lineyends[[k]], thick = lineyends[[k]]$start - 
-        c(0, lineyends[[k]]$start[-nrow(lineyends[[k]])]),
-                              unique(meta$y[,c(k, k + 1)]))
-      sub_linex <- main_plotvalues$linex[(6 * (max(meta$nlines[k - 1], 0) + 1) - 5):(6 * meta$nlines[k])]
-      ncolors <- (meta$nlines - c(0, meta$nlines[1:(length(meta$nlines) - 1)])) / 2
-      lineyends[[k]] <- cbind(lineyends[[k]], data.frame(matrix(sub_linex, 
-                                                                nrow = length(sub_linex)/6,
-                                   ncol = 6, byrow = TRUE)[,c(2, 4)]), 
-                              color = meta$pal[max(0, cumsum(ncolors)[k - 1]) + as.numeric(lineyends[[k]][names(lineyends[[k]])[4]][[1]])])
-    names(lineyends[[k]])[6:7] <- c('startaxis', 'endaxis')
-
-    uplines[[k]] <- lineyends[[k]][lineyends[[k]]$end > lineyends[[k]]$start,]
-    downlines[[k]] <- lineyends[[k]][lineyends[[k]]$end < lineyends[[k]]$start,]
-    straightlines[[k]] <- lineyends[[k]][lineyends[[k]]$end == lineyends[[k]]$start,]
-
-    
-    ## guide lines
-    sorteddownlines[[k]] <- cbind(downlines[[k]], slope = downlines[[k]]$start - downlines[[k]]$end)
-    sorteddownlines[[k]] <- sorteddownlines[[k]][order(sorteddownlines[[k]]$slope, decreasing = TRUE),]
-    down_mult <- diff(as.numeric(sorteddownlines[[k]][1, c('startaxis', 
-                                            'endaxis')]))/sorteddownlines[[k]][1, 'slope']
-    sorteduplines[[k]] <- cbind(uplines[[k]], slope = uplines[[k]]$end - uplines[[k]]$start)
-    sorteduplines[[k]] <- sorteduplines[[k]][order(sorteduplines[[k]]$slope, decreasing = TRUE),]
-    up_mult <- diff(as.numeric(sorteduplines[[k]][1, c('startaxis', 'endaxis')]))/sorteduplines[[k]][1, 'slope']
-    sortedlines[[k]] <- list(sorteddownlines[[k]], sorteduplines[[k]])
-    mults[[k]] <- list(down_mult, up_mult)
-    for(i in 1:nrow(straightlines[[k]])){
-      qdrawPolygon(painter,
-                   x = c(straightlines[[k]][i, 'startaxis'] - meta$width/2, straightlines[[k]][i, 'endaxis'] + 
-                            meta$width/2, straightlines[[k]][i, 'endaxis'] + meta$width/2, 
-                            straightlines[[k]][i, 'startaxis'] - meta$width/2),
-                   y = straightlines[[k]][i, c('start', 'start', 'end', 'end')] - c(0, 0, 
-                                                    rep(straightlines[[k]][i, 'thick'], 2)),
-                   fill = alpha(as.character(straightlines[[k]][i, 'color']), 0.5),
-                   stroke = alpha(as.character(straightlines[[k]][i, 'color']), 0.5))
+    if(meta$horizontal){
+      .drawhorizontalribbons(main_plotvalues, meta, painter)
+    } else {
+      .drawverticalribbons(main_plotvalues, meta, painter)
     }
-    for(j in 1:2){
-    for(i in 1:nrow(sortedlines[[k]][[j]])){
-      newwidth <- sortedlines[[k]][[j]][i, 'slope'] * mults[[k]][[j]]
-      qdrawPolygon(painter,
-                   x = c(sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2,
-                         sortedlines[[k]][[j]][i, 'startaxis'],
-                         sortedlines[[k]][[j]][i, 'endaxis'] - 
-                           ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
-                                  sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
-                                  0),
-                         sortedlines[[k]][[j]][i, 'endaxis'],
-                         sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
-                         sortedlines[[k]][[j]][i, 'endaxis'] + meta$width/2,
-                         sortedlines[[k]][[j]][i, 'endaxis'],
-                         sortedlines[[k]][[j]][i, 'endaxis'] - 
-                           ifelse(newwidth < (sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis']),
-                                  sortedlines[[k]][[j]][i, 'endaxis'] - sortedlines[[k]][[j]][i, 'startaxis'] - newwidth,
-                                  0),
-                         sortedlines[[k]][[j]][i, 'startaxis'],
-                         sortedlines[[k]][[j]][i, 'startaxis'] - meta$width/2),
-                  y = c(sortedlines[[k]][[j]][i, c('start', 'start', 'end', 'end', 'end')],
-                        sortedlines[[k]][[j]][i, c('end', 'end', 'end', 'start', 'start')] - 
-                          sortedlines[[k]][[j]][i, 'thick']),
-                   stroke = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5),
-                   fill = alpha(as.character(sortedlines[[k]][[j]][i, 'color']), 0.5))
-                    
-    }}
-    }
-    
     if (labels) {
       
       qdrawText(painter, 
@@ -674,8 +764,8 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
 qtitanic <- qdata(titanic, color = Class)
 # color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"))#, 
-#          horizontal = TRUE)
+qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"), 
+          horizontal = TRUE)
   
   
   # temp <- ddply(data.frame(Titanic), c('Class', 'Survived'), .fun
