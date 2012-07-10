@@ -281,7 +281,8 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
                      .fun = function(x){sum(x[names(x)[3]][[1]])})
     names(sumfreq)[3] <- 'nrecords'
     
-    return(paste(sapply(X = capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), FUN = str_trim), collapse = "\n"))
+    return(paste(sapply(X = capture.output(print(sumfreq, quote = FALSE, row.names = FALSE)), 
+                        FUN = str_trim), collapse = "\n"))
   }
   
   meta <- .instantiateHammocks(environment())
@@ -520,32 +521,30 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
   
   layer.main <- qlayer(paintFun = function(layer, painter) {
     main_plotvalues <- .getmainplotting(meta)
- 
+
     lineyends <- data.frame(matrix(main_plotvalues$liney, nrow = length(main_plotvalues$liney)/6, 
                                    ncol = 6, byrow = TRUE)[,c(1,4)])
-    names(lineyends) <- c('start', 'end')
-    lineyends <- cbind(lineyends, thick = lineyends$start - c(0, lineyends$start[-nrow(lineyends)]))
-    lineyends <- cbind(lineyends, data.frame(matrix(main_plotvalues$linex, nrow = length(main_plotvalues$linex)/6,
-                                   ncol = 6, byrow = TRUE)[,c(2, 4)]))
-    names(lineyends)[4:5] <- c('startaxis', 'endaxis')
 
+    names(lineyends) <- c('start', 'end')
+    lineyends <- cbind(lineyends, thick = lineyends$start - c(0, lineyends$start[-nrow(lineyends)]),
+                       cat = meta$y[,1], end = meta$y[,2])
+    
+    lineyends <- cbind(lineyends, data.frame(matrix(main_plotvalues$linex, nrow = length(main_plotvalues$linex)/6,
+                                   ncol = 6, byrow = TRUE)[,c(2, 4)]), color = meta$pal[as.numeric(lineyends$cat)])
+    names(lineyends)[6:7] <- c('startaxis', 'endaxis')
     uplines <- lineyends[lineyends$end > lineyends$start,]
     downlines <- lineyends[lineyends$end < lineyends$start,]
     straightlines <- lineyends[lineyends$end == lineyends$start,]
 
 
-    
-        qdrawLine(painter, 
-                  x = main_plotvalues$linex, 
-                  y = main_plotvalues$liney, 
-                  stroke = "grey60")
     qdrawRect(painter, 
               xleft = main_plotvalues$rectleft, 
               xright = main_plotvalues$rectright, 
               ybottom = main_plotvalues$rectbottom, 
               ytop = main_plotvalues$recttop, 
               stroke = "grey60", 
-              fill = meta$pal[1:main_plotvalues$ncat])
+              fill = as.character(meta$pal[1:main_plotvalues$ncat]))
+
     
     if (labels) {
    
@@ -560,55 +559,52 @@ qhammock <- function(variables, x = last_data(), freq = NULL,
     }
     
     ## guide lines
+    sorteddownlines <- cbind(downlines, slope = downlines$start - downlines$end)
+    sorteddownlines <- sorteddownlines[order(sorteddownlines$slope, decreasing = TRUE),]
+    down_mult <- diff(as.numeric(sorteddownlines[1, c('startaxis', 'endaxis')]))/sorteddownlines[1, 'slope']
+    sorteduplines <- cbind(uplines, slope = uplines$end - uplines$start)
+    sorteduplines <- sorteduplines[order(sorteduplines$slope, decreasing = TRUE),]
+    up_mult <- diff(as.numeric(sorteduplines[1, c('startaxis', 'endaxis')]))/sorteduplines[1, 'slope']
+    sortedlines <- list(sorteddownlines, sorteduplines)
+    mults <- list(down_mult, up_mult)
+    for(i in 1:nrow(straightlines)){
+      qdrawPolygon(painter,
+                   x = c(straightlines[i, 'startaxis'] - meta$width/2, straightlines[i, 'endaxis'] + 
+                            meta$width/2, straightlines[i, 'endaxis'] + meta$width/2, 
+                            straightlines[i, 'startaxis'] - meta$width/2),
+                   y = straightlines[i, c('start', 'start', 'end', 'end')] - c(0, 0, rep(straightlines[i, 'thick'], 2)),
+                   fill = alpha(as.character(straightlines[i, 'color']), 0.5),
+                   stroke = alpha(as.character(straightlines[i, 'color']), 0.5))
+    }
+    for(j in 1:2){
+    for(i in 1:nrow(sortedlines[[j]])){
+      newwidth <- sortedlines[[j]][i, 'slope'] * mults[[j]]
+      qdrawPolygon(painter,
+                   x = c(sortedlines[[j]][i, 'startaxis'] - meta$width/2,
+                         sortedlines[[j]][i, 'startaxis'],
+                         sortedlines[[j]][i, 'endaxis'] - 
+                           ifelse(newwidth < (sortedlines[[j]][i, 'endaxis'] - sortedlines[[j]][i, 'startaxis']),
+                                  sortedlines[[j]][i, 'endaxis'] - sortedlines[[j]][i, 'startaxis'] - newwidth,
+                                  0),
+                         sortedlines[[j]][i, 'endaxis'],
+                         sortedlines[[j]][i, 'endaxis'] + meta$width/2,
+                         sortedlines[[j]][i, 'endaxis'] + meta$width/2,
+                         sortedlines[[j]][i, 'endaxis'],
+                         sortedlines[[j]][i, 'endaxis'] - 
+                           ifelse(newwidth < (sortedlines[[j]][i, 'endaxis'] - sortedlines[[j]][i, 'startaxis']),
+                                  sortedlines[[j]][i, 'endaxis'] - sortedlines[[j]][i, 'startaxis'] - newwidth,
+                                  0),
+                         sortedlines[[j]][i, 'startaxis'],
+                         sortedlines[[j]][i, 'startaxis'] - meta$width/2),
+                  y = c(sortedlines[[j]][i, c('start', 'start', 'end', 'end', 'end')],
+                        sortedlines[[j]][i, c('end', 'end', 'end', 'start', 'start')] - 
+                          sortedlines[[j]][i, 'thick']),
+                   stroke = alpha(as.character(sortedlines[[j]][i, 'color']), 0.5),
+                   fill = alpha(as.character(sortedlines[[j]][i, 'color']), 0.5))
+                    
+    }}
 
-    
-
-    qdrawLine(painter,
-              y = c(downlines$start[nrow(downlines)], downlines$end[1], NA,
-                    c(sapply(1:nrow(downlines), FUN = function(a){c(rep(downlines$start[a], 2), 
-                                                                    rep(downlines$end[a], 2), NA)}))),
-              x = c(downlines$startaxis[nrow(downlines)] + 0.6 *((sum(meta$y[meta$freq]) - 
-                    downlines$start[nrow(downlines)])/sum(meta$y[meta$freq])), 
-                    downlines$endaxis[1] - 0.6 * (downlines$end[1]/sum(meta$y[meta$freq])), NA,
-                    c(sapply(1:nrow(downlines), FUN = function(a){c(downlines$startaxis[a], 
-                      downlines$startaxis[a] + 0.6 *((sum(meta$y[meta$freq]) - downlines$start[a])/sum(meta$y[meta$freq])), 
-                      downlines$endaxis[a] - 0.6 * (downlines$end[a]/sum(meta$y[meta$freq])), 
-                      downlines$endaxis[a], NA)}))),
-              stroke = 'red'
-              )
-    
-print(matrix(c(downlines$start[nrow(downlines)], downlines$end[1], NA,
-        c(sapply(1:nrow(downlines), FUN = function(a){c(rep(downlines$start[a], 2), 
-                                                        rep(downlines$end[a], 2), NA)}))), ncol = 3, byrow = TRUE))
-print(c(downlines$startaxis[nrow(downlines)] + 0.6 *((sum(meta$y[meta$freq]) - 
-  downlines$start[nrow(downlines)])/sum(meta$y[meta$freq])), 
-        downlines$endaxis[1] - 0.6 * (downlines$end[1]/sum(meta$y[meta$freq])), NA,
-        c(sapply(1:nrow(downlines), FUN = function(a){c(downlines$startaxis[a], 
-                                                        downlines$startaxis[a] + 0.6 *((sum(meta$y[meta$freq]) - downlines$start[a])/sum(meta$y[meta$freq])), 
-                                                        downlines$endaxis[a] - 0.6 * (downlines$end[a]/sum(meta$y[meta$freq])), 
-                                                        downlines$endaxis[a], NA)}))))
-    
-    qdrawLine(painter,
-              y = c(uplines$start[1], uplines$end[nrow(uplines)], NA, 
-                    c(sapply(1:nrow(uplines), FUN = function(a){c(rep(uplines$start[a], 2),   
-                    rep(uplines$end[a], 2), NA)}))),
-              x = c(uplines$start[1]/sum(meta$y[meta$freq]) * 0.6 + uplines$startaxis[1], 
-                    uplines$endaxis[nrow(uplines)] - 0.6 * (sum(meta$y[meta$freq]) - 
-                    uplines$end[nrow(uplines)])/sum(meta$y[meta$freq]), NA, 
-                    c(sapply(1:nrow(uplines), FUN = function(a){c(uplines$startaxis[a], 
-                    uplines$start[a]/sum(meta$y[meta$freq]) * 0.6 + uplines$startaxis[a],  
-                    uplines$endaxis[a] - 0.6 * (sum(meta$y[meta$freq]) - uplines$end[a])/sum(meta$y[meta$freq]), 
-                    uplines$endaxis[a], NA)}))),
-              stroke = 'black'
-              )
-    
-    qdrawLine(painter,
-              y = c(sapply(1:nrow(straightlines), FUN = function(a){
-                c(rep(straightlines$start[a], 2), NA)})),
-              x = c(sapply(1:nrow(straightlines), FUN = function(a){
-                c(straightlines$startaxis[a], straightlines$endaxis[a], NA) })),
-              stroke = 'blue'
-            )
+   
     
   }, 
                        keyPressFun = key_press, 
@@ -657,9 +653,9 @@ print(c(downlines$startaxis[nrow(downlines)] + 0.6 *((sum(meta$y[meta$freq]) -
 ## --------------------------------------------------------
 
 qtitanic <- qdata(titanic, color = Class)
-color_pal(qtitanic)<-.new_pal()(6)
+# color_pal(qtitanic)<-.new_pal()(6)
 ## qhammock(x = qtitanic, variables = c('Class', 'Survived'))
-qhammock(x = qtitanic, variables = c("Class", "Survived", "Age", "Sex"))#, 
+qhammock(x = qtitanic, variables = c("Class", "Survived"))#, "Age", "Sex"))#, 
 #          horizontal = TRUE)
   
   
